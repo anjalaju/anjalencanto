@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "558639138520",
+    "project_id": "encanto-49261",
+    "storage_bucket": "encanto-49261.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558639138520:android:81abaf04d6c317112339ad",
+        "android_client_info": {
+          "package_name": "com.example.main_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhOYV0UAyp6-ugduNZ5WDSiAzwqU1EsCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
