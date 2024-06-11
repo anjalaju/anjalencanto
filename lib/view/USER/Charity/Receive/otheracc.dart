@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/USER/chat.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class REceivedaccesss extends StatefulWidget {
@@ -44,7 +47,15 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
+          child:Consumer<FunctionProvider>(builder: (context, helper, child) {
+              final data= helper.donted;
+            return FutureBuilder(future: helper.getallDonated('DonatedAccsesies'), builder: (context, snapshot) {
+              return ListView.separated(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                return  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
@@ -56,8 +67,8 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
                   width: 240,
                   // color: Colors.amber,
                   child: Image(
-                    image: AssetImage(
-                      "images/Donateaccesss.jpeg",
+                    image: NetworkImage(
+                      data[index].image,
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -66,11 +77,11 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
               SizedBox(
                 height: 30,
               ),
-              Text("Fathima"),
-              Text("Age : 25"),
-              Text("poopalam , perinthalmanna"),
-              Text("Number of items : 1"),
-              Text("Contact Number : 7994413795"),
+              Text(data[index].name),
+              Text("Age :${data[index].age}"),
+              Text(data[index].place),
+              Text("Number of items : ${data[index].numberofitem}"),
+              Text("Contact Number : ${data[index].contactnumber}"),
               SizedBox(
                 height: 20,
               ),
@@ -139,8 +150,13 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
                 ),
               )
             ],
-          ),
-        ),
+          );
+       
+              }, separatorBuilder: (context, index) {
+                return SizedBox(height: Helper.h(context)*.050,);
+              }, );
+            },);
+          },) ),
       ),
     );
   }

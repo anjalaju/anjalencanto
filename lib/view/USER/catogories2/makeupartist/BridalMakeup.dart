@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:like_button/like_button.dart';
+import 'package:main_project/model/likepostmodel.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/USER/booking/booking.dart';
 import 'package:main_project/view/USER/chat.dart';
 import 'package:main_project/model/addProject.dart';
@@ -42,244 +45,333 @@ class _BridalmakeupsState extends State<Bridalmakeups> {
           color: Colors.black,
         ),
       ),
-      body: Consumer<FunctionProvider>(
-          builder: (context, instance, child) {
-            return StreamBuilder(
-              stream: instance.getEventproject('Makeup artis', 'Bridal Makeup'),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                List<EventModel> list = [];
-                list = snapshot.data!.docs.map((e) {
-                  return EventModel.fromJsone(e.data() as Map<String, dynamic>);
-                }).toList();
-                if (snapshot.hasData) {
-                  return list.isEmpty
-                      ? Center(
-                          child: Text('no data'),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                          children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                fillColor: const Color(0xffD9D9D9),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                hintText: ("  Search Venues..."),
-                                prefixIcon: const Icon(Icons.search),
-                              ),
-                            ),
-                            ListView.separated(
-                              physics: const BouncingScrollPhysics(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                fillColor: const Color(0xffD9D9D9),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                hintText: ("  Search Venues..."),
+                prefixIcon: const Icon(Icons.search),
+              ),
+            ),
+            Consumer<FunctionProvider>(
+              builder: (context, helper, child) {
+                return StreamBuilder(
+                  stream: helper.getEventproject('Makeup artist', 'Bridal Makeup'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    List<EventModel> list = [];
+                    list = snapshot.data!.docs.map((e) {
+                      return EventModel.fromJsone(
+                          e.data() as Map<String, dynamic>);
+                    }).toList();
+
+                    if (snapshot.hasData) {
+                      return list.isEmpty
+                          ? Center(
+                              child: Text('no event'),
+                            )
+                          : ListView.separated(
+                              physics: BouncingScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: list.length,
                               itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Container(
-                                          height: 231,
-                                          width: 350,
-                                          decoration: BoxDecoration(
-                                              border: Border.all()),
-                                          child: list[index].Image.isEmpty
-                                              ? const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                )
-                                              : Image(
-                                                  image: NetworkImage(
-                                                    list[index].Image,
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (context, error,
-                                                      stackTrace) {
-                                                    return const Icon(
-                                                        Icons.error);
-                                                  },
-                                                ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            // mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(list[index].eventName),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(list[index].eventPlace),
-                                                  IconButton(
-                                                      onPressed: () async {
-                                                        // await _showMyDialog(
-                                                        //   list[index],
-                                                        // );
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.delete))
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(list[index].discription),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        // editbootmsheet(
-                                                        //     list[index]);
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.edit))
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.currency_rupee,
-                                                    size: 20,
-                                                  ),
-                                                  Text(
-                                                    list[index]
-                                                        .startingPriceFrom,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
-                                                ],
-                                              ),
-                                              // Text("500-700 max")
-                                            ],
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+                                      Container(
+                                        height: 231,
+                                        width: 350,
+                                        child: Image(
+                                          image: NetworkImage(
+                                            list[index].Image,
                                           ),
+                                          fit: BoxFit.cover,
                                         ),
-                                        const SizedBox(
-                                          height: 20,
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      RatingBar.builder(
+                                        itemSize: 25,
+                                        initialRating: 0,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 4.0),
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              OutlinedButton(
-                                                  style: ButtonStyle(
-                                                      foregroundColor:
-                                                          MaterialStateProperty.all(
-                                                              const Color(
-                                                                  0xffFF004D)),
-                                                      textStyle:
-                                                          MaterialStateProperty.all(
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize:
-                                                                      14)),
-                                                      minimumSize: MaterialStateProperty.all(
-                                                          const Size(250, 50)),
-                                                      side: MaterialStateProperty.all(
-                                                          const BorderSide(
-                                                              color:
-                                                                  Color(0xffFF004D))),
-                                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .push(MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Chatpage(
-                                                        name: 'Banquet Halls',
-                                                      ),
-                                                    ));
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: Column(
+                                          // mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                         
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(list[index].eventName),
+                                                // IconButton(
+                                                //     onPressed: () {
+                                                //       Navigator.of(context).push(MaterialPageRoute(
+                                                //         builder: (context) => Shortlist(),
+                                                //       ));
+                                                //     },
+                                                //     icon: const Icon(Icons.favorite_border)
+                                                //     )
+                                                // LikeButton(
+                                                //   likeBuilder: (bool isLiked) {
+                                                //     return Icon(
+                                                //       isLiked
+                                                //           ? Icons.favorite
+                                                //           : Icons.favorite_border,
+                                                //       color: isLiked
+                                                //           ? Colors.red
+                                                //           : Colors.grey,
+                                                //       size: 30,
+                                                //     );
+                                                //   },
+
+                                                // ),
+                                                Consumer<FunctionProvider>(
+                                                  builder: (context,
+                                                      valuhelpere, child) {
+                                                    return FutureBuilder(
+                                                      future: helper.fetchlikedpostpost(auth.currentUser!.uid + list[index].id.toString()),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        return IconButton(
+                                                          onPressed: () {
+                                                            helper.likepost(
+                                                          Likepostmodel(
+                                                              postid: list[
+                                                                      index]
+                                                                  .id
+                                                                  .toString(),
+                                                              likeuid: auth
+                                                                  .currentUser!
+                                                                  .uid),
+                                                          auth.currentUser!
+                                                                  .uid +
+                                                              list[index]
+                                                                  .id
+                                                                  .toString(),);  
+
+                                          
+                                                          },
+                                                          icon: Icon(
+                                                            helper.islike==true?
+                                                            Icons.favorite :Icons.favorite_border,
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
                                                   },
-                                                  child: const Row(
-                                                    children: [
-                                                      Icon(Icons.message),
-                                                      SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      Text("Message"),
-                                                    ],
-                                                  )),
-                                              OutlinedButton(
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all(
-                                                          const Color(
-                                                              0xff63C336)),
-                                                  textStyle:
-                                                      MaterialStateProperty.all(
-                                                    const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14),
-                                                  ),
-                                                  minimumSize:
-                                                      MaterialStateProperty.all(
-                                                          const Size(30, 50)),
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                    const CircleBorder(),
-                                                  ),
-                                                  side:
-                                                      MaterialStateProperty.all(
-                                                    const BorderSide(
-                                                        color:
-                                                            Color(0xff63C336)),
-                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                      Text(list[index].eventPlace),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                              Text(list[index].discription),
+                                                OutlinedButton(
+                                                    style: ButtonStyle(
+                                                        foregroundColor:
+                                                            MaterialStateProperty.all(
+                                                                const Color(
+                                                                    0xff496FF7)),
+                                                        textStyle: MaterialStateProperty.all(
+                                                            const TextStyle(
+                                                                fontWeight: FontWeight
+                                                                    .w600,
+                                                                fontSize: 14)),
+                                                        minimumSize:
+                                                            MaterialStateProperty.all(
+                                                                const Size(
+                                                                    200, 50)),
+                                                        side: MaterialStateProperty.all(
+                                                            const BorderSide(
+                                                                color: Color(0xff496FF7))),
+                                                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .push(
+                                                              MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Bookimgpage(
+                                                          eventModel:
+                                                              list[index],
+                                                        ),
+                                                      ));
+                                                    },
+                                                    child: const Row(
+                                                      children: [
+                                                        Icon(Icons.message),
+                                                        SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        Text("Book now"),
+                                                      ],
+                                                    ))
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.currency_rupee,
+                                                  size: 20,
                                                 ),
+                                                Text(
+                                                  list[index].startingPriceFrom,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18),
+                                                ),
+                                              ],
+                                            ),
+                                     
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            OutlinedButton(
+                                                style: ButtonStyle(
+                                                    foregroundColor:
+                                                        MaterialStateProperty.all(
+                                                            const Color(
+                                                                0xffFF004D)),
+                                                    textStyle:
+                                                        MaterialStateProperty.all(
+                                                            const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 14)),
+                                                    minimumSize: MaterialStateProperty.all(
+                                                        const Size(250, 50)),
+                                                    side: MaterialStateProperty.all(
+                                                        const BorderSide(
+                                                            color:
+                                                                Color(0xffFF004D))),
+                                                    shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
                                                 onPressed: () {
-                                                  _makePhoneCall(
-                                                      list[index].phonenumber);
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Chatpage(
+                                                      name: 'Banquet Halls',
+                                                    ),
+                                                  ));
                                                 },
                                                 child: const Row(
                                                   children: [
-                                                    Icon(Icons.call),
+                                                    Icon(Icons.message),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Text("Message"),
                                                   ],
+                                                )),
+                                            OutlinedButton(
+                                              style: ButtonStyle(
+                                                foregroundColor:
+                                                    MaterialStateProperty.all(
+                                                        const Color(
+                                                            0xff63C336)),
+                                                textStyle:
+                                                    MaterialStateProperty.all(
+                                                  const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 14),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                                minimumSize:
+                                                    MaterialStateProperty.all(
+                                                        const Size(30, 50)),
+                                                shape:
+                                                    MaterialStateProperty.all(
+                                                  const CircleBorder(),
+                                                ),
+                                                side: MaterialStateProperty.all(
+                                                  const BorderSide(
+                                                      color: Color(0xff63C336)),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                _makePhoneCall('7025053483');
+                                              },
+                                              child: const Row(
+                                                children: [
+                                                  Icon(Icons.call),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 );
                               },
                               separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: 40,
+                                return SizedBox(
+                                  height: Helper.h(context) * .20,
                                 );
                               },
-                            ),
-                          ],
-                        ));
-                }
-                return Container();
+                            );
+                    }
+                    return Container();
+                  },
+                );
               },
-            );
-          },
-        ));
+            ),
+          ],
+        ),
+      ),);
  
   }
 

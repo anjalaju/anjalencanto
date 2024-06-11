@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:main_project/chat/chatmain.dart';
+import 'package:main_project/chat/profilemodel.dart';
 
 import 'package:main_project/model/likepostmodel.dart';
 import 'package:main_project/view/USER/booking/booking.dart';
@@ -22,8 +24,11 @@ class Bankquethall extends StatefulWidget {
 }
 
 class _BankquethallState extends State<Bankquethall> {
+
   @override
   Widget build(BuildContext context) {
+  final provider = Provider.of<FunctionProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -139,7 +144,7 @@ class _BankquethallState extends State<Bankquethall> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(list[index].discription),
+                                         
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -205,14 +210,13 @@ class _BankquethallState extends State<Bankquethall> {
                                                 )
                                               ],
                                             ),
-                                            // const Text("non veg"),
-                                            // const Text("800 per plate"),
+                                      Text(list[index].eventPlace),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Text("Rental cost"),
+                                              Text(list[index].discription),
                                                 OutlinedButton(
                                                     style: ButtonStyle(
                                                         foregroundColor:
@@ -237,9 +241,8 @@ class _BankquethallState extends State<Bankquethall> {
                                                           .push(
                                                               MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Bookimgpage(
-                                                          eventModel:
-                                                              list[index],
+                                                            ChatPage(
+                                                          senderProfileModel: Myprofilemodel(firstname: list[index].eventName,  email: list[index].eventName, url: list[index].Image),
                                                         ),
                                                       ));
                                                     },
@@ -269,7 +272,7 @@ class _BankquethallState extends State<Bankquethall> {
                                                 ),
                                               ],
                                             ),
-                                            // Text("500-700 max")
+                                     
                                           ],
                                         ),
                                       ),

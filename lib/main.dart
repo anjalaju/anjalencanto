@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FunctionProvider()),
         ChangeNotifierProvider(create: (_) => PaymentController())
       ],
-      child: const MaterialApp(
+      child:  MaterialApp(
+        
         debugShowCheckedModeBanner: false,
         home: UserType(),
         // home: Entreentreprenuer(),

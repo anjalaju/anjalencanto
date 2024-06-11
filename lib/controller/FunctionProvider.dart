@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:main_project/model/Donatemodel.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/model/addreview.dart';
 import 'package:main_project/model/complaint.dart';
@@ -34,7 +35,7 @@ class FunctionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //set
+  //------------------------set-----------------------------
 
   Future addEnterprenur(EnterprenurModel enterprenurModel, uid) async {
     final snapshot = db.collection('enterprenur').doc(uid);
@@ -48,7 +49,14 @@ class FunctionProvider with ChangeNotifier {
     snapshot.set(eventModel.toJson(snapshot.id));
   }
 
-  //get
+
+  Future addDonate(Donatemodel donate)async{
+    final snapshot = db.collection('Donatescreen').doc();
+
+     snapshot.set(donate.tojasone(snapshot.id));
+  }
+
+  //------------------------get------------------------
 
   List<EventModel> listevent = [];
   Stream<QuerySnapshot> getEventproject(mainwere, subwere) {
@@ -72,7 +80,21 @@ class FunctionProvider with ChangeNotifier {
         .snapshots();
   }
 
-  // update
+   List<Donatemodel> donted=[];
+   Future getallDonated(selected)async{
+     final snapshot=await  db.collection('Donatescreen').where('Selected',isEqualTo: selected).get();
+
+     donted = snapshot.docs.map((e){
+      return Donatemodel.fromjsone(e.data());
+     }).toList();
+   notifyListeners();
+    // donted= snapshot .map((e) { 
+    //   return Donatemodel.fromjsone()
+    //  }).toList();
+   }
+
+
+  //------------------------ update------------------------
 
   Future updateevent(
       docid, eventname, eventprice, eventplace, eventdiscription, image) async {
@@ -90,7 +112,7 @@ class FunctionProvider with ChangeNotifier {
     // notifyListeners();
   }
 
-  ///delete
+  ///------------------------delete------------------------
 
   Future deletedoc(docid) async {
     try {
@@ -220,4 +242,15 @@ class FunctionProvider with ChangeNotifier {
         return islike;
       }
   }
+
+
+  clearcontrooler(){
+    selectedimage=null;
+    url=null;
+    notifyListeners();
+  }
+ 
+
+    
+
 }
