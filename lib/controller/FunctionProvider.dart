@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -12,9 +13,11 @@ import 'package:main_project/model/addProject.dart';
 import 'package:main_project/model/addreview.dart';
 import 'package:main_project/model/complaint.dart';
 import 'package:main_project/model/enterprenurmodel.dart';
+import 'package:main_project/model/feedback_Review.dart';
 import 'package:main_project/model/likepostmodel.dart';
 import 'package:main_project/model/notificationmodel.dart';
 import 'package:main_project/model/userbookingmodel.dart';
+import 'package:main_project/utils/String.dart';
 
 class FunctionProvider with ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -94,6 +97,25 @@ class FunctionProvider with ChangeNotifier {
    }
 
 
+
+
+
+
+   Stream<QuerySnapshot>  getAllEvent(){
+    return db.collection('AddEvent').snapshots();
+   }
+
+
+   Stream<QuerySnapshot> getallcharity(){
+    return db.collection('Donatescreen').snapshots();
+   }
+
+
+   Stream<QuerySnapshot> getReviewuser(docid){
+     return db.collection('AddEvent').doc(docid).collection('FeedbackReview').snapshots();
+   }
+
+
   //------------------------ update------------------------
 
   Future updateevent(
@@ -109,7 +131,7 @@ class FunctionProvider with ChangeNotifier {
     });
 
     log('this image sjdja ${eventModel!.Image}');
-    // notifyListeners();
+     notifyListeners();
   }
 
   ///------------------------delete------------------------
@@ -149,7 +171,7 @@ class FunctionProvider with ChangeNotifier {
   }
 
   Future addReview(AddReview addReview) async {
-    final snapshot = await db.collection('AddReview').doc();
+    final snapshot =   db.collection('AddReview').doc();
 
     snapshot.set(addReview.tojsone(snapshot.id));
   }
@@ -170,9 +192,10 @@ class FunctionProvider with ChangeNotifier {
 
     snapshot.listen((event) {
       allnoti = event.docs.map((e) {
-        return NotificationModel.fromjsone(e.data() as Map<String, dynamic>);
+        return NotificationModel.fromjsone(e.data()  );
       }).toList();
     });
+     
   }
 
   File? selectedimage;
@@ -220,11 +243,12 @@ class FunctionProvider with ChangeNotifier {
     final SNAPSHOT = await db.collection('PostLike').doc(id).get();
 
     if (SNAPSHOT.exists) {
-      deletedoc(SNAPSHOT.id);
+      dislike (SNAPSHOT.id);
     }else{
       final doc=db.collection('PostLike').doc(likepostmodel.likeuid +likepostmodel.likeid.toString() );
       await doc.set(likepostmodel.toJSne());
     }
+    notifyListeners();
   }
 
   dislike(id) async {
@@ -241,6 +265,7 @@ class FunctionProvider with ChangeNotifier {
         islike=false;
         return islike;
       }
+      
   }
 
 
@@ -251,6 +276,57 @@ class FunctionProvider with ChangeNotifier {
   }
  
 
-    
+ Stream<QuerySnapshot>  getpostlike(){
+  return db.collection('PostLike').snapshots();
+ }
 
+  Future addReviewFeedback(FeedbackReview feedbackreview,pddocid)async{
+    final snapshot=  db.collection('AddEvent').doc(pddocid).collection('FeedbackReview').doc();
+
+    snapshot.set(feedbackreview.tojsone(snapshot.id));
+
+  }  
+
+
+  // Stream get
+
+
+
+
+
+
+
+
+  ///delete======================================
+   
+
+     
+Future deletePostLike(String postId,BuildContext context) async {
+  try {
+     
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('PostLike')
+        .where('postid', isEqualTo: postId)
+        .get();
+
+    
+    if (querySnapshot.docs.isNotEmpty) {
+       
+      await querySnapshot.docs.first.reference.delete();
+
+      SuccesToast(context, 'Remove fav');
+    }
+  } catch (e) {
+    
+    print('Error deleting post like: $e');
+  }
+}
+
+
+  String? rating;
+  void starCound(rating){
+       rating = 
+       rating;
+       notifyListeners();
+  }
 }

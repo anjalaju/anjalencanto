@@ -44,9 +44,8 @@ class _ResortsState extends State<Resorts> {
           ),
           color: Colors.black,
         ),
-        
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(
@@ -66,7 +65,8 @@ class _ResortsState extends State<Resorts> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Venues', 'Small Function/ Part halls'),
+                  stream: helper.getEventproject(
+                      'Venues', 'Small Function/ Part halls'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -136,7 +136,6 @@ class _ResortsState extends State<Resorts> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                         
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -169,31 +168,44 @@ class _ResortsState extends State<Resorts> {
                                                   builder: (context,
                                                       valuhelpere, child) {
                                                     return FutureBuilder(
-                                                      future: helper.fetchlikedpostpost(auth.currentUser!.uid + list[index].id.toString()),
+                                                      future: helper
+                                                          .fetchlikedpostpost(auth
+                                                                  .currentUser!
+                                                                  .uid +
+                                                              list[index]
+                                                                  .id
+                                                                  .toString()),
                                                       builder:
                                                           (context, snapshot) {
                                                         return IconButton(
                                                           onPressed: () {
                                                             helper.likepost(
-                                                          Likepostmodel(
-                                                              postid: list[
-                                                                      index]
-                                                                  .id
-                                                                  .toString(),
-                                                              likeuid: auth
-                                                                  .currentUser!
-                                                                  .uid),
-                                                          auth.currentUser!
-                                                                  .uid +
-                                                              list[index]
-                                                                  .id
-                                                                  .toString(),);  
-
-                                          
+                                                              Likepostmodel(
+                                                                postid: list[
+                                                                        index]
+                                                                    .id
+                                                                    .toString(),
+                                                                likeid:
+                                                                    list[index]
+                                                                        .id,
+                                                                likeuid: auth
+                                                                    .currentUser!
+                                                                    .uid,
+                                                              ),
+                                                              auth.currentUser!
+                                                                      .uid +
+                                                                  list[index]
+                                                                      .id
+                                                                      .toString(),
+                                                            );
                                                           },
                                                           icon: Icon(
-                                                            helper.islike==true?
-                                                            Icons.favorite :Icons.favorite_border,
+                                                            helper.islike ==
+                                                                    true
+                                                                ? Icons.favorite
+                                                                : Icons
+                                                                    .favorite_border,
+                                                            color: Colors.red,
                                                           ),
                                                         );
                                                       },
@@ -202,13 +214,13 @@ class _ResortsState extends State<Resorts> {
                                                 )
                                               ],
                                             ),
-                                      Text(list[index].eventPlace),
+                                            Text(list[index].eventPlace),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                              Text(list[index].discription),
+                                                Text(list[index].discription),
                                                 OutlinedButton(
                                                     style: ButtonStyle(
                                                         foregroundColor:
@@ -265,7 +277,6 @@ class _ResortsState extends State<Resorts> {
                                                 ),
                                               ],
                                             ),
-                                     
                                           ],
                                         ),
                                       ),
@@ -372,9 +383,10 @@ class _ResortsState extends State<Resorts> {
             ),
           ],
         ),
-      ),);
- 
+      ),
+    );
   }
+
   void _makePhoneCall(String phoneNumber) async {
     final url = 'tel:$phoneNumber';
     if (await canLaunch(url)) {

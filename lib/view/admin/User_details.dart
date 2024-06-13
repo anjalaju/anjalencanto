@@ -628,7 +628,47 @@ class EmployeeDataSource extends DataGridSource {
   List<DataGridRow> get rows => _employeeData;
 
  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
+//   DataGridRowAdapter buildRow(DataGridRow row) {
+//     return DataGridRowAdapter(
+//       cells: row.getCells().map<Widget>((e) {
+//         if (e.columnName == 'img') {
+//           return Container(
+//             color: Colors.pink[100],
+//             alignment: Alignment.center,
+//             padding: const EdgeInsets.all(8.0),
+//             child: Image.network(
+//               e.value.toString(),
+//               fit: BoxFit.cover,
+//               width: 50,
+//               height: 50,
+//               errorBuilder: (context, error, stackTrace) {
+//                 return Icon(Icons.error, color: Colors.red);
+//               },
+//               loadingBuilder: (context, child, loadingProgress) {
+//                 if (loadingProgress == null) return child;
+//                 return Center(
+//                   child: CircularProgressIndicator(
+//                     value: loadingProgress.expectedTotalBytes != null
+//                         ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+//                         : null,
+//                   ),
+//                 );
+//               },
+//             ),
+//           );
+//         } else {
+//           return Container(
+//             color: Colors.pink[100],
+//             alignment: Alignment.center,
+//             padding: const EdgeInsets.all(8.0),
+//             child: Text(e.value.toString()),
+//           );
+//         }
+//       }).toList(),
+//     );
+//   }
+// }
+ DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
       cells: row.getCells().map<Widget>((e) {
         if (e.columnName == 'img') {
@@ -636,24 +676,18 @@ class EmployeeDataSource extends DataGridSource {
             color: Colors.pink[100],
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-              e.value.toString(),
-              fit: BoxFit.cover,
-              width: 50,
-              height: 50,
-              errorBuilder: (context, error, stackTrace) {
-                return Icon(Icons.error, color: Colors.red);
-              },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
-                        : null,
+            child: ClipOval(
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(e.value.toString()),
+                    fit: BoxFit.cover,
                   ),
-                );
-              },
+                ),
+              ),
             ),
           );
         } else {

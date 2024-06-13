@@ -23,8 +23,6 @@ class Entrepbankquet extends StatefulWidget {
 }
 
 class _EntrepbankquetState extends State<Entrepbankquet> {
- 
-
   // edit
 
   File? _imageFile;
@@ -48,139 +46,143 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
     discription.text = eventModel.discription;
     price.text = eventModel.startingPriceFrom;
 
-    await showModalBottomSheet<void>(
+    await
+     showModalBottomSheet<void>(
       enableDrag: true,
-      scrollControlDisabledMaxHeightRatio: 5,
+      // scrollControlDisabledMaxHeightRatio: 5,
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 700,
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: Helper.h(context) * .10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      await _pickImage(ImageSource.gallery).then((value) async {
-                        SettableMetadata metadata =
-                            SettableMetadata(contentType: 'image/jpeg');
-                        final currenttime = TimeOfDay.now();
-                        UploadTask uploadTask = FirebaseStorage.instance
-                            .ref()
-                            .child('eventimage/$currenttime')
-                            .putFile(_imageFile!, metadata);
-                        TaskSnapshot snapshot = await uploadTask;
-                        producturl = await snapshot.ref.getDownloadURL();
-                      });
-                    },
-                    child: Container(
-                      width: Helper.W(context) * .50,
-                      height: Helper.h(context) * .20,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(eventModel.Image),
-                          )),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: Helper.h(context) * .020,
-              ),
-              SizedBox(
-                width: Helper.W(context) * .50,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  controller: editname,
-                  decoration:
-                      const InputDecoration(border: OutlineInputBorder()),
+       
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: Helper.h(context) * .10,
                 ),
-              ),
-              SizedBox(
-                height: Helper.h(context) * .020,
-              ),
-              SizedBox(
-                width: Helper.W(context) * .50,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  controller: price,
-                  decoration:
-                      const InputDecoration(border: OutlineInputBorder()),
-                ),
-              ),
-              SizedBox(
-                height: Helper.h(context) * .020,
-              ),
-              SizedBox(
-                width: Helper.W(context) * .50,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  controller: editplace,
-                  decoration:
-                      const InputDecoration(border: OutlineInputBorder()),
-                ),
-              ),
-              SizedBox(
-                height: Helper.h(context) * .020,
-              ),
-              SizedBox(
-                width: Helper.W(context) * .50,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  controller: discription,
-                  decoration:
-                      const InputDecoration(border: OutlineInputBorder()),
-                ),
-              ),
-              SizedBox(
-                height: Helper.h(context) * .020,
-              ),
-              Consumer<FunctionProvider>(
-                builder: (context, instance, child) {
-                  return GestureDetector(
-                    onTap: () async {
-                      // if (producturl != null) {
-                        await instance
-                            .updateevent(
-                          eventModel.id,
-                          editname.text,
-                          price.text,
-                          editplace.text,
-                          discription.text,
-                          producturl,
-                        )
-                            .then((value) {
-                          SuccesToast(context, 'update succes');
-                          setState(() {});
-                          Navigator.pop(context);
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await _pickImage(ImageSource.gallery).then((value) async {
+                          SettableMetadata metadata =
+                              SettableMetadata(contentType: 'image/jpeg');
+                          final currenttime = TimeOfDay.now();
+                          UploadTask uploadTask = FirebaseStorage.instance
+                              .ref()
+                              .child('eventimage/$currenttime')
+                              .putFile(_imageFile!, metadata);
+                          TaskSnapshot snapshot = await uploadTask;
+                          producturl = await snapshot.ref.getDownloadURL();
                         });
-
-                        
-                      // }
-                      //  else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please wait')));
-                      // }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: Helper.W(context) * .40,
-                      height: Helper.h(context) * .050,
-                      decoration: BoxDecoration(
-                        border: Border.all(),
+                      },
+                      child: Container(
+                        width: Helper.W(context) * .50,
+                        height: Helper.h(context) * .20,
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(eventModel.Image),
+                            )),
                       ),
-                      child: const Text('Update '),
                     ),
-                  );
-                },
-              )
-            ],
+                  ],
+                ),
+                SizedBox(
+                  height: Helper.h(context) * .020,
+                ),
+                SizedBox(
+                  width: Helper.W(context) * .50,
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: editname,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                  ),
+                ),
+                SizedBox(
+                  height: Helper.h(context) * .020,
+                ),
+                SizedBox(
+                  width: Helper.W(context) * .50,
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: price,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                  ),
+                ),
+                SizedBox(
+                  height: Helper.h(context) * .020,
+                ),
+                SizedBox(
+                  width: Helper.W(context) * .50,
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: editplace,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                  ),
+                ),
+                SizedBox(
+                  height: Helper.h(context) * .020,
+                ),
+                SizedBox(
+                  width: Helper.W(context) * .50,
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: discription,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                  ),
+                ),
+                SizedBox(
+                  height: Helper.h(context) * .020,
+                ),
+                Consumer<FunctionProvider>(
+                  builder: (context, instance, child) {
+                    return GestureDetector(
+                      onTap: () async {
+                        Navigator.pop(context);
+                        if (producturl != null) {
+                          await instance
+                              .updateevent(
+                            eventModel.id,
+                            editname.text,
+                            price.text,
+                            editplace.text,
+                            discription.text,
+                            producturl,
+                          )
+                              .then((value) {
+                            Navigator.pop(context);
+                            SuccesToast(context, 'update succes');
+                            setState(() {});
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Please wait')));
+                        }
+                        SuccesToast(context, 'update succes');
+                        
+                        
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: Helper.W(context) * .40,
+                        height: Helper.h(context) * .050,
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                        ),
+                        child: const Text('Update '),
+                      ),
+                    );
+                  },
+                ),SizedBox(height: 250,),
+              ],
+            ),
           ),
         );
       },
@@ -303,8 +305,6 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-
-
                                     log('the data index doc ${list[index].id}');
                                   },
                                   child: Padding(
@@ -353,8 +353,6 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                                 children: [
                                                   Text(list[index].eventPlace),
                                                   IconButton(
-
-
                                                       onPressed: () async {
                                                         await _showMyDialog(
                                                           list[index],
@@ -371,8 +369,6 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                                 children: [
                                                   Text(list[index].discription),
                                                   IconButton(
-
-                                                    
                                                       onPressed: () {
                                                         editbootmsheet(
                                                             list[index]);

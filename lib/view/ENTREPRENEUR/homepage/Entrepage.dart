@@ -195,7 +195,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                                title:endata.businesname!.isEmpty ?
                                TextFormField(
                            
-                            controller: location,
+                            controller: bisname,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 

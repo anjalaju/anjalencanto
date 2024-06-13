@@ -39,7 +39,7 @@ class _LogaState extends State<Donateaccessories> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Donate Dress',
+          'Donate Other  Accessories',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
         backgroundColor: Colors.transparent,

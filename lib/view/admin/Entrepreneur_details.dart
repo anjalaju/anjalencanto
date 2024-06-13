@@ -41,9 +41,9 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
         }
         return Employee(
           slno++,
-          data['Image']??'',
+          data['profileimage']??'',
           data['EnterprenurName'] ?? '',
-          data['Place'] ?? '',
+          data['location'] ?? '',
           age,
           data['EnterprenurEmail'] ?? '',
           data['EnterprenurNumber'] ?? '',
@@ -120,16 +120,7 @@ totalUsers = employees.length;
                               style: TextStyle(color: Colors.white),
                               overflow: TextOverflow.ellipsis,
                             ))),
-                    GridColumn(
-                        columnName: 'age',
-                        label: Container(
-                            color: Colors.indigo,
-                            padding: const EdgeInsets.all(8.0),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Age',
-                              style: TextStyle(color: Colors.white),
-                            ))),
+                   
                     GridColumn(
                         columnName: 'email',
                         label: Container(
@@ -176,11 +167,12 @@ class EmployeeDataSource extends DataGridSource {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<int>(columnName: 'id', value: e.id),
-               DataGridCell<String>(columnName: 'img', value: e.img),
+               DataGridCell<String>(columnName: 'profileimage', value: e.img),
               DataGridCell<String>(columnName: 'user_name', value: e.user_name),
-              DataGridCell<String>(columnName: 'place', value: e.place),
-              DataGridCell<String>(
-                  columnName: 'age', value: e.age == 0 ? '' : e.age.toString()),
+              // DataGridCell<String>(columnName: 'user_name', value: e.user_name),
+
+              DataGridCell<String>(columnName: 'location', value: e.place),
+              
               DataGridCell<String>(columnName: 'email', value: e.email),
               DataGridCell<String>(columnName: 'mobile_no', value: e.mobile_no),
             ]))
@@ -193,14 +185,77 @@ class EmployeeDataSource extends DataGridSource {
   List<DataGridRow> get rows => _employeeData;
 
   @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
+//   DataGridRowAdapter buildRow(DataGridRow row) {
+//     return  DataGridRowAdapter(
+//       cells: row.getCells().map<Widget>((e) {
+//         if (e.columnName == 'profileimage') {
+//           return Container(
+//             color: Colors.pink[100],
+//             alignment: Alignment.center,
+//             padding: const EdgeInsets.all(8.0),
+//             child: Image.network(
+//               e.value.toString(),
+//               fit: BoxFit.cover,
+//               width: 50,
+//               height: 50,
+//               errorBuilder: (context, error, stackTrace) {
+//                 return Icon(Icons.error, color: Colors.red);
+//               },
+//               loadingBuilder: (context, child, loadingProgress) {
+//                 if (loadingProgress == null) return child;
+//                 return Center(
+//                   child: CircularProgressIndicator(
+//                     value: loadingProgress.expectedTotalBytes != null
+//                         ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+//                         : null,
+//                   ),
+//                 );
+//               },
+//             ),
+//           );
+//         } else {
+//           return Container(
+//             color: Colors.pink[100],
+//             alignment: Alignment.center,
+//             padding: const EdgeInsets.all(8.0),
+//             child: Text(e.value.toString()),
+//           );
+//         }
+//       }).toList(),
+//     );
+ 
+//   }
+// }
+DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
       cells: row.getCells().map<Widget>((e) {
-        return Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(e.value.toString()),
-        );
+        if (e.columnName == 'profileimage') {
+          return Container(
+            color: Colors.pink[100],
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(8.0),
+            child: ClipOval(
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(e.value.toString()),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          return Container(
+            color: Colors.pink[100],
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(8.0),
+            child: Text(e.value.toString()),
+          );
+        }
       }).toList(),
     );
   }

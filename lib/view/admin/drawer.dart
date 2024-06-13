@@ -1,9 +1,14 @@
  
 import 'package:flutter/material.dart';
+import 'package:main_project/view/ENTREPRENEUR/homepage/review.dart';
 import 'package:main_project/view/admin/Entrepreneur_details.dart';
 import 'package:main_project/view/admin/Notification_page.dart';
 import 'package:main_project/view/admin/User_details.dart';
+import 'package:main_project/view/admin/charity.dart';
+import 'package:main_project/view/admin/complaint.dart';
+import 'package:main_project/view/admin/eventsviw_admin.dart';
 import 'package:main_project/view/admin/login.dart';
+import 'package:main_project/view/admin/reviewview.dart';
 
 class Drawerpage extends StatelessWidget {
   @override
@@ -35,7 +40,7 @@ class Drawerpage extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AdminLogin(),
+                            builder: (context) =>    EventViewAdmin(),
                           ));
                     },
                     child: Container(
@@ -60,9 +65,9 @@ class Drawerpage extends StatelessWidget {
                 Card(
                   child: InkWell(
                     onTap: () {
-                      //  Navigator.of(context).push(MaterialPageRoute(
-                      //       builder: (context) => const Login(),
-                      //     ));
+                       Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const CharityAdmin(),
+                          ));
                     },
                     child: Container(
                       height: 150,
@@ -91,9 +96,9 @@ class Drawerpage extends StatelessWidget {
                 Card(
                   child: InkWell(
                     onTap: () {
-                      //  Navigator.of(context).push(MaterialPageRoute(
-                      //       builder: (context) => const Login(),
-                      //     ));
+                       Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ReviewViewAdmin(),
+                          ));
                     },
                     child: Container(
                       height: 150,
@@ -117,9 +122,9 @@ class Drawerpage extends StatelessWidget {
                 Card(
                   child: InkWell(
                     onTap: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //       builder: (context) => const Login(),
-                      //     ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Complaintadmin(),
+                          ));
                     },
                     child: Container(
                       height: 150,
@@ -213,7 +218,7 @@ class Drawerpage extends StatelessWidget {
               title: const Text('Notifications'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NotificationPgae(),
+                  builder: (context) =>  NotificationPgae(),
                 ));
               },
             ),

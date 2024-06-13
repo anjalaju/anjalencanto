@@ -1,13 +1,15 @@
-
+import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:main_project/chat/chatmain.dart';
 import 'package:main_project/chat/profilemodel.dart';
+import 'package:main_project/model/feedback_Review.dart';
 
 import 'package:main_project/model/likepostmodel.dart';
-import 'package:main_project/view/USER/booking/booking.dart';
+
 import 'package:main_project/view/USER/chat.dart';
 
 import 'package:main_project/model/addProject.dart';
@@ -24,10 +26,111 @@ class Bankquethall extends StatefulWidget {
 }
 
 class _BankquethallState extends State<Bankquethall> {
-
   @override
   Widget build(BuildContext context) {
-  final provider = Provider.of<FunctionProvider>(context);
+    final provider = Provider.of<FunctionProvider>(context);
+
+    final feedbackcon = TextEditingController();
+
+    Future bottomSheet(EventModel model) async {
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: Helper.h(context) / 2,
+            color: Colors.grey,
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Helper.W(context) * .010,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('PRODUCT REVIEW AND FEED BACK'),
+                      ],
+                    ),
+                    Consumer<FunctionProvider>(
+                      builder: (context, helper, child) {
+                        return RatingBar.builder(
+                          itemSize: 25,
+                          initialRating: 0,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            setState(() {
+                              provider.rating = rating.toString();
+                            });
+                          },
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    TextFormField(
+                      controller: feedbackcon,
+                      decoration: InputDecoration(
+                          hintText: 'ADD FEEDBACK',
+                          border: OutlineInputBorder()),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (provider.rating != null) {
+                              provider.addReviewFeedback(
+                                  FeedbackReview(
+                                    productid: model.id.toString(),
+                                    feedback: feedbackcon.text,
+                                    feedbackcount: provider.rating.toString(),
+                                    useruid: auth.currentUser!.uid,
+                                  ),
+                                  model.id);
+                              Navigator.pop(context);
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('PLEASE SEECT FEED RATING')));
+
+                            log('the review working  ${provider.rating}');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: Helper.h(context) * .050,
+                            width: Helper.W(context) * .30,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                            ),
+                            child: Text('ADD REVIEW'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(model.id.toString())
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -119,23 +222,6 @@ class _BankquethallState extends State<Bankquethall> {
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      RatingBar.builder(
-                                        itemSize: 25,
-                                        initialRating: 0,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemPadding: EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20),
@@ -144,7 +230,6 @@ class _BankquethallState extends State<Bankquethall> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                         
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -177,31 +262,44 @@ class _BankquethallState extends State<Bankquethall> {
                                                   builder: (context,
                                                       valuhelpere, child) {
                                                     return FutureBuilder(
-                                                      future: helper.fetchlikedpostpost(auth.currentUser!.uid + list[index].id.toString()),
+                                                      future: helper
+                                                          .fetchlikedpostpost(auth
+                                                                  .currentUser!
+                                                                  .uid +
+                                                              list[index]
+                                                                  .id
+                                                                  .toString()),
                                                       builder:
                                                           (context, snapshot) {
                                                         return IconButton(
                                                           onPressed: () {
                                                             helper.likepost(
-                                                          Likepostmodel(
-                                                              postid: list[
-                                                                      index]
-                                                                  .id
-                                                                  .toString(),
-                                                              likeuid: auth
-                                                                  .currentUser!
-                                                                  .uid),
-                                                          auth.currentUser!
-                                                                  .uid +
-                                                              list[index]
-                                                                  .id
-                                                                  .toString(),);  
-
-                                          
+                                                              Likepostmodel(
+                                                                postid: list[
+                                                                        index]
+                                                                    .id
+                                                                    .toString(),
+                                                                likeid:
+                                                                    list[index]
+                                                                        .id,
+                                                                likeuid: auth
+                                                                    .currentUser!
+                                                                    .uid,
+                                                              ),
+                                                              auth.currentUser!
+                                                                      .uid +
+                                                                  list[index]
+                                                                      .id
+                                                                      .toString(),
+                                                            );
                                                           },
                                                           icon: Icon(
-                                                            helper.islike==true?
-                                                            Icons.favorite :Icons.favorite_border,
+                                                            helper.islike ==
+                                                                    true
+                                                                ? Icons.favorite
+                                                                : Icons
+                                                                    .favorite_border,
+                                                            color: Colors.red,
                                                           ),
                                                         );
                                                       },
@@ -210,13 +308,13 @@ class _BankquethallState extends State<Bankquethall> {
                                                 )
                                               ],
                                             ),
-                                      Text(list[index].eventPlace),
+                                            Text(list[index].eventPlace),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                              Text(list[index].discription),
+                                                Text(list[index].discription),
                                                 OutlinedButton(
                                                     style: ButtonStyle(
                                                         foregroundColor:
@@ -242,7 +340,17 @@ class _BankquethallState extends State<Bankquethall> {
                                                               MaterialPageRoute(
                                                         builder: (context) =>
                                                             ChatPage(
-                                                          senderProfileModel: Myprofilemodel(firstname: list[index].eventName,  email: list[index].eventName, url: list[index].Image),
+                                                          senderProfileModel:
+                                                              Myprofilemodel(
+                                                                  firstname: list[
+                                                                          index]
+                                                                      .eventName,
+                                                                  email: list[
+                                                                          index]
+                                                                      .eventName,
+                                                                  url: list[
+                                                                          index]
+                                                                      .Image),
                                                         ),
                                                       ));
                                                     },
@@ -272,7 +380,6 @@ class _BankquethallState extends State<Bankquethall> {
                                                 ),
                                               ],
                                             ),
-                                     
                                           ],
                                         ),
                                       ),
@@ -357,9 +464,114 @@ class _BankquethallState extends State<Bankquethall> {
                                                   Icon(Icons.call),
                                                 ],
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
+                                      ),
+                                      SizedBox(
+                                        height: Helper.h(context) * .020,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              bottomSheet(list[index]);
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              width: Helper.W(context) * .40,
+                                              height: Helper.h(context) * .050,
+                                              // color: Colors.red,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(),
+                                              ),
+                                              child: Text(
+                                                'ADD REVIEW ',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Consumer<FunctionProvider>(
+                                        builder: (context, heper, child) {
+                                          return StreamBuilder(
+                                            stream: helper
+                                                .getReviewuser(list[index].id),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return CircularProgressIndicator();
+                                              }
+                                              List<FeedbackReview> reviewlist =
+                                                  [];
+
+                                              reviewlist =
+                                                  snapshot.data!.docs.map((e) {
+                                                return FeedbackReview.fromjsone(
+                                                    e.data() as Map<String,
+                                                        dynamic>);
+                                              }).toList();
+
+                                              final uid =
+                                                  reviewlist[index].useruid;
+
+                                              Stream userdet = db
+                                                  .collection('firebase')
+                                                  .doc(uid)
+                                                  .snapshots();
+
+                                              return ListView.separated(
+                                                shrinkWrap: true,
+                                                physics:
+                                                
+                                                    BouncingScrollPhysics(),
+                                                itemCount: list.length,
+                                                itemBuilder: (context, index) {
+                                                  return Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          Helper.W(context) *
+                                                              .030,
+                                                    ),
+                                                    child: Column(
+                                                      children: [
+                                                        Text(reviewlist[index]
+                                                            .feedback),
+                                                        StreamBuilder(
+                                                          stream: userdet,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                    .connectionState ==
+                                                                ConnectionState
+                                                                    .waiting) {
+                                                              return CircularProgressIndicator();
+                                                            }
+                                                            return Text(
+                                                                'USERNAME : ${snapshot.data['User_Name']}');
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return SizedBox(
+                                                    height: Helper.W(context) *
+                                                        .030,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
                                       )
                                     ],
                                   ),

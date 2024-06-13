@@ -5,6 +5,7 @@ import 'package:main_project/controller/AuthProvider.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/controller/paymentcontroller.dart';
 import 'package:main_project/usertype.dart';
+import 'package:main_project/view/admin/eventsviw_admin.dart';
 
 import 'package:provider/provider.dart';
 
@@ -31,10 +32,10 @@ class MyApp extends StatelessWidget {
       child:  MaterialApp(
         
         debugShowCheckedModeBanner: false,
-        home: UserType(),
-        // home: Entreentreprenuer(),
-        // home: Newchatpage(),
-        // home: Chatpage(name: "anjal",)
+        home:
+       
+         UserType(),
+         
       ),
     );
   }

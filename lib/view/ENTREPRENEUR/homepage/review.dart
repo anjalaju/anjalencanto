@@ -97,10 +97,10 @@ class ReviewPage extends StatelessWidget {
                                               
                                               return Column(
                                                 children: [
-                                                  Text(
-                                                      'Review UserName ${snapshot.data!['User_Name']}'),
-                                                  Text(
-                                                      'Reviewuser name ${snapshot.data!['Mobile_No']}'),
+                                                  // Text(
+                                                  //     'Review UserName ${snapshot.data!['User_Name']}'),
+                                                  // Text(
+                                                  //     'Reviewuser name ${snapshot.data!['Mobile_No']}'),
                                                 ],
                                               );
                                             },

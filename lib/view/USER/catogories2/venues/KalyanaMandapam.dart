@@ -165,7 +165,7 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                 //   },
 
                                                 // ),
-                                                Consumer<FunctionProvider>(
+                                Consumer<FunctionProvider>(
                                                   builder: (context,
                                                       valuhelpere, child) {
                                                     return FutureBuilder(
@@ -176,24 +176,30 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                           onPressed: () {
                                                             helper.likepost(
                                                           Likepostmodel(
-                                                              postid: list[
+                                                             postid: list[
                                                                       index]
                                                                   .id
                                                                   .toString(),
+                                                               likeid: list[index].id,   
+
                                                               likeuid: auth
                                                                   .currentUser!
-                                                                  .uid),
+                                                                  .uid,
+                                                                  ),
                                                           auth.currentUser!
                                                                   .uid +
                                                               list[index]
                                                                   .id
                                                                   .toString(),);  
 
+                                                                   
+
                                           
                                                           },
                                                           icon: Icon(
                                                             helper.islike==true?
                                                             Icons.favorite :Icons.favorite_border,
+                                                            color: Colors.red,
                                                           ),
                                                         );
                                                       },

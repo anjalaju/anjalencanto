@@ -53,7 +53,7 @@ class _SearchpageState extends State<Searchpage> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 80,
               ),
               TextField(
@@ -65,7 +65,7 @@ class _SearchpageState extends State<Searchpage> {
                     ),
                     hintText: ("Search by location"),
                     prefixIcon: const Icon(Icons.search),
-                    suffixIcon: Icon(Icons.location_on)),
+                    suffixIcon: const Icon(Icons.location_on)),
               ),
             ],
           ),

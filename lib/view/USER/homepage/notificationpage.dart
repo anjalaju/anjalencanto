@@ -52,60 +52,114 @@ class _notificationpageState extends State<notificationpage> {
         //   }, icon: const Icon(Icons.chat_outlined))
         // ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              Consumer<FunctionProvider>(
-                builder: (context, helper, child) {
-                  return StreamBuilder(
-                    stream: helper.getNotificationall().asStream(),
-                    builder: (context, snapshot) {
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 30),
+//           child: Column(
+//             children: [
+//               Consumer<FunctionProvider>(
+//                 builder: (context, helper, child) {
+//                   return StreamBuilder(
+//                     stream: helper.getNotificationall().asStream(),
+//                     builder: (context, snapshot) {
 
-                      final list=   helper.allnoti;
-                      return list.isEmpty
-                          ? Center(
-                              child: Text('no data'),
-                            )
-                          : ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: list.length,
-                              itemBuilder: (context, index) {
-                                return Material(
-                                  color: Colors.grey.shade100,
-                                  elevation: 4,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        // color: Colors.red
-                                        ),
-                                    width: double.infinity,
-                                    // height: Helper.h(context) * .050,
-                                    child: Column(
-                                      children: [
-                                        
-                                        
-                                        ListTile(
-                                          leading:Text(list[index].notificationtitile),
-                                          subtitle:Text(list[index].notificationSubtitile),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  height: Helper.h(context) * .050,
-                                );
-                              },
+//                       final list=   helper.allnoti;
+//                       return list.isEmpty
+//                           ? Center(
+//                               child: Text('no data'),
+//                             )
+//                           : Expanded(
+//                             child: ListView.separated(
+//                                 shrinkWrap: true,
+//                                 itemCount: list.length,
+//                                 itemBuilder: (context, index) {
+//                                   return Material(
+//                                     color: Colors.grey.shade100,
+//                                     elevation: 4,
+//                                     child: Container(
+//                                       decoration: BoxDecoration(
+//                                           // color: Colors.red
+//                                           ),
+//                                       width: double.infinity,
+//                                       // height: Helper.h(context) * .050,
+//                                       child: Column(
+//                                         children: [
+                                          
+                                          
+//                                           ListTile(
+//                                             leading:Text(list[index].notificationtitile),
+//                                             subtitle:Text(list[index].notificationSubtitile),
+//                                           )
+//                                         ],
+//                                       ),
+//                                     ),
+//                                   );
+//                                 },
+//                                 separatorBuilder: (context, index) {
+//                                   return SizedBox(
+//                                     height: Helper.h(context) * .050,
+//                                   );
+//                                 },
+//                               ),
+//                           );
+//                     },
+//                   );
+//                 },
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+ body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          children: [
+            Consumer<FunctionProvider>(
+              builder: (context, helper, child) {
+                return StreamBuilder(
+                  stream: helper.getNotificationall().asStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    final list = helper.allnoti;
+
+                    if (list.isEmpty) {
+                      return Center(
+                        child: Text('No notifications'),
+                      );
+                    }
+
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: ListView.separated(
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            return Material(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                              color: Colors.deepOrange,
+                              elevation: 4,
+                              child: ListTile(
+                                title: Text(list[index].notificationtitile),
+                                subtitle: Text(list[index].notificationSubtitile),
+                              ),
                             );
-                    },
-                  );
-                },
-              )
-            ],
-          ),
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 10); // Adjust height as needed
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

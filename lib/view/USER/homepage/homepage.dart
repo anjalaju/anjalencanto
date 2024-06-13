@@ -13,9 +13,7 @@ import 'package:main_project/view/USER/Drawer/about.dart';
 import 'package:main_project/view/USER/Drawer/complaint.dart';
 import 'package:main_project/view/USER/events/eventpage.dart';
 import 'package:main_project/view/USER/Drawer/shotlist.dart';
-import 'package:main_project/view/USER/formscreen/welcome.dart';
 import 'package:main_project/view/USER/homepage/EDIT/bookingevent.dart';
-import 'package:main_project/view/USER/homepage/offerpage.dart';
 import 'package:main_project/usertype.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,7 +37,6 @@ class _homepageState extends State<homepage> {
         return await _onWillPop(context);
       },
       child: Scaffold(
-        
         drawer: Drawer(
             backgroundColor: const Color(0xff6C6974),
             child: StreamBuilder(
@@ -50,7 +47,7 @@ class _homepageState extends State<homepage> {
                       child: CircularProgressIndicator(),
                     ); // Or any other loading indicator
                   }
-      
+
                   return ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
@@ -63,7 +60,7 @@ class _homepageState extends State<homepage> {
                       //     "images/profile.jpg",
                       //   ),
                       // ),
-      
+
                       Center(
                         child: InkWell(
                           onTap: () {
@@ -87,24 +84,25 @@ class _homepageState extends State<homepage> {
                                   return const Center(
                                       child: CircularProgressIndicator());
                                 }
-                                if (!snapshot.hasData || snapshot.data == null) {
+                                if (!snapshot.hasData ||
+                                    snapshot.data == null) {
                                   print('No data available');
                                 }
-      
+
                                 DocumentSnapshot<Map<String, dynamic>> data =
                                     snapshot.data!;
                                 if (!data.exists) {
                                   print('Document does not exist');
                                 }
-      
+
                                 // Check if 'image' field exists and is not null in the document
                                 if (!data.data()!.containsKey('Image') ||
                                     data.data()!['Image'] == null) {
                                   print('Image URL not found');
                                 }
-      
+
                                 String imageUrl = data.data()!['Image'];
-      
+
                                 return CircleAvatar(
                                   backgroundColor: Colors.black,
                                   radius: 91,
@@ -118,7 +116,7 @@ class _homepageState extends State<homepage> {
                           ),
                         ),
                       ),
-      
+
                       // Center(
                       //     child: Text(
                       //   '${data['User_Name']}',
@@ -171,7 +169,7 @@ class _homepageState extends State<homepage> {
                                   CircularProgressIndicator()); // Placeholder for loading state
                         },
                       ),
-      
+
                       const SizedBox(
                         height: 30,
                       ),
@@ -320,7 +318,8 @@ class _homepageState extends State<homepage> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                  actionsAlignment: MainAxisAlignment.spaceEvenly,
+                                  actionsAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15)),
                                   title: const Center(
@@ -361,18 +360,19 @@ class _homepageState extends State<homepage> {
                                             )),
                                         child: const Text(
                                           "Cancel",
-                                          style: TextStyle(color: Colors.indigo),
+                                          style:
+                                              TextStyle(color: Colors.indigo),
                                         )),
                                     ElevatedButton(
                                         onPressed: () async {
                                           // SharedPreferences preferences =
                                           //     await SharedPreferences
                                           //         .getInstance();
-      
+
                                           // // _auth.signOut().then((value) =>Navigator.of(context).push(MaterialPageRoute(
                                           // //   builder: (context) => const loginpage(),
                                           // // )) );
-      
+
                                           // await _auth.signOut().then(
                                           //       (value) =>
                                           //           Navigator.pushReplacement(
@@ -395,7 +395,7 @@ class _homepageState extends State<homepage> {
                                               //     MaterialPageRoute(
                                               //         builder: (context) =>
                                               //             welcome()))); // Use pushReplacement here
-      
+
                                               Navigator.of(context)
                                                   .pushAndRemoveUntil(
                                                 MaterialPageRoute(
@@ -403,11 +403,11 @@ class _homepageState extends State<homepage> {
                                                         const UserType()),
                                                 (Route<dynamic> route) => false,
                                               ));
-      
+
                                           log('signout succes');
                                           preferences.clear();
                                           // log('logout successfully' as num);
-      
+
                                           log('logout success');
                                           // Navigator.pop(context);
                                         },
@@ -450,14 +450,24 @@ class _homepageState extends State<homepage> {
             ),
           ),
           actions: [
-           IconButton(onPressed: (){}, icon: Icon(Icons.favorite)),
-           IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => BookEventScren(),));
-           
-        
-           }, icon: Icon(Icons.add)),
-
-           
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Shortlist(),
+                      ));
+                },
+                icon: const Icon(Icons.favorite)),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BookEventScren(),
+                      ));
+                },
+                icon: const Icon(Icons.event_note)),
           ],
         ),
         body: SingleChildScrollView(
@@ -664,6 +674,7 @@ class _homepageState extends State<homepage> {
       },
     );
   }
+
   Future<bool> _onWillPop(BuildContext context) async {
     bool shouldClose = await showDialog(
           context: context,
@@ -685,9 +696,8 @@ class _homepageState extends State<homepage> {
         false;
 
     if (shouldClose) {
-      SystemNavigator.pop();  // Closes the app.
+      SystemNavigator.pop(); // Closes the app.
     }
     return Future.value(false);
   }
 }
-

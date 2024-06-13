@@ -1,7 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
+import 'package:main_project/model/addProject.dart';
+import 'package:main_project/utils/String.dart';
+import 'package:main_project/view/USER/homepage/homepage.dart';
+import 'package:provider/provider.dart';
 
 class Shortlistphotographer extends StatefulWidget {
-  const Shortlistphotographer({super.key});
+  EventModel eventModel;
+  Shortlistphotographer({super.key, required this.eventModel});
 
   @override
   State<Shortlistphotographer> createState() => _ShortlistphotographerState();
@@ -34,19 +42,6 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
           ),
           color: Colors.black,
         ),
-      //   actions: [
-      //     IconButton(onPressed: () {
-      //       Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (context) => Shortlist()),
-      // );
-      //     }, icon: const Icon(Icons.favorite)),
-      //     IconButton(onPressed: () {
-      //       Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (context) => Chatpage()),
-      // );
-      //     }, icon: const Icon(Icons.chat_outlined))
-      //   ],
-        
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -67,25 +62,31 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                       Container(
                         height: 230,
                         width: MediaQuery.of(context).size.width,
-                        child: const Image(
-                          image: AssetImage(
-                            "images/photographers.png",
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              widget.eventModel.Image,
+                            ),
                           ),
-                          fit: BoxFit.cover,
                         ),
                       ),
                       Column(
                         // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("kanjirampara , ucharakkadavu"),
+                          Text(widget.eventModel.discription),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("photomax studioz"),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.delete))
+                              Text(widget.eventModel.eventName),
+                             Consumer<FunctionProvider>(builder: (context, helper, child) {
+                               return  IconButton(
+                                  onPressed: ()async {
+                                   helper.deletePostLike(widget.eventModel.id.toString(),context);
+                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => homepage(),));
+
+                                  }, icon: Icon(Icons.delete));
+                             },)
                             ],
                           ),
                           Row(
@@ -94,8 +95,10 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                               Text("photo+video"),
                             ],
                           ),
-                          Text("8000 "),
-                          Text("per day")
+                          Text(widget.eventModel.startingPriceFrom),
+                          Text("per day"),
+                          Text(widget.eventModel.id.toString())
+
                         ],
                       ),
                       const SizedBox(
@@ -122,9 +125,9 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                                           borderRadius:
                                               BorderRadius.circular(15)))),
                               onPressed: () {
-      //                           Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (context) => Chatpage()),
-      // );
+                                //                           Navigator.of(context).pushReplacement(
+                                //   MaterialPageRoute(builder: (context) => Chatpage()),
+                                // );
                               },
                               child: const Row(
                                 children: [

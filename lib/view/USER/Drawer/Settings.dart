@@ -10,6 +10,8 @@ class Settingpage extends StatefulWidget {
 }
 
 class _SettingpageState extends State<Settingpage> {
+
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,46 +52,46 @@ class _SettingpageState extends State<Settingpage> {
       ),
       body: ListView(
         children: [
-          const ListTile(
-            leading: Icon(
-              Icons.language,
-              size: 30,
-            ),
-            title: Text(
-              "Language",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            //  onTap: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => homepage(),
-            //         ));
+          // const ListTile(
+          //   leading: Icon(
+          //     Icons.language,
+          //     size: 30,
+          //   ),
+          //   title: Text(
+          //     "Language",
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   ),
+          //   //  onTap: () {
+          //   //     Navigator.push(
+          //   //         context,
+          //   //         MaterialPageRoute(
+          //   //           builder: (context) => homepage(),
+          //   //         ));
 
-            //   },
-          ),
+          //   //   },
+          // ),
           const Divider(
             thickness: 0.5,
             color: Colors.black,
           ),
-          const ListTile(
-            leading: Icon(
-              Icons.dark_mode,
-              size: 30,
-            ),
-            title: Text(
-              "Dark mode",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            //  onTap: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => homepage(),
-            //         ));
+          // const ListTile(
+          //   leading: Icon(
+          //     Icons.dark_mode,
+          //     size: 30,
+          //   ),
+          //   title: Text(
+          //     "Dark mode",
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   ),
+          //   //  onTap: () {
+          //   //     Navigator.push(
+          //   //         context,
+          //   //         MaterialPageRoute(
+          //   //           builder: (context) => homepage(),
+          //   //         ));
 
-            //   },
-          ),
+          //   //   },
+          // ),
           const Divider(
             thickness: 0.5,
             color: Colors.black,
