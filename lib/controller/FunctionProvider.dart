@@ -163,13 +163,15 @@ class FunctionProvider with ChangeNotifier {
   Future addCompalint(ComplaintModel complaintModel) async {
     final snapshot = await db.collection('Alert').doc();
 
-    snapshot.set(complaintModel.tojsone(snapshot.id));
+    snapshot.set(complaintModel.tojsone(snapshot.id,));
   }
 
-  Stream<QuerySnapshot> getAllcomplaint() {
-    return db.collection('Alert').snapshots();
+  // Stream<QuerySnapshot> getAllcomplaint() {
+  //   return db.collection('Alert').snapshots();
+  // }
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllcomplaint() {
+    return FirebaseFirestore.instance.collection('Alert').snapshots();
   }
-
   Future addReview(AddReview addReview) async {
     final snapshot =   db.collection('AddReview').doc();
 

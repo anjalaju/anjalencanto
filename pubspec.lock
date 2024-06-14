@@ -9,22 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.32"
-  adaptivex:
-    dependency: transitive
-    description:
-      name: adaptivex
-      sha256: "3bcf399c6e639e9f065c8502cfdaec1b25fa79f77a8f27e14819e36e85b7075d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1+6"
-  ansicolor:
-    dependency: transitive
-    description:
-      name: ansicolor
-      sha256: "8bf17a8ff6ea17499e40a2d2542c2f481cd7615760c6d34065cb22bfd22e6880"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   archive:
     dependency: transitive
     description:
@@ -425,13 +409,13 @@ packages:
     source: hosted
     version: "0.2.1+1"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.19.0"
   js:
     dependency: transitive
     description:
@@ -624,14 +608,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.8.0"
-  printx:
-    dependency: transitive
-    description:
-      name: printx
-      sha256: "9216a2deb51e6524c9da569e5122b2fbd1996f15f4935ed627674b79bed794c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   provider:
     dependency: "direct main"
     description:
@@ -925,14 +901,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  xtable:
-    dependency: "direct main"
-    description:
-      name: xtable
-      sha256: b2983d74896f71e21d48644ae776633f6fce1e0064c171c89b94fce126c7f5e8
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.11"
 sdks:
   dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.19.2"

@@ -105,9 +105,14 @@ class _BankquethallState extends State<Bankquethall> {
                                   ),
                                   model.id);
                               Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Success')));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text('please select the rating')));
                             }
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('PLEASE SEECT FEED RATING')));
 
                             log('the review working  ${provider.rating}');
                           },
@@ -336,12 +341,14 @@ class _BankquethallState extends State<Bankquethall> {
                                                                 color: Color(0xff496FF7))),
                                                         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
                                                     onPressed: () {
-                                                      Navigator.of(context)
-                                                          .push(
-                                                              MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Bookimgpage(eventModel: list[index],)
-                                                      ));
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Bookimgpage(
+                                                                        eventModel:
+                                                                            list[index],
+                                                                      )));
                                                     },
                                                     child: const Row(
                                                       children: [

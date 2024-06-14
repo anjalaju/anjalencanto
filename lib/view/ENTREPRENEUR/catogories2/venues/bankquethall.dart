@@ -47,143 +47,374 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
     price.text = eventModel.startingPriceFrom;
 
     await
-     showModalBottomSheet<void>(
-      enableDrag: true,
-      // scrollControlDisabledMaxHeightRatio: 5,
+        //  showModalBottomSheet<void>(
+        //   enableDrag: true,
+        //   // scrollControlDisabledMaxHeightRatio: 5,
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return Container(
+
+        //       child: SingleChildScrollView(
+        //         child: Column(
+        //           children: <Widget>[
+        //             SizedBox(
+        //               height: Helper.h(context) * .10,
+        //             ),
+        //             Row(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 GestureDetector(
+        //                   onTap: () async {
+        //                     await _pickImage(ImageSource.gallery).then((value) async {
+        //                       SettableMetadata metadata =
+        //                           SettableMetadata(contentType: 'image/jpeg');
+        //                       final currenttime = TimeOfDay.now();
+        //                       UploadTask uploadTask = FirebaseStorage.instance
+        //                           .ref()
+        //                           .child('eventimage/$currenttime')
+        //                           .putFile(_imageFile!, metadata);
+        //                       TaskSnapshot snapshot = await uploadTask;
+        //                       producturl = await snapshot.ref.getDownloadURL();
+        //                     });
+        //                   },
+        //                   child: Container(
+        //                     width: Helper.W(context) * .50,
+        //                     height: Helper.h(context) * .20,
+        //                     decoration: BoxDecoration(
+        //                         border: Border.all(),
+        //                         image: DecorationImage(
+        //                           fit: BoxFit.cover,
+        //                           image: NetworkImage(eventModel.Image),
+        //                         )),
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: editname,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: price,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: editplace,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: discription,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             Consumer<FunctionProvider>(
+        //               builder: (context, instance, child) {
+        //                 return GestureDetector(
+        //                   onTap: () async {
+        //                     Navigator.pop(context);
+        //                     if (producturl != null) {
+        //                       await instance
+        //                           .updateevent(
+        //                         eventModel.id,
+        //                         editname.text,
+        //                         price.text,
+        //                         editplace.text,
+        //                         discription.text,
+        //                         producturl,
+        //                       )
+        //                           .then((value) {
+        //                         Navigator.pop(context);
+        //                         SuccesToast(context, 'update succes');
+        //                         setState(() {});
+        //                       });
+        //                     } else {
+        //                       ScaffoldMessenger.of(context).showSnackBar(
+        //                           const SnackBar(content: Text('Please wait')));
+        //                     }
+        //                     SuccesToast(context, 'update succes');
+
+        //                   },
+        //                   child: Container(
+        //                     alignment: Alignment.center,
+        //                     width: Helper.W(context) * .40,
+        //                     height: Helper.h(context) * .050,
+        //                     decoration: BoxDecoration(
+        //                       border: Border.all(),
+        //                     ),
+        //                     child: const Text('Update '),
+        //                   ),
+        //                 );
+        //               },
+        //             ),SizedBox(height: 250,),
+        //           ],
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // );
+        showModalBottomSheet<void>(
       context: context,
+      isScrollControlled:
+          true, // Allows the bottom sheet to take full screen height when dragged
       builder: (BuildContext context) {
-        return Container(
-       
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: Helper.h(context) * .10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        await _pickImage(ImageSource.gallery).then((value) async {
-                          SettableMetadata metadata =
-                              SettableMetadata(contentType: 'image/jpeg');
-                          final currenttime = TimeOfDay.now();
-                          UploadTask uploadTask = FirebaseStorage.instance
-                              .ref()
-                              .child('eventimage/$currenttime')
-                              .putFile(_imageFile!, metadata);
-                          TaskSnapshot snapshot = await uploadTask;
-                          producturl = await snapshot.ref.getDownloadURL();
-                        });
-                      },
-                      child: Container(
-                        width: Helper.W(context) * .50,
-                        height: Helper.h(context) * .20,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(eventModel.Image),
-                            )),
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          maxChildSize: 0.8,
+          minChildSize: 0.8,
+          expand: false,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: Padding(
+                padding:
+                    const EdgeInsets.all(16.0), // Added padding for better UI
+                child: Column(
+                  children: <Widget>[
+                    // SizedBox(
+                    //   height: Helper.h(context) * .10,
+                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await _pickImage(ImageSource.gallery)
+                                .then((value) async {
+                              SettableMetadata metadata =
+                                  SettableMetadata(contentType: 'image/jpeg');
+                              final currenttime = TimeOfDay.now();
+                              UploadTask uploadTask = FirebaseStorage.instance
+                                  .ref()
+                                  .child('eventimage/$currenttime')
+                                  .putFile(_imageFile!, metadata);
+                              TaskSnapshot snapshot = await uploadTask;
+                              producturl = await snapshot.ref.getDownloadURL();
+                            });
+                          },
+                          child: Container(
+                            width: Helper.W(context) * .50,
+                            height: Helper.h(context) * .20,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(eventModel.Image),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'Auditorium Name:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: editname,
+                        decoration:
+                             InputDecoration(
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
+    borderSide: const BorderSide(), // Default border side
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
+    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
+  ),
+)
+
                       ),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'Price:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: price,
+                        decoration:
+InputDecoration(
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
+    borderSide: const BorderSide(), // Default border side
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
+    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
+  ),
+)
+                      ),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'Place:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: editplace,
+                        decoration:
+InputDecoration(
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
+    borderSide: const BorderSide(), // Default border side
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
+    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
+  ),
+)
+                      ),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'description:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: discription,
+                        decoration:
+                             InputDecoration(
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
+    borderSide: const BorderSide(), // Default border side
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
+    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
+  ),
+)
+
+                      ),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    Consumer<FunctionProvider>(
+                      builder: (context, instance, child) {
+                        return GestureDetector(
+                          onTap: () async {
+                            Navigator.pop(context);
+                            if (producturl != null) {
+                              await instance
+                                  .updateevent(
+                                eventModel.id,
+                                editname.text,
+                                price.text,
+                                editplace.text,
+                                discription.text,
+                                producturl,
+                              )
+                                  .then((value) {
+                                Navigator.pop(context);
+                                SuccesToast(context, 'Update success');
+                                setState(() {});
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Please wait')),
+                              );
+                            }
+                            SuccesToast(context, 'Update success');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: Helper.W(context) * .5,
+                            height: Helper.h(context) * .050,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(),
+                            ),
+                            child: const Text(
+                              'Update',
+                              style: TextStyle(color: Colors.white,fontSize: 20),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 250,
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: Helper.h(context) * .020,
-                ),
-                SizedBox(
-                  width: Helper.W(context) * .50,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.next,
-                    controller: editname,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ),
-                SizedBox(
-                  height: Helper.h(context) * .020,
-                ),
-                SizedBox(
-                  width: Helper.W(context) * .50,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.next,
-                    controller: price,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ),
-                SizedBox(
-                  height: Helper.h(context) * .020,
-                ),
-                SizedBox(
-                  width: Helper.W(context) * .50,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.next,
-                    controller: editplace,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ),
-                SizedBox(
-                  height: Helper.h(context) * .020,
-                ),
-                SizedBox(
-                  width: Helper.W(context) * .50,
-                  child: TextFormField(
-                    textInputAction: TextInputAction.next,
-                    controller: discription,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                ),
-                SizedBox(
-                  height: Helper.h(context) * .020,
-                ),
-                Consumer<FunctionProvider>(
-                  builder: (context, instance, child) {
-                    return GestureDetector(
-                      onTap: () async {
-                        Navigator.pop(context);
-                        if (producturl != null) {
-                          await instance
-                              .updateevent(
-                            eventModel.id,
-                            editname.text,
-                            price.text,
-                            editplace.text,
-                            discription.text,
-                            producturl,
-                          )
-                              .then((value) {
-                            Navigator.pop(context);
-                            SuccesToast(context, 'update succes');
-                            setState(() {});
-                          });
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Please wait')));
-                        }
-                        SuccesToast(context, 'update succes');
-                        
-                        
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: Helper.W(context) * .40,
-                        height: Helper.h(context) * .050,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                        ),
-                        child: const Text('Update '),
-                      ),
-                    );
-                  },
-                ),SizedBox(height: 250,),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -270,7 +501,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
               stream: instance.getEventproject('Venues', 'Banquet halls'),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -281,7 +512,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                 }).toList();
                 if (snapshot.hasData) {
                   return list.isEmpty
-                      ? Center(
+                      ? const Center(
                           child: Text('no data'),
                         )
                       : SingleChildScrollView(

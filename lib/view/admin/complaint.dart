@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/addreview.dart';
 import 'package:main_project/model/complaint.dart';
@@ -74,7 +75,45 @@ class _ComplaintadminState extends State<Complaintadmin> {
                                                   height: Helper.h(context)*.020,
                                                 ),
                                                  
-                                            
+                                              Row(
+                                                    children: [
+                                                      const Icon(
+                                                          Icons.calendar_today,
+                                                          size: 18,
+                                                          color: Colors.indigo),
+                                                      const SizedBox(
+                                                          width:
+                                                              4), // Add spacing between icon and text
+                                                      Text(
+                                                        'Date: ${DateFormat('yyyy-MM-dd').format(reviews[index].timestamp.toDate())}',
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                      height:
+                                                          4), // Add spacing between date and time
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                          Icons.access_time,
+                                                          size: 18,
+                                                          color: Colors.indigo),
+                                                      const SizedBox(
+                                                          width:
+                                                              4), // Add spacing between icon and text
+                                                      Text(
+                                                        'Time: ${DateFormat('HH:mm').format(reviews[index].timestamp.toDate())}',
+                                                        style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                           ],
                                         ),
                                         IconButton(

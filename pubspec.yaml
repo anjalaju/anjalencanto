@@ -55,8 +55,8 @@ dependencies:
   provider: ^6.1.2
   cherry_toast: ^1.10.1
   upi_india: ^3.0.1
-  xtable: ^0.0.11
   syncfusion_flutter_datagrid: ^25.2.7
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

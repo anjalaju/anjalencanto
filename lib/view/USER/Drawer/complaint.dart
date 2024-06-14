@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/model/complaint.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
@@ -124,6 +125,7 @@ class _ComplaintState extends State<Complaint> {
                               .addCompalint(ComplaintModel(
                             complaint: complaint.text,
                             uid: auth.currentUser!.uid,
+                             timestamp: Timestamp.now(),
                           ))
                               .then((value) {
                             SuccesToast(context, 'add Complaint  ');
