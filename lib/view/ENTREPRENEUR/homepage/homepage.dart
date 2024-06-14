@@ -93,7 +93,7 @@ class _EntreHomeState extends State<EntreHome> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        UserType(),
+                                                        const UserType(),
                                                   ),
                                                   (route) => false);
                                             },
@@ -146,17 +146,17 @@ class _EntreHomeState extends State<EntreHome> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
-                                        Entrenotificationpage(),
+                                        const Entrenotificationpage(),
                                   ));
                                 },
-                                icon: Icon(Icons.notifications)),
+                                icon: const Icon(Icons.notifications)),
                             IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => EntreSettingpage(),
+                                  builder: (context) => const EntreSettingpage(),
                                 ));
                               },
-                              icon: Icon(Icons.settings),
+                              icon: const Icon(Icons.settings),
                             ),
                           ],
                         )
@@ -369,12 +369,56 @@ class _EntreHomeState extends State<EntreHome> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                       
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => EntreCharityhomepage(),
+                                  builder: (context) => const ReviewPage(),
+                                ));
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            elevation: 10,
+                            child: Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: const Color.fromARGB(255, 103, 118, 205),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.edit_calendar,
+                                    color: Colors.black,
+                                    size: 40,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('Review',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+
+                         GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const EntreCharityhomepage(),
                                 ));
                           },
                           child: Card(
@@ -402,48 +446,6 @@ class _EntreHomeState extends State<EntreHome> {
                                     height: 10,
                                   ),
                                   Text('Charity',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ReviewPage(),
-                                ));
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            elevation: 10,
-                            child: Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: const Color(0xffFC3C3C),
-                              ),
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.handshake_outlined,
-                                    color: Colors.black,
-                                    size: 40,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Review',
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: Colors.white,

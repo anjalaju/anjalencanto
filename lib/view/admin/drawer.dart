@@ -25,10 +25,10 @@ class Drawerpage extends StatelessWidget {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        // decoration: const BoxDecoration(
-        //     image: DecorationImage(
-        //         image: AssetImage('images/wedding-management-500x500.webp'),
-        //         fit: BoxFit.cover)),
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('images/adminfrontpage.jpg'),
+                fit: BoxFit.cover)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +50,7 @@ class Drawerpage extends StatelessWidget {
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                           Text(
                             'Events',
                             style: TextStyle(color: Colors.white, fontSize: 40),
                           ),

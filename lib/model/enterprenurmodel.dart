@@ -11,6 +11,7 @@ class EnterprenurModel {
   String? businesname;
  String? location ;
  String uid;
+ String usertype;
   
 
   EnterprenurModel({
@@ -23,6 +24,7 @@ class EnterprenurModel {
     this.businesname,
     this.location,
     required this.uid,
+    required this.usertype,
      
   });
 
@@ -36,6 +38,7 @@ class EnterprenurModel {
         'businessname':businesname,
         'location':location,
        'uid':uid,
+       'usertpe':usertype
       };
 
   factory EnterprenurModel.fromjsone(Map<String, dynamic> Json) {
@@ -48,8 +51,8 @@ class EnterprenurModel {
       image: Json['profileimage'],
        businesname: Json['businessname'],
       location: Json['location'],
-      uid: Json['uid']
-     
+      uid: Json['uid'],
+     usertype: Json['usertype'],
         
     );
   }

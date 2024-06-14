@@ -1,5 +1,3 @@
- 
-
 // import 'package:flutter/material.dart';
 // import 'package:main_project/controller/FunctionProvider.dart';
 // import 'package:main_project/utils/String.dart';
@@ -62,7 +60,7 @@
 //                                             onPressed: () {
 //                                               db.collection('Notiication').doc(noti[index].id).delete();
 //                                               setState(() {
-                                                
+
 //                                               });
 //                                             },
 //                                             icon: Icon(Icons.delete))
@@ -113,55 +111,72 @@ class _NotificationPgaeState extends State<NotificationPgae> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xffE72245),
-        title: Text('NOTIFICATIONS'),
+        backgroundColor: const Color(0xffE72245),
+        title: const Text('NOTIFICATIONS'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _dataStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Something went wrong'));
+            return const Center(child: Text('Something went wrong'));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: ListView.separated(
-            itemCount: documents.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot document = documents[index];
-              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-            
-              return Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(7)),
-                child: ListTile(
-                  tileColor: Colors.indigo,
-                  title: Text("NOTIFICATION TITLE  :${data['Notificationtitle']}",style: TextStyle(color: Colors.white),),
-                  subtitle: Text("NOTIFICATION SUBTITLE :${data['Notificationsubtitle']}",style: TextStyle(color: Colors.white),),
-                   trailing: Container(height: 40,width: 40,
-                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(7),color: Colors.red,),
-                     child: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.white),
-                      onPressed: () => _deleteNotification(document.id),
-                                     ),
-                   ),
-                ),
-              );
-            },
-            separatorBuilder: (context, index) =>SizedBox(height: 5,)
+                itemCount: documents.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot document = documents[index];
+                  Map<String, dynamic> data =
+                      document.data() as Map<String, dynamic>;
+
+                  return Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(7)),
+                    child: ListTile(
+                      tileColor: Colors.indigo,
+                      title: Text(
+                        "NOTIFICATION TITLE  :${data['Notificationtitle']}",
+                        style: const TextStyle(color: Colors.white),
                       ),
+                      subtitle: Text(
+                        "NOTIFICATION SUBTITLE :${data['Notificationsubtitle']}",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      trailing: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          color: Colors.red,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.white),
+                          onPressed: () => _deleteNotification(document.id),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                      height: 5,
+                    )),
           );
         },
       ),
     );
-  }  void _deleteNotification(String documentId) {
+  }
+
+  void _deleteNotification(String documentId) {
     _firestore.collection('Notiication').doc(documentId).delete().then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Notification deleted')),
+        const SnackBar(content: Text('Notification deleted')),
       );
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -169,5 +184,4 @@ class _NotificationPgaeState extends State<NotificationPgae> {
       );
     });
   }
-
 }

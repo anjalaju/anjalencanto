@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:main_project/Intropage.dart/Swipe.dart';
 import 'package:main_project/Intropage.dart/swipee.dart';
 import 'package:main_project/view/ENTREPRENEUR/formscreen/welcome.dart';
 

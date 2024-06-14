@@ -9,6 +9,7 @@ import 'package:main_project/chat/profilemodel.dart';
 import 'package:main_project/model/feedback_Review.dart';
 
 import 'package:main_project/model/likepostmodel.dart';
+import 'package:main_project/view/USER/booking/booking.dart';
 
 import 'package:main_project/view/USER/chat.dart';
 
@@ -339,19 +340,7 @@ class _BankquethallState extends State<Bankquethall> {
                                                           .push(
                                                               MaterialPageRoute(
                                                         builder: (context) =>
-                                                            ChatPage(
-                                                          senderProfileModel:
-                                                              Myprofilemodel(
-                                                                  firstname: list[
-                                                                          index]
-                                                                      .eventName,
-                                                                  email: list[
-                                                                          index]
-                                                                      .eventName,
-                                                                  url: list[
-                                                                          index]
-                                                                      .Image),
-                                                        ),
+                                                            Bookimgpage(eventModel: list[index],)
                                                       ));
                                                     },
                                                     child: const Row(
@@ -507,6 +496,14 @@ class _BankquethallState extends State<Bankquethall> {
                                                   ConnectionState.waiting) {
                                                 return CircularProgressIndicator();
                                               }
+
+                                              if (!snapshot.hasData ||
+                                                  snapshot.data!.docs.isEmpty) {
+                                                return Center(
+                                                    child: Text(
+                                                        'No reviews available'));
+                                              }
+
                                               List<FeedbackReview> reviewlist =
                                                   [];
 
@@ -525,50 +522,57 @@ class _BankquethallState extends State<Bankquethall> {
                                                   .doc(uid)
                                                   .snapshots();
 
-                                              return ListView.separated(
-                                                shrinkWrap: true,
-                                                physics:
-                                                
-                                                    BouncingScrollPhysics(),
-                                                itemCount: list.length,
-                                                itemBuilder: (context, index) {
-                                                  return Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          Helper.W(context) *
+                                              return reviewlist.isEmpty
+                                                  ? Center(
+                                                      child: Text(''),
+                                                    )
+                                                  : ListView.separated(
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          BouncingScrollPhysics(),
+                                                      itemCount:
+                                                          reviewlist.length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal: Helper.W(
+                                                                    context) *
+                                                                .030,
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(reviewlist[
+                                                                      index]
+                                                                  .feedback),
+                                                              StreamBuilder(
+                                                                stream: userdet,
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  if (snapshot
+                                                                          .connectionState ==
+                                                                      ConnectionState
+                                                                          .waiting) {
+                                                                    return CircularProgressIndicator();
+                                                                  }
+                                                                  return Text(
+                                                                      'USERNAME : ${snapshot.data['User_Name']}');
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                      separatorBuilder:
+                                                          (context, index) {
+                                                        return SizedBox(
+                                                          height: Helper.W(
+                                                                  context) *
                                                               .030,
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(reviewlist[index]
-                                                            .feedback),
-                                                        StreamBuilder(
-                                                          stream: userdet,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            if (snapshot
-                                                                    .connectionState ==
-                                                                ConnectionState
-                                                                    .waiting) {
-                                                              return CircularProgressIndicator();
-                                                            }
-                                                            return Text(
-                                                                'USERNAME : ${snapshot.data['User_Name']}');
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                                separatorBuilder:
-                                                    (context, index) {
-                                                  return SizedBox(
-                                                    height: Helper.W(context) *
-                                                        .030,
-                                                  );
-                                                },
-                                              );
+                                                        );
+                                                      },
+                                                    );
                                             },
                                           );
                                         },
@@ -604,3 +608,19 @@ class _BankquethallState extends State<Bankquethall> {
     }
   }
 }
+
+
+
+//  ChatPage(
+//                                                           senderProfileModel:
+//                                                               Myprofilemodel(
+//                                                                   firstname: list[
+//                                                                           index]
+//                                                                       .eventName,
+//                                                                   email: list[
+//                                                                           index]
+//                                                                       .eventName,
+//                                                                   url: list[
+//                                                                           index]
+//                                                                       .Image),
+//                                                         ),

@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
+import 'package:provider/provider.dart';
 
 class Searchpage extends StatefulWidget {
   const Searchpage({super.key});
@@ -56,7 +60,8 @@ class _SearchpageState extends State<Searchpage> {
               const SizedBox(
                 height: 80,
               ),
-              TextField(
+              Consumer<FunctionProvider>(builder: (context, helper, child) {
+                return TextField(
                 decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
@@ -66,7 +71,12 @@ class _SearchpageState extends State<Searchpage> {
                     hintText: ("Search by location"),
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: const Icon(Icons.location_on)),
-              ),
+                    onChanged: (value) {
+                     helper.searchevent();
+                    log('${ helper.eventfull.length}');
+                    },
+              );
+              },)
             ],
           ),
         ),

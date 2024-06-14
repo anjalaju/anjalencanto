@@ -33,21 +33,22 @@ class _ReviewViewAdminState extends State<ReviewViewAdmin> {
                       return StreamBuilder<QuerySnapshot>(
                         stream: helper.getReview(),
                         builder: (context, snapshot) {
-                          if(snapshot.connectionState == ConnectionState.waiting){
-                            return CircularProgressIndicator();
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
                           }
 
-
-                List<AddReview> reviews = snapshot.data!.docs.map((doc) {
-          return AddReview.fromjsone(doc.data() as Map<String, dynamic>);
-        }).toList();
-                          
+                          List<AddReview> reviews =
+                              snapshot.data!.docs.map((doc) {
+                            return AddReview.fromjsone(
+                                doc.data() as Map<String, dynamic>);
+                          }).toList();
 
                           return ListView.separated(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Helper.W(context) * .050),
                             shrinkWrap: true,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             itemCount: reviews.length,
                             itemBuilder: (context, index) {
                               return Material(
@@ -62,17 +63,17 @@ class _ReviewViewAdminState extends State<ReviewViewAdmin> {
                                           children: [
                                             Text(
                                                 'Review TITLE :${reviews[index].review}'),
-                                            
                                           ],
                                         ),
                                         IconButton(
                                             onPressed: () {
-                                               db.collection('AddReview').doc(reviews[index].id).delete();
-                                               setState(() {
-                                                 
-                                               });
+                                              db
+                                                  .collection('AddReview')
+                                                  .doc(reviews[index].id)
+                                                  .delete();
+                                              setState(() {});
                                             },
-                                            icon: Icon(Icons.delete))
+                                            icon: const Icon(Icons.delete))
                                       ],
                                     )
                                   ],

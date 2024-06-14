@@ -276,8 +276,10 @@ class FunctionProvider with ChangeNotifier {
   }
  
 
- Stream<QuerySnapshot>  getpostlike(){
-  return db.collection('PostLike').snapshots();
+ Stream<QuerySnapshot>  getpostlike(uid){
+  return db.collection('PostLike').where('likeuid',isEqualTo: uid).snapshots();
+  
+  
  }
 
   Future addReviewFeedback(FeedbackReview feedbackreview,pddocid)async{
@@ -329,4 +331,35 @@ Future deletePostLike(String postId,BuildContext context) async {
        rating;
        notifyListeners();
   }
+
+
+
+  // searching 
+
+    List<EventModel>searchmodel=[];
+   
+List<EventModel> list = [];
+
+           
+    
+    List<EventModel> eventfull=[];
+    Future  searchevent()async{
+      
+     final snapshot=await  db.collection('AddEvent').get();
+
+     eventfull= snapshot.docs.map((e){
+        return EventModel.fromJsone(e.data());
+      },).toList();
+     log('${eventfull.length}');
+   }
+
+
+  //  List<EventModel>
+    
 }
+
+
+
+//  list = snapshot.docs.map((e) {
+      //         return EventModel.fromJsone(e.data() as Map<String, dynamic>);
+      //       }).toList();

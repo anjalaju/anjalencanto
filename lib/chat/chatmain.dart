@@ -6,7 +6,7 @@ import 'package:main_project/chat/model.dart';
 import 'package:main_project/chat/profilemodel.dart';
 
 class ChatPage extends StatefulWidget {
-  Myprofilemodel? senderProfileModel;
+  Myprofilemodel senderProfileModel;
   ChatPage({super.key, required this.senderProfileModel});
 
   @override

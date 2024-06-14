@@ -59,7 +59,7 @@ class _ShortlistState extends State<Shortlist> {
               Consumer<FunctionProvider>(
                 builder: (context, helper, child) {
                   return StreamBuilder(
-                    stream: helper.getpostlike(),
+                    stream: helper.getpostlike(auth.currentUser!.uid),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CircularProgressIndicator();

@@ -66,6 +66,7 @@ class AuthProvider with ChangeNotifier {
             businesname: '',
             location: '',
             uid: value.user!.uid,
+            usertype: 'enterprenur',
           ),
           value.user!.uid
         );

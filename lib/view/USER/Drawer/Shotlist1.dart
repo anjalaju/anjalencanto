@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/utils/String.dart';
+import 'package:main_project/view/USER/homepage/bottomnav.dart';
 import 'package:main_project/view/USER/homepage/homepage.dart';
 import 'package:provider/provider.dart';
 
@@ -83,7 +84,7 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                                return  IconButton(
                                   onPressed: ()async {
                                    helper.deletePostLike(widget.eventModel.id.toString(),context);
-                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => homepage(),));
+                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottomnavipage(indexnum: 0,),));
 
                                   }, icon: Icon(Icons.delete));
                              },)
