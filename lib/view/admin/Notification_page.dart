@@ -91,6 +91,7 @@
 // }
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NotificationPgae extends StatefulWidget {
   @override
@@ -138,16 +139,60 @@ class _NotificationPgaeState extends State<NotificationPgae> {
 
                   return Container(
                     decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(7)),
-                    child: ListTile(
+                        BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.indigo,
                       title: Text(
                         "NOTIFICATION TITLE  :${data['Notificationtitle']}",
                         style: const TextStyle(color: Colors.white),
                       ),
-                      subtitle: Text(
-                        "NOTIFICATION SUBTITLE :${data['Notificationsubtitle']}",
-                        style: const TextStyle(color: Colors.white),
+                      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "NOTIFICATION SUBTITLE :${data['Notificationsubtitle']}",
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                            Row(
+                                                  children: [
+                                                    const Icon(
+                                                        Icons.calendar_today,
+                                                        size: 18,
+                                                        color: Colors.red),
+                                                    const SizedBox(
+                                                        width:
+                                                            4), // Add spacing between icon and text
+                                                    Text(
+                                                      'Date: ${DateFormat('yyyy-MM-dd').format(data['timestamp'].toDate())}',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                    height:
+                                                        4), // Add spacing between date and time
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                        Icons.access_time,
+                                                        size: 18,
+                                                        color: Colors.red),
+                                                    const SizedBox(
+                                                        width:
+                                                            4), // Add spacing between icon and text
+                                                    Text(
+                                                      'Time: ${DateFormat('HH:mm').format(data['timestamp'].toDate())}',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                           
+                        ],
                       ),
                       trailing: Container(
                         height: 40,

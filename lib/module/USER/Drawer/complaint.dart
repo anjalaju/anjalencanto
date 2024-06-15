@@ -123,6 +123,7 @@ class _ComplaintState extends State<Complaint> {
                           // Navigator.push(context, MaterialPageRoute(builder:(context) => loginnotification()));
                           helper
                               .addCompalint(ComplaintModel(
+                                
                             complaint: complaint.text,
                             uid: auth.currentUser!.uid,
                              timestamp: Timestamp.now(),

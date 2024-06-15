@@ -18,7 +18,7 @@ class _bottomnavipageState extends State<bottomnavipage> {
   final _pages = [
     const homepage(),
     const Searchpage(),
-    const notificationpage(),
+     notificationpage(),
     const offerpage(),
     const Accountpage(),
   ];

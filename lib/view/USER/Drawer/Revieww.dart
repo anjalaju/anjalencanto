@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/addreview.dart';
@@ -163,6 +164,7 @@ class _ReviewsState extends State<Reviews> {
                               helper.addReview(AddReview(
                                 review: review.text,
                                 uid: auth.currentUser!.uid,
+                             timestamp: Timestamp.now(),
                               )).then((value){
                                 SuccesToast(context, 'Add review succes');
                                 claer();

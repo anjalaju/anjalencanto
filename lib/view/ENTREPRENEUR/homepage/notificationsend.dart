@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/notificationmodel.dart';
@@ -107,6 +108,7 @@ class _EntrenotificationpageState extends State<Entrenotificationpage> {
                                           notificationtitile.text,
                                       notificationSubtitile:
                                           notificationsubtitle.text,
+                                      timestamp: Timestamp.now(),
                                     ),
                                   )
                                       .then((value) {

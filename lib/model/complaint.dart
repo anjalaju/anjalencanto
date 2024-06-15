@@ -27,6 +27,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ComplaintModel {
   String complaint;
+  
   String uid;
   String? id;
   Timestamp timestamp; // Add timestamp field

@@ -1,5 +1,5 @@
- 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/review.dart';
 import 'package:main_project/view/admin/Entrepreneur_details.dart';
 import 'package:main_project/view/admin/Notification_page.dart';
@@ -14,7 +14,8 @@ class Drawerpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(foregroundColor: Colors.white,
+      appBar: AppBar(
+        foregroundColor: Colors.white,
         title: const Center(
             child: Text(
           'Welcome To Encanto',
@@ -37,22 +38,32 @@ class Drawerpage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
-                       Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>    EventViewAdmin(),
-                          ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EventViewAdmin(),
+                      ));
                     },
                     child: Container(
                       height: 150,
                       width: 250,
-                      color: Colors.indigo,
-                      child: const Column(
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             'Events',
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: GoogleFonts.lato(
+                                textStyle:
+                                    Theme.of(context).textTheme.displayLarge,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -63,22 +74,32 @@ class Drawerpage extends StatelessWidget {
                   width: 80,
                 ),
                 Card(
+                   shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
-                       Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const CharityAdmin(),
-                          ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const CharityAdmin(),
+                      ));
                     },
                     child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20)),
                       height: 150,
                       width: 250,
-                      color: Colors.indigo,
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'Charity',
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: GoogleFonts.lato(
+                                textStyle:
+                                    Theme.of(context).textTheme.displayLarge,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -94,22 +115,32 @@ class Drawerpage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Card(
+                   shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
-                       Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ReviewViewAdmin(),
-                          ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ReviewViewAdmin(),
+                      ));
                     },
                     child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20)),
                       height: 150,
                       width: 250,
-                      color: Colors.indigo,
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Review',
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            'Reviews',
+                            style: GoogleFonts.lato(
+                                textStyle:
+                                    Theme.of(context).textTheme.displayLarge,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -120,22 +151,32 @@ class Drawerpage extends StatelessWidget {
                   width: 80,
                 ),
                 Card(
+                   shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Complaintadmin(),
-                          ));
+                        builder: (context) => Complaintadmin(),
+                      ));
                     },
                     child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20)),
                       height: 150,
                       width: 250,
-                      color: Colors.indigo,
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'Complaints',
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: GoogleFonts.lato(
+                                textStyle:
+                                    Theme.of(context).textTheme.displayLarge,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -194,7 +235,7 @@ class Drawerpage extends StatelessWidget {
               title: const Text('User details'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>  Userdetails(),
+                  builder: (context) => Userdetails(),
                 ));
               },
             ),
@@ -206,7 +247,7 @@ class Drawerpage extends StatelessWidget {
               title: const Text('Entrepreneur details'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>  Entrepreneurdetails(),
+                  builder: (context) => Entrepreneurdetails(),
                 ));
               },
             ),
@@ -218,7 +259,7 @@ class Drawerpage extends StatelessWidget {
               title: const Text('Notifications'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>  NotificationPgae(),
+                  builder: (context) => NotificationPgae(),
                 ));
               },
             ),
@@ -230,87 +271,74 @@ class Drawerpage extends StatelessWidget {
               title: const Text('Logout'),
               onTap: () {
                 showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                      actionsAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      title: const Center(
-                                          child: Column(
-                                        children: [
-                                          Text(
-                                            "Logout",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            "Are You Sure?",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
-                                      )),
-                                      actions: <Widget>[
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text(
-                                              "Cancel",
-                                              style: TextStyle(
-                                                  color: Colors.indigo),
-                                            ),
-                                            style: TextButton.styleFrom(
-                                                elevation: 5,
-                                                minimumSize:
-                                                    const Size(128, 46),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6)),
-                                                textStyle: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                ))),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              // Navigator.of(context)
-                                              //     .push(MaterialPageRoute(
-                                              //   builder: (context) =>
-                                              //       const Login(),
-                                              // ));
-                                            },
-                                            child: const Text(
-                                              "Yes",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                            style: TextButton.styleFrom(
-                                                elevation: 5,
-                                                minimumSize:
-                                                    const Size(128, 46),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6)),
-                                                textStyle: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                ))),
-                                      ]);
-                                },
-                              );
-                           
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                        actionsAlignment: MainAxisAlignment.spaceEvenly,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        title: const Center(
+                            child: Column(
+                          children: [
+                            Text(
+                              "Logout",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Are You Sure?",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        )),
+                        actions: <Widget>[
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.indigo),
+                              ),
+                              style: TextButton.styleFrom(
+                                  elevation: 5,
+                                  minimumSize: const Size(128, 46),
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6)),
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ))),
+                          ElevatedButton(
+                              onPressed: () {
+                                // Navigator.of(context)
+                                //     .push(MaterialPageRoute(
+                                //   builder: (context) =>
+                                //       const Login(),
+                                // ));
+                              },
+                              child: const Text(
+                                "Yes",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              style: TextButton.styleFrom(
+                                  elevation: 5,
+                                  minimumSize: const Size(128, 46),
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6)),
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ))),
+                        ]);
+                  },
+                );
               },
             ),
             const Divider(

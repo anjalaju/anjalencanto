@@ -42,7 +42,7 @@ class UserType extends StatelessWidget {
                          Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>   Drawerpage(),
+                            builder: (context) =>   AdminLogin(),
                           ),
                         );
                       },
