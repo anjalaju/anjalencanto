@@ -486,10 +486,11 @@ class _UserdetailsState extends State<Userdetails> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.black, borderRadius: BorderRadius.circular(20)),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              color: Colors.black,
               child: Text(
-                "Total no of Users:$totalUsers    ",
+                "Total no of Users: $totalUsers    ",
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -497,7 +498,25 @@ class _UserdetailsState extends State<Userdetails> {
         ],
         title: const Text(
           'User Details',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+        ),
+        // backgroundColor: Colors.transparent,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 1,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+          ),
+          color: Colors.black,
         ),
       ),
       body: isLoading
@@ -527,7 +546,7 @@ class _UserdetailsState extends State<Userdetails> {
                         padding: const EdgeInsets.all(16.0),
                         alignment: Alignment.center,
                         child: const Text(
-                          'image',
+                          'Image',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -627,7 +646,7 @@ class EmployeeDataSource extends DataGridSource {
   @override
   List<DataGridRow> get rows => _employeeData;
 
- @override
+  @override
 //   DataGridRowAdapter buildRow(DataGridRow row) {
 //     return DataGridRowAdapter(
 //       cells: row.getCells().map<Widget>((e) {
@@ -668,7 +687,7 @@ class EmployeeDataSource extends DataGridSource {
 //     );
 //   }
 // }
- DataGridRowAdapter buildRow(DataGridRow row) {
+  DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
       cells: row.getCells().map<Widget>((e) {
         if (e.columnName == 'img') {

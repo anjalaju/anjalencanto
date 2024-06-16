@@ -112,9 +112,30 @@ class _NotificationPgaeState extends State<NotificationPgae> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xffE72245),
-        title: const Text('NOTIFICATIONS'),
-      ),
+            backgroundColor: const Color(0xffE72245),
+          title: const Text(
+            'Notifications',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+          ),
+          // backgroundColor: Colors.transparent,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(
+              thickness: 2,
+              color: Colors.black,
+              height: 1,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+            ),
+            color: Colors.black,
+          ),
+        ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _dataStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -129,7 +150,7 @@ class _NotificationPgaeState extends State<NotificationPgae> {
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: ListView.separated(
                 itemCount: documents.length,
                 itemBuilder: (context, index) {
@@ -143,13 +164,13 @@ class _NotificationPgaeState extends State<NotificationPgae> {
                     child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.indigo,
                       title: Text(
-                        "NOTIFICATION TITLE  :${data['Notificationtitle']}",
+                        "Notification Title :${data['Notificationtitle']}",
                         style: const TextStyle(color: Colors.white),
                       ),
                       subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "NOTIFICATION SUBTITLE :${data['Notificationsubtitle']}",
+                            "Notification Subtitle :${data['Notificationsubtitle']}",
                             style: const TextStyle(color: Colors.white),
                           ),
                             Row(
@@ -164,7 +185,7 @@ class _NotificationPgaeState extends State<NotificationPgae> {
                                                     Text(
                                                       'Date: ${DateFormat('yyyy-MM-dd').format(data['timestamp'].toDate())}',
                                                       style: const TextStyle(
-                                                        color: Colors.black,
+                                                      color: Colors.white,
                                                         fontSize: 14,
                                                       ),
                                                     ),
@@ -185,7 +206,7 @@ class _NotificationPgaeState extends State<NotificationPgae> {
                                                     Text(
                                                       'Time: ${DateFormat('HH:mm').format(data['timestamp'].toDate())}',
                                                       style: const TextStyle(
-                                                        color: Colors.black,
+                                                       color: Colors.white,
                                                         fontSize: 14,
                                                       ),
                                                     ),

@@ -61,7 +61,7 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(129, 146, 204, 1),
+      backgroundColor:const Color(0xff219C90),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -181,7 +181,7 @@ class _AdminLoginState extends State<AdminLogin> {
                           onPressed: login,
                           child: const Text(
                             "Login",
-                            style: TextStyle(
+                            style: TextStyle(fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           )),

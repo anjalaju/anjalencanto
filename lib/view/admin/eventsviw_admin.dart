@@ -11,30 +11,31 @@ class EventViewAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
-        title: const Text(
-          'Events list',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
-        ),
-        backgroundColor: Colors.transparent,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(
-            thickness: 2,
+        appBar: AppBar(
+          backgroundColor: const Color(0xffE72245),
+          title: const Text(
+            'Events list',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+          ),
+          // backgroundColor: Colors.transparent,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(
+              thickness: 2,
+              color: Colors.black,
+              height: 1,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+            ),
             color: Colors.black,
-            height: 1,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-          ),
-          color: Colors.black,
-        ),
-      ),
         // backgroundColor: Colors.black,
         body: Consumer<FunctionProvider>(
           builder: (context, helper, child) {
@@ -59,11 +60,10 @@ class EventViewAdmin extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     itemCount: list.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5,
-                      crossAxisSpacing: Helper.W(context) * .030,
-                      mainAxisSpacing: Helper.W(context) * .030,
-                      childAspectRatio: 0.9
-                    ),
+                        crossAxisCount: 5,
+                        crossAxisSpacing: Helper.W(context) * .030,
+                        mainAxisSpacing: Helper.W(context) * .030,
+                        childAspectRatio: 0.9),
                     itemBuilder: (context, index) {
                       return Stack(
                         children: [
@@ -73,7 +73,7 @@ class EventViewAdmin extends StatelessWidget {
                             elevation: 4,
                             child: Container(
                               decoration: BoxDecoration(
-                                  color:Color(0xff219C90),
+                                  color: Color(0xffA0153E),
                                   borderRadius: BorderRadius.circular(20)),
                               width: Helper.W(context) * .50,
                               // height: Helper.h(context) * .110,
@@ -128,32 +128,39 @@ class EventViewAdmin extends StatelessWidget {
                                     height: Helper.h(context) * .010,
                                   ),
                                   Text(
-                                    ' EVENT NAME :${list[index].eventName}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' Event Name: ${list[index].eventName}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    ' CONTACT NUMBER :${list[index].phonenumber}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' Phone No: ${list[index].phonenumber}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    'EVENT CATEGORY :${list[index].eventmainCategory}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' Category: ${list[index].eventmainCategory}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    'EVENT SBCATEGORY :${list[index].eventSubcategory}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' SubCategory: ${list[index].eventSubcategory}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    'Place :${list[index].eventPlace}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' Place: ${list[index].eventPlace}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    'Driscription :${list[index].discription}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' Discription: ${list[index].discription}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    'PRICE :${list[index].startingPriceFrom}',
-                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                    ' Price: ${list[index].startingPriceFrom}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
                                   ),
                                   // SizedBox(
                                   //   height: Helper.h(context) * .010,

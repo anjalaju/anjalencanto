@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:main_project/view/ENTREPRENEUR/homepage/review.dart';
 import 'package:main_project/view/admin/Entrepreneur_details.dart';
 import 'package:main_project/view/admin/Notification_page.dart';
 import 'package:main_project/view/admin/User_details.dart';
 import 'package:main_project/view/admin/charity.dart';
 import 'package:main_project/view/admin/complaint.dart';
 import 'package:main_project/view/admin/eventsviw_admin.dart';
-import 'package:main_project/view/admin/login.dart';
 import 'package:main_project/view/admin/reviewview.dart';
 
 class Drawerpage extends StatelessWidget {
@@ -50,7 +48,7 @@ class Drawerpage extends StatelessWidget {
                       height: 150,
                       width: 250,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Color(0xff1679AB),
                           borderRadius: BorderRadius.circular(20)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +72,7 @@ class Drawerpage extends StatelessWidget {
                   width: 80,
                 ),
                 Card(
-                   shape: RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
@@ -84,7 +82,7 @@ class Drawerpage extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Color(0xff1679AB),
                           borderRadius: BorderRadius.circular(20)),
                       height: 150,
                       width: 250,
@@ -115,7 +113,7 @@ class Drawerpage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Card(
-                   shape: RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
@@ -125,7 +123,7 @@ class Drawerpage extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Color(0xff1679AB),
                           borderRadius: BorderRadius.circular(20)),
                       height: 150,
                       width: 250,
@@ -151,7 +149,7 @@ class Drawerpage extends StatelessWidget {
                   width: 80,
                 ),
                 Card(
-                   shape: RoundedRectangleBorder(
+                  shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   child: InkWell(
                     onTap: () {
@@ -161,7 +159,7 @@ class Drawerpage extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Color(0xff1679AB),
                           borderRadius: BorderRadius.circular(20)),
                       height: 150,
                       width: 250,
@@ -207,6 +205,7 @@ class Drawerpage extends StatelessWidget {
         ),
       ),
       drawer: Drawer(
+        backgroundColor: const Color(0xff6C6974),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -215,12 +214,12 @@ class Drawerpage extends StatelessWidget {
                   color: Colors.indigo,
                 ),
                 child: Image.asset('images/logo.png')),
-            const Divider(
-              color: Colors.black,
-            ),
             ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Dashboard'),
+              leading: const Icon(Icons.home, color: Colors.black),
+              title: const Text(
+                'Dashboard',
+                style: TextStyle(color: Colors.white),
+              ),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Drawerpage(),
@@ -231,8 +230,9 @@ class Drawerpage extends StatelessWidget {
               color: Colors.black,
             ),
             ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('User details'),
+              leading: const Icon(Icons.person, color: Colors.black),
+              title: const Text('User details',
+                  style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Userdetails(),
@@ -243,8 +243,9 @@ class Drawerpage extends StatelessWidget {
               color: Colors.black,
             ),
             ListTile(
-              leading: const Icon(Icons.menu_book_rounded),
-              title: const Text('Entrepreneur details'),
+              leading: const Icon(Icons.menu_book_rounded, color: Colors.black),
+              title: const Text('Entrepreneur details',
+                  style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Entrepreneurdetails(),
@@ -255,8 +256,10 @@ class Drawerpage extends StatelessWidget {
               color: Colors.black,
             ),
             ListTile(
-              leading: const Icon(Icons.notifications_active),
-              title: const Text('Notifications'),
+              leading:
+                  const Icon(Icons.notifications_active, color: Colors.black),
+              title: const Text('Notifications',
+                  style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => NotificationPgae(),
@@ -267,8 +270,9 @@ class Drawerpage extends StatelessWidget {
               color: Colors.black,
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              leading: const Icon(Icons.logout, color: Colors.black),
+              title:
+                  const Text('Logout', style: TextStyle(color: Colors.white)),
               onTap: () {
                 showDialog(
                   context: context,

@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:main_project/view/admin/drawer.dart';
 import 'package:main_project/view/admin/login.dart';
 
 void main() {

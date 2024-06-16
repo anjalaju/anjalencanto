@@ -177,29 +177,30 @@ class _ComplaintadminState extends State<Complaintadmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Complaints',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
-        ),
-        backgroundColor: Colors.transparent,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(
-            thickness: 2,
+            backgroundColor: const Color(0xffE72245),
+          title: const Text(
+            'Complaints',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+          ),
+          // backgroundColor: Colors.transparent,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(
+              thickness: 2,
+              color: Colors.black,
+              height: 1,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+            ),
             color: Colors.black,
-            height: 1,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-          ),
-          color: Colors.black,
-        ),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -345,7 +346,7 @@ class _ComplaintadminState extends State<Complaintadmin> {
                                                         Text(
                                                           'Id: ${list[index].uid}',
                                                           style: TextStyle(
-                                                              color: Colors.pink),
+                                                              color: Colors.orange),
                                                         ),
                                                       ],
                                                     ),

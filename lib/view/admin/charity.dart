@@ -12,11 +12,12 @@ class CharityAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            backgroundColor: const Color(0xffE72245),
           title: const Text(
             'Charity list',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
           ),
-          backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.transparent,
           bottom: const PreferredSize(
             preferredSize: Size.fromHeight(1),
             child: Divider(
@@ -128,21 +129,21 @@ class CharityAdmin extends StatelessWidget {
                                     height: Helper.h(context) * .010,
                                   ),
                                   Text(
-                                    ' NAME :${list[index].itemname}',
+                                    ' Item Name: ${list[index].itemname}',
                                     style: const TextStyle(color: Colors.white),
                                   ),
-                                  Text(' DONATED BY NAME :${list[index].name}',
+                                  Text(' Donated by: ${list[index].name}',
                                       style:
                                           const TextStyle(color: Colors.white)),
                                   Text(
-                                      ' NUMBER ITEMS :${list[index].numberofitem}',
+                                      ' No of Items: ${list[index].numberofitem}',
                                       style:
                                           const TextStyle(color: Colors.white)),
-                                  Text(' PLACE :${list[index].place}',
+                                  Text(' Place: ${list[index].place}',
                                       style:
                                           const TextStyle(color: Colors.white)),
                                   Text(
-                                      ' DONATED CATEGORY :${list[index].selected}',
+                                      ' Category: ${list[index].selected}',
                                       style:
                                           const TextStyle(color: Colors.white)),
                                   SizedBox(

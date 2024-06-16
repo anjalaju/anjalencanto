@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -13,7 +11,7 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
   List<Employee> employees = <Employee>[];
   EmployeeDataSource? employeeDataSource;
   bool isLoading = true;
- int totalUsers = 0;
+  int totalUsers = 0;
   @override
   void initState() {
     super.initState();
@@ -41,7 +39,7 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
         }
         return Employee(
           slno++,
-          data['profileimage']??'',
+          data['profileimage'] ?? '',
           data['EnterprenurName'] ?? '',
           data['location'] ?? '',
           age,
@@ -49,7 +47,7 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
           data['EnterprenurNumber'] ?? '',
         );
       }).toList();
-totalUsers = employees.length;
+      totalUsers = employees.length;
       setState(() {
         employeeDataSource = EmployeeDataSource(employeeData: employees);
         isLoading = false;
@@ -66,16 +64,51 @@ totalUsers = employees.length;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [Text("Total no of Users:$totalUsers    ",style: TextStyle(color: Colors.red),)],
-        title: const Text('Enterprenur'),
+        backgroundColor: const Color(0xffE72245),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.black, borderRadius: BorderRadius.circular(20)),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Text(
+                "Total no of Users: $totalUsers    ",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          )
+        ],
+        title: const Text(
+          'Entrepreneur Details',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+        ),
+        // backgroundColor: Colors.transparent,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 1,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+          ),
+          color: Colors.black,
+        ),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : employeeDataSource == null || employees.isEmpty
               ? Center(child: Text('No data available'))
               : SfDataGrid(
-              allowFiltering: true,
-              allowSorting: true,
+                  allowFiltering: true,
+                  allowSorting: true,
                   source: employeeDataSource!,
                   columnWidthMode: ColumnWidthMode.fill,
                   columns: <GridColumn>[
@@ -89,14 +122,14 @@ totalUsers = employees.length;
                               'ID',
                               style: TextStyle(color: Colors.white),
                             ))),
-                              GridColumn(
+                    GridColumn(
                         columnName: 'img  ',
                         label: Container(
                             color: Colors.indigo,
                             padding: const EdgeInsets.all(16.0),
                             alignment: Alignment.center,
                             child: const Text(
-                              'image',
+                              'Image',
                               style: TextStyle(color: Colors.white),
                             ))),
                     GridColumn(
@@ -120,7 +153,6 @@ totalUsers = employees.length;
                               style: TextStyle(color: Colors.white),
                               overflow: TextOverflow.ellipsis,
                             ))),
-                   
                     GridColumn(
                         columnName: 'email',
                         label: Container(
@@ -148,11 +180,11 @@ totalUsers = employees.length;
 }
 
 class Employee {
-  Employee(this.id,this.img, this.user_name, this.place, this.age, this.email,
+  Employee(this.id, this.img, this.user_name, this.place, this.age, this.email,
       this.mobile_no);
 
   final int id;
-    final String img;
+  final String img;
 
   final String user_name;
 
@@ -167,12 +199,12 @@ class EmployeeDataSource extends DataGridSource {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<int>(columnName: 'id', value: e.id),
-               DataGridCell<String>(columnName: 'profileimage', value: e.img),
+              DataGridCell<String>(columnName: 'profileimage', value: e.img),
               DataGridCell<String>(columnName: 'user_name', value: e.user_name),
               // DataGridCell<String>(columnName: 'user_name', value: e.user_name),
 
               DataGridCell<String>(columnName: 'location', value: e.place),
-              
+
               DataGridCell<String>(columnName: 'email', value: e.email),
               DataGridCell<String>(columnName: 'mobile_no', value: e.mobile_no),
             ]))
@@ -223,10 +255,10 @@ class EmployeeDataSource extends DataGridSource {
 //         }
 //       }).toList(),
 //     );
- 
+
 //   }
 // }
-DataGridRowAdapter buildRow(DataGridRow row) {
+  DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
       cells: row.getCells().map<Widget>((e) {
         if (e.columnName == 'profileimage') {

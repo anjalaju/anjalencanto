@@ -119,30 +119,31 @@ class _ReviewViewAdminState extends State<ReviewViewAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Reviews',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
-        ),
-        backgroundColor: Colors.transparent,
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(1),
-          child: Divider(
-            thickness: 2,
+       appBar: AppBar(
+            backgroundColor: const Color(0xffE72245),
+          title: const Text(
+            'Reviews',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+          ),
+          // backgroundColor: Colors.transparent,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(
+              thickness: 2,
+              color: Colors.black,
+              height: 1,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+            ),
             color: Colors.black,
-            height: 1,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-          ),
-          color: Colors.black,
-        ),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -292,7 +293,7 @@ class _ReviewViewAdminState extends State<ReviewViewAdmin> {
                                                 Text(
                                                   'Id: ${list[index].uid}',
                                                   style: TextStyle(
-                                                      color: Colors.pink),
+                                                      color: Colors.orange),
                                                 ),
                                               ],
                                             ),
