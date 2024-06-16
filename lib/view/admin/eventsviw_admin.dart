@@ -10,86 +10,166 @@ class EventViewAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Consumer<FunctionProvider>(
-      builder: (context, helper, child) {
-        return StreamBuilder(
-          stream: helper.getAllEvent(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            List<EventModel> list = [];
+    return Scaffold(
+       appBar: AppBar(
+        title: const Text(
+          'Events list',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+        ),
+        backgroundColor: Colors.transparent,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 1,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+          ),
+          color: Colors.black,
+        ),
+      ),
+        // backgroundColor: Colors.black,
+        body: Consumer<FunctionProvider>(
+          builder: (context, helper, child) {
+            return StreamBuilder(
+              stream: helper.getAllEvent(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                List<EventModel> list = [];
 
-            list = snapshot.data!.docs.map((e) {
-              return EventModel.fromJsone(e.data() as Map<String, dynamic>);
-            }).toList();
+                list = snapshot.data!.docs.map((e) {
+                  return EventModel.fromJsone(e.data() as Map<String, dynamic>);
+                }).toList();
 
-            list.shuffle();
+                list.shuffle();
 
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              itemCount: list.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: Helper.W(context) * .030,
-                mainAxisSpacing: Helper.W(context) * .030,
-              ),
-              itemBuilder: (context, index) {
-                return Stack(
-                  children: [
-                    Material(
-                      elevation: 4,
-                      child: Container(
-                        width: Helper.W(context) * .50,
-                        // height: Helper.h(context) * .110,
-                        color: const Color.fromRGBO(245, 245, 245, 1),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: Helper.h(context) * .020,
-                            ),
-                            Container(
-                              width: Helper.W(context) * .050,
-                              height: Helper.h(context) * .20,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(list[index].Image),
-                              )),
-                            ),
-                            SizedBox(
-                              height: Helper.h(context) * .010,
-                            ),
-                            Text(' EVENT NAME :${list[index].eventName}'),
-                            Text(' CONTACT NUMBER :${list[index].phonenumber}'),
-                            Text(
-                                'EVENT CATEGORY :${list[index].eventmainCategory}'),
-                            Text(
-                                'EVENT SBCATEGORY :${list[index].eventSubcategory}'),
-                            Text('Place :${list[index].eventPlace}'),
-                            Text('Driscription :${list[index].discription}'),
-                            SizedBox(
-                              height: Helper.h(context) * .010,
-                            ),
-                            Text('PRICE :${list[index].startingPriceFrom}'),
-                          ],
-                        ),
-                      ),
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: list.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5,
+                      crossAxisSpacing: Helper.W(context) * .030,
+                      mainAxisSpacing: Helper.W(context) * .030,
+                      childAspectRatio: 0.9
                     ),
-                
-                  Positioned(
-                    left: Helper.W(context)*.20,
-                    child: IconButton(onPressed: (){
-                      db.collection('AddEvent').doc(list[index].id).delete();
-                    }, icon: Icon(Icons.delete)))
-                    ],
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          Material(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            elevation: 4,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color:Color(0xff219C90),
+                                  borderRadius: BorderRadius.circular(20)),
+                              width: Helper.W(context) * .50,
+                              // height: Helper.h(context) * .110,
+
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: Helper.h(context) * .020,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      InkWell(
+                                          onTap: () {
+                                            db
+                                                .collection('AddEvent')
+                                                .doc(list[index].id)
+                                                .delete();
+                                          },
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 5),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.black,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12)),
+                                              height: 35,
+                                              width: 35,
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      width: Helper.W(context) * .050,
+                                      height: Helper.h(context) * .080,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(list[index].Image),
+                                      )),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Helper.h(context) * .010,
+                                  ),
+                                  Text(
+                                    ' EVENT NAME :${list[index].eventName}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  Text(
+                                    ' CONTACT NUMBER :${list[index].phonenumber}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  Text(
+                                    'EVENT CATEGORY :${list[index].eventmainCategory}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  Text(
+                                    'EVENT SBCATEGORY :${list[index].eventSubcategory}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  Text(
+                                    'Place :${list[index].eventPlace}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  Text(
+                                    'Driscription :${list[index].discription}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  Text(
+                                    'PRICE :${list[index].startingPriceFrom}',
+                                    style: const TextStyle(color: Colors.white,fontSize: 13),
+                                  ),
+                                  // SizedBox(
+                                  //   height: Helper.h(context) * .010,
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 );
               },
             );
           },
-        );
-      },
-    ));
+        ));
   }
 }

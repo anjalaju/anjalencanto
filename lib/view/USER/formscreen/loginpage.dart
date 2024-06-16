@@ -35,11 +35,11 @@ class _LogaState extends State<loginpage> {
         preferences.setString('isloggin', credential.user!.uid);
 
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Login successfull')));
+            .showSnackBar(const SnackBar(content: Text('Login successfull')));
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => loginnotification(),
+              builder: (context) => const loginnotification(),
             ));
         setState(() {
           isloading = false;
@@ -49,13 +49,13 @@ class _LogaState extends State<loginpage> {
           isloading = false;
         });
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Something wrong!!!')));
+            .showSnackBar(const SnackBar(content: Text('Something wrong!!!')));
         if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('weak password')));
+              .showSnackBar(const SnackBar(content: Text('weak password')));
         } else if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('email already use')));
+              .showSnackBar(const SnackBar(content: Text('email already use')));
         }
       }
     }
@@ -180,7 +180,7 @@ class _LogaState extends State<loginpage> {
                   ),
                   Center(
                     child: isloading
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : ElevatedButton(
@@ -294,9 +294,7 @@ class _LogaState extends State<loginpage> {
                     children: [
                       Container(
                         height: 60,
-
                         width: 60,
-
                         // color: Colors.amber,
                         child: const Image(
                             image: AssetImage("images/facebook.png")),
@@ -321,12 +319,12 @@ class _LogaState extends State<loginpage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't have an account? "),
+                      const Text("Don't have an account? "),
                       InkWell(
                         onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: ((context) => signup()))),
-                        child: Text(
+                                builder: ((context) => const signup()))),
+                        child: const Text(
                           "Sign Up",
                           style: TextStyle(color: Colors.pink),
                         ),

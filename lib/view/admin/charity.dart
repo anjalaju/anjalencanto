@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/Donatemodel.dart';
-import 'package:main_project/model/addProject.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
 
@@ -12,8 +11,31 @@ class CharityAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-        backgroundColor: Colors.black,
+        appBar: AppBar(
+          title: const Text(
+            'Charity list',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+          ),
+          backgroundColor: Colors.transparent,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(
+              thickness: 2,
+              color: Colors.black,
+              height: 1,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+            ),
+            color: Colors.black,
+          ),
+        ),
+        // backgroundColor: Colors.black,
         body: Consumer<FunctionProvider>(
           builder: (context, helper, child) {
             return StreamBuilder(
@@ -51,7 +73,7 @@ class CharityAdmin extends StatelessWidget {
                             elevation: 4,
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: const Color.fromARGB(255, 190, 67, 67),
+                                  color: Color(0xff850F8D),
                                   borderRadius: BorderRadius.circular(20)),
                               width: Helper.W(context) * .50,
                               // height: Helper.h(context) * .110,
@@ -73,7 +95,8 @@ class CharityAdmin extends StatelessWidget {
                                                 .delete();
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.only(right: 5),
+                                            padding:
+                                                const EdgeInsets.only(right: 5),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   color: Colors.black,

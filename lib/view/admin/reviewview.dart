@@ -205,8 +205,7 @@ class _ReviewViewAdminState extends State<ReviewViewAdmin> {
                                       decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(20),
-                                          color: Color.fromARGB(
-                                              255, 232, 176, 202)),
+                                          color:Color(0xffBBE2EC)),
                                       child: Padding(
                                         padding: EdgeInsets.all(12.0),
                                         child: Row(

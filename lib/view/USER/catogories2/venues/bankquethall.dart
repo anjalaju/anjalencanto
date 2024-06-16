@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -10,6 +11,7 @@ import 'package:main_project/model/feedback_Review.dart';
 
 import 'package:main_project/model/likepostmodel.dart';
 import 'package:main_project/view/USER/booking/booking.dart';
+import 'package:main_project/view/USER/catogories2/venues/view_reviews.dart';
 
 import 'package:main_project/view/USER/chat.dart';
 
@@ -102,6 +104,7 @@ class _BankquethallState extends State<Bankquethall> {
                                     feedback: feedbackcon.text,
                                     feedbackcount: provider.rating.toString(),
                                     useruid: auth.currentUser!.uid,
+                                    timestamp: Timestamp.now()
                                   ),
                                   model.id);
                               Navigator.pop(context);
@@ -493,104 +496,107 @@ class _BankquethallState extends State<Bankquethall> {
                                           )
                                         ],
                                       ),
-                                      Consumer<FunctionProvider>(
-                                        builder: (context, heper, child) {
-                                          return StreamBuilder(
-                                            stream: helper
-                                                .getReviewuser(list[index].id),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return CircularProgressIndicator();
-                                              }
+                                      ElevatedButton(onPressed: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewRevies(documentId:'${list[index].id}' ,),));;
+                                      }, child: Text('View Revies'))
+                                      // Consumer<FunctionProvider>(
+                                      //   builder: (context, heper, child) {
+                                      //     return StreamBuilder(
+                                      //       stream: helper
+                                      //           .getReviewuser(list[index].id),
+                                      //       builder: (context, snapshot) {
+                                      //         if (snapshot.connectionState ==
+                                      //             ConnectionState.waiting) {
+                                      //           return CircularProgressIndicator();
+                                      //         }
 
-                                              if (!snapshot.hasData ||
-                                                  snapshot.data!.docs.isEmpty) {
-                                                return Center(
-                                                    child: Text(
-                                                        'No reviews available'));
-                                              }
+                                      //         if (!snapshot.hasData ||
+                                      //             snapshot.data!.docs.isEmpty) {
+                                      //           return Center(
+                                      //               child: Text(
+                                      //                   'No reviews available'));
+                                      //         }
 
-                                              List<FeedbackReview> reviewlist =
-                                                  [];
+                                      //         List<FeedbackReview> reviewlist =
+                                      //             [];
 
-                                              reviewlist =
-                                                  snapshot.data!.docs.map((e) {
-                                                return FeedbackReview.fromjsone(
-                                                    e.data() as Map<String,
-                                                        dynamic>);
-                                              }).toList();
+                                      //         reviewlist =
+                                      //             snapshot.data!.docs.map((e) {
+                                      //           return FeedbackReview.fromjsone(
+                                      //               e.data() as Map<String,
+                                      //                   dynamic>);
+                                      //         }).toList();
 
-                                              final uid =
-                                                  reviewlist[index].useruid;
+                                      //         final uid =
+                                      //             reviewlist[index].useruid;
 
-                                              Stream userdet = db
-                                                  .collection('firebase')
-                                                  .doc(uid)
-                                                  .snapshots();
+                                      //         Stream userdet = db
+                                      //             .collection('firebase')
+                                      //             .doc(uid)
+                                      //             .snapshots();
 
-                                              return reviewlist.isEmpty
-                                                  ? Center(
-                                                      child: Text(''),
-                                                    )
-                                                  : ListView.separated(
-                                                      shrinkWrap: true,
-                                                      physics:
-                                                          BouncingScrollPhysics(),
-                                                      itemCount:
-                                                          reviewlist.length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                            horizontal: Helper.W(
-                                                                    context) *
-                                                                .030,
-                                                          ),
-                                                          child: Column(
-                                                            children: [
-                                                              Text(reviewlist[
-                                                                      index]
-                                                                  .feedback),
-                                                              StreamBuilder(
-                                                                stream: userdet,
-                                                                builder: (context,
-                                                                    snapshot) {
-                                                                  if (snapshot
-                                                                          .connectionState ==
-                                                                      ConnectionState
-                                                                          .waiting) {
-                                                                    return CircularProgressIndicator();
-                                                                  }
-                                                                  return Text(
-                                                                      'USERNAME : ${snapshot.data['User_Name']}');
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        );
-                                                      },
-                                                      separatorBuilder:
-                                                          (context, index) {
-                                                        return SizedBox(
-                                                          height: Helper.W(
-                                                                  context) *
-                                                              .030,
-                                                        );
-                                                      },
-                                                    );
-                                            },
-                                          );
-                                        },
-                                      )
+                                      //         return reviewlist.isEmpty
+                                      //             ? Center(
+                                      //                 child: Text(''),
+                                      //               )
+                                      //             : ListView.separated(
+                                      //                 shrinkWrap: true,
+                                      //                 physics:
+                                      //                     BouncingScrollPhysics(),
+                                      //                 itemCount:
+                                      //                     reviewlist.length,
+                                      //                 itemBuilder:
+                                      //                     (context, index) {
+                                      //                   return Padding(
+                                      //                     padding: EdgeInsets
+                                      //                         .symmetric(
+                                      //                       horizontal: Helper.W(
+                                      //                               context) *
+                                      //                           .030,
+                                      //                     ),
+                                      //                     child: Column(
+                                      //                       children: [
+                                      //                         Text(reviewlist[
+                                      //                                 index]
+                                      //                             .feedback),
+                                      //                         StreamBuilder(
+                                      //                           stream: userdet,
+                                      //                           builder: (context,
+                                      //                               snapshot) {
+                                      //                             if (snapshot
+                                      //                                     .connectionState ==
+                                      //                                 ConnectionState
+                                      //                                     .waiting) {
+                                      //                               return CircularProgressIndicator();
+                                      //                             }
+                                      //                             return Text(
+                                      //                                 'USERNAME : ${snapshot.data['User_Name']}');
+                                      //                           },
+                                      //                         ),
+                                      //                       ],
+                                      //                     ),
+                                      //                   );
+                                      //                 },
+                                      //                 separatorBuilder:
+                                      //                     (context, index) {
+                                      //                   return SizedBox(
+                                      //                     height: Helper.W(
+                                      //                             context) *
+                                      //                         .030,
+                                      //                   );
+                                      //                 },
+                                      //               );
+                                      //       },
+                                      //     );
+                                      //   },
+                                      // )
                                     ],
                                   ),
                                 );
                               },
                               separatorBuilder: (context, index) {
                                 return SizedBox(
-                                  height: Helper.h(context) * .20,
+                                  height:10,
                                 );
                               },
                             );

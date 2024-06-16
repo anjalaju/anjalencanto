@@ -115,6 +115,18 @@ class FunctionProvider with ChangeNotifier {
      return db.collection('AddEvent').doc(docid).collection('FeedbackReview').snapshots();
    }
 
+ Future<void> deleteReview(String docid, String reviewId) async {
+    try {
+      await db
+          .collection('AddEvent')
+          .doc(docid)
+          .collection('FeedbackReview')
+          .doc(reviewId)
+          .delete();
+    } catch (e) {
+      print("Error deleting review: $e");
+    }
+  }
 
   //------------------------ update------------------------
 
