@@ -84,8 +84,7 @@
 // //                                       // height: Helper.h(context) * .050,
 // //                                       child: Column(
 // //                                         children: [
-                                          
-                                          
+
 // //                                           ListTile(
 // //                                             leading:Text(list[index].notificationtitile),
 // //                                             subtitle:Text(list[index].notificationSubtitile),
@@ -187,10 +186,28 @@ class _notificationpageState extends State<notificationpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   backgroundColor: const Color(0xffE72245),
+      //   title: const Text('NOTIFICATIONS'),
+      // ),
+
       appBar: AppBar(
-        backgroundColor: const Color(0xffE72245),
-        title: const Text('NOTIFICATIONS'),
+        automaticallyImplyLeading: false,
+        title: const Text(
+          'Notifications',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+        ),
+        backgroundColor: Colors.transparent,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 1,
+          ),
+        ),
       ),
+
       body: StreamBuilder<QuerySnapshot>(
         stream: _dataStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -216,61 +233,57 @@ class _notificationpageState extends State<notificationpage> {
                   return Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                    child: ListTile(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.indigo,
                       title: Text(
-                        "NOTIFICATION TITLE  :${data['Notificationtitle']}",
+                        "Title: ${data['Notificationtitle']}",
                         style: const TextStyle(color: Colors.white),
                       ),
-                      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "NOTIFICATION SUBTITLE :${data['Notificationsubtitle']}",
+                            "Subtitle: ${data['Notificationsubtitle']}",
                             style: const TextStyle(color: Colors.white),
                           ),
-                            Row(
-                                                  children: [
-                                                    const Icon(
-                                                        Icons.calendar_today,
-                                                        size: 18,
-                                                        color: Colors.red),
-                                                    const SizedBox(
-                                                        width:
-                                                            4), // Add spacing between icon and text
-                                                    Text(
-                                                      'Date: ${DateFormat('yyyy-MM-dd').format(data['timestamp'].toDate())}',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                    height:
-                                                        4), // Add spacing between date and time
-                                                Row(
-                                                  children: [
-                                                    const Icon(
-                                                        Icons.access_time,
-                                                        size: 18,
-                                                        color: Colors.red),
-                                                    const SizedBox(
-                                                        width:
-                                                            4), // Add spacing between icon and text
-                                                    Text(
-                                                      'Time: ${DateFormat('HH:mm').format(data['timestamp'].toDate())}',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                           
+                          Row(
+                            children: [
+                              const Icon(Icons.calendar_today,
+                                  size: 18, color: Colors.red),
+                              const SizedBox(
+                                  width:
+                                      4), // Add spacing between icon and text
+                              Text(
+                                'Date: ${DateFormat('yyyy-MM-dd').format(data['timestamp'].toDate())}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                              height: 4), // Add spacing between date and time
+                          Row(
+                            children: [
+                              const Icon(Icons.access_time,
+                                  size: 18, color: Colors.red),
+                              const SizedBox(
+                                  width:
+                                      4), // Add spacing between icon and text
+                              Text(
+                                'Time: ${DateFormat('HH:mm').format(data['timestamp'].toDate())}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                     
                     ),
                   );
                 },
@@ -282,5 +295,4 @@ class _notificationpageState extends State<notificationpage> {
       ),
     );
   }
-
 }

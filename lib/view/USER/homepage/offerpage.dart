@@ -15,7 +15,7 @@ class _offerpageState extends State<offerpage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text(
-          'Offer',
+          'Offers',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
         backgroundColor: Colors.transparent,

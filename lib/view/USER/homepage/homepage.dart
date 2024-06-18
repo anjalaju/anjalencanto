@@ -13,7 +13,7 @@ import 'package:main_project/view/USER/Drawer/about.dart';
 import 'package:main_project/view/USER/Drawer/complaint.dart';
 import 'package:main_project/view/USER/events/eventpage.dart';
 import 'package:main_project/view/USER/Drawer/shotlist.dart';
-import 'package:main_project/view/USER/homepage/EDIT/bookingevent.dart';
+import 'package:main_project/view/USER/booking/bookingevent.dart';
 import 'package:main_project/usertype.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
