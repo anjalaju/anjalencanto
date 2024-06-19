@@ -1,3 +1,4 @@
+ 
 class Donatemodel {
   String name;
   String age;
@@ -8,6 +9,7 @@ class Donatemodel {
   String numberofitem;
   String? id;
   String selected;
+  String uid;
 
   Donatemodel({
     required this.name,
@@ -19,6 +21,7 @@ class Donatemodel {
     required this.numberofitem,
     this.id,
     required this.selected,
+    required this.uid,
   });
 
   Map<String, dynamic> tojasone(idd) => {
@@ -31,6 +34,7 @@ class Donatemodel {
         'NumberOfitems': numberofitem,
         'id': idd,
         'Selected':selected,
+        'uid':uid,
       };
 
   factory Donatemodel.fromjsone(Map<String, dynamic> jsone) {
@@ -44,6 +48,7 @@ class Donatemodel {
       numberofitem: jsone['NumberOfitems'],
       id: jsone['id'],
       selected: jsone['Selected'],
+      uid: jsone['uid'],
     );
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:main_project/utils/String.dart';
+import 'package:main_project/view/USER/formscreen/loginpage.dart';
 import 'package:main_project/view/admin/Entrepreneur_details.dart';
 import 'package:main_project/view/admin/Notification_page.dart';
 import 'package:main_project/view/admin/User_details.dart';
 import 'package:main_project/view/admin/charity.dart';
 import 'package:main_project/view/admin/complaint.dart';
 import 'package:main_project/view/admin/eventsviw_admin.dart';
+import 'package:main_project/view/admin/login.dart';
 import 'package:main_project/view/admin/reviewview.dart';
 
 class Drawerpage extends StatelessWidget {
@@ -320,11 +323,18 @@ class Drawerpage extends StatelessWidget {
                                   ))),
                           ElevatedButton(
                               onPressed: () {
-                                // Navigator.of(context)
-                                //     .push(MaterialPageRoute(
-                                //   builder: (context) =>
-                                //       const Login(),
-                                // ));
+                                auth.signOut().then(
+                                  (value) {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AdminLogin(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                            SuccesToast(context, 'Logout Succes');
+                                  },
+                                );
                               },
                               child: const Text(
                                 "Yes",

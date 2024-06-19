@@ -186,6 +186,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
         //     );
         //   },
         // );
+
         showModalBottomSheet<void>(
       context: context,
       isScrollControlled:
@@ -253,21 +254,23 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                     SizedBox(
                       // width: Helper.W(context) * .50,
                       child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller: editname,
-                        decoration:
-                             InputDecoration(
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
-    borderSide: const BorderSide(), // Default border side
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
-    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
-  ),
-)
-
-                      ),
+                          textInputAction: TextInputAction.next,
+                          controller: editname,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: Helper.h(context) * .020,
@@ -284,20 +287,23 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                     SizedBox(
                       // width: Helper.W(context) * .50,
                       child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller: price,
-                        decoration:
-InputDecoration(
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
-    borderSide: const BorderSide(), // Default border side
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
-    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
-  ),
-)
-                      ),
+                          textInputAction: TextInputAction.next,
+                          controller: price,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: Helper.h(context) * .020,
@@ -314,20 +320,23 @@ InputDecoration(
                     SizedBox(
                       // width: Helper.W(context) * .50,
                       child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller: editplace,
-                        decoration:
-InputDecoration(
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
-    borderSide: const BorderSide(), // Default border side
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
-    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
-  ),
-)
-                      ),
+                          textInputAction: TextInputAction.next,
+                          controller: editplace,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: Helper.h(context) * .020,
@@ -344,21 +353,23 @@ InputDecoration(
                     SizedBox(
                       // width: Helper.W(context) * .50,
                       child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller: discription,
-                        decoration:
-                             InputDecoration(
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for normal state
-    borderSide: const BorderSide(), // Default border side
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0), // Border radius for focused state
-    borderSide: const BorderSide(color: Colors.green,width: 2), // Default focused border side
-  ),
-)
-
-                      ),
+                          textInputAction: TextInputAction.next,
+                          controller: discription,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
                     ),
                     SizedBox(
                       height: Helper.h(context) * .020,
@@ -368,7 +379,7 @@ InputDecoration(
                         return GestureDetector(
                           onTap: () async {
                             Navigator.pop(context);
-                            if (producturl != null) {
+                            // if (producturl != null) {
                               await instance
                                   .updateevent(
                                 eventModel.id,
@@ -383,11 +394,11 @@ InputDecoration(
                                 SuccesToast(context, 'Update success');
                                 setState(() {});
                               });
-                            } else {
+                            // } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Please wait')),
                               );
-                            }
+                            // }
                             SuccesToast(context, 'Update success');
                           },
                           child: Container(
@@ -401,7 +412,8 @@ InputDecoration(
                             ),
                             child: const Text(
                               'Update',
-                              style: TextStyle(color: Colors.white,fontSize: 20),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
                             ),
                           ),
                         );
@@ -513,7 +525,7 @@ InputDecoration(
                 if (snapshot.hasData) {
                   return list.isEmpty
                       ? const Center(
-                          child: Text('no data'),
+                          child: Text('No data'),
                         )
                       : SingleChildScrollView(
                           child: Column(
@@ -735,7 +747,8 @@ InputDecoration(
               },
             );
           },
-        ));
+        )
+        );
   }
 
   void _makePhoneCall(String phoneNumber) async {

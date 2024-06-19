@@ -62,7 +62,7 @@ class _ShortlistState extends State<Shortlist> {
                     stream: helper.getpostlike(auth.currentUser!.uid),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                       List<Likepostmodel> list = [];
 
@@ -72,8 +72,8 @@ class _ShortlistState extends State<Shortlist> {
                       }).toList();
 
                       return list.isEmpty
-                          ? Center(
-                              child: Text('NO FAVORITE'),
+                          ? const Center(
+                              child: const Text('No favorite'),
                             )
                           : GridView.builder(
                               padding: EdgeInsets.symmetric(
@@ -82,7 +82,7 @@ class _ShortlistState extends State<Shortlist> {
                               shrinkWrap: true,
                               itemCount: list.length,
                               gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
@@ -100,7 +100,7 @@ class _ShortlistState extends State<Shortlist> {
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     }
                                     var eventData = snapshot.data!.data()
                                         as Map<String, dynamic>;
@@ -132,7 +132,6 @@ class _ShortlistState extends State<Shortlist> {
                                               )),
                                             ),
                                             Text(eventModel.eventName),
-                                             
                                             GestureDetector(
                                               onTap: () {
                                                 Navigator.push(
@@ -152,7 +151,8 @@ class _ShortlistState extends State<Shortlist> {
                                                 decoration: BoxDecoration(
                                                   border: Border.all(),
                                                 ),
-                                                child: Text('VIEW DETAILS'),
+                                                child:
+                                                    const Text('VIEW DETAILS'),
                                               ),
                                             )
                                           ],

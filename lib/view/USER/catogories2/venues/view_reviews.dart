@@ -42,10 +42,22 @@ class ViewRevies extends StatelessWidget {
                   final review = reviewList[index];
                   final uid = review.useruid;
 
-                  return ReviewItem(
-                    review: review,
-                    uid: uid,
-                    docid: documentId,
+                  return Column(
+                    children: [
+                      ReviewItem(
+                        review: review,
+                        uid: uid,
+                        docid: documentId,
+                        count: review.feedbackcount,
+                      ),
+                      // Row(
+                      //     children: List.generate(
+                      //       int.parse(reviewList[index].feedbackcount),
+                      //       (i) => Icon(Icons.star, color: Colors.amber, size: 16),
+                      //     ),
+                      // )
+                      Text(review.feedbackcount)
+                    ],
                   );
                 },
                 separatorBuilder: (context, index) =>
@@ -63,8 +75,9 @@ class ReviewItem extends StatelessWidget {
   final FeedbackReview review;
   final String uid;
   final String docid;
+  final String count;
 
-  ReviewItem({required this.review, required this.uid, required this.docid});
+  ReviewItem({required this.review, required this.uid, required this.docid,required this.count});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +86,7 @@ class ReviewItem extends StatelessWidget {
     String id = _auth.currentUser!.uid;
     final db = FirebaseFirestore.instance;
     print('======${docid}');
-     DateTime reviewDateTime = review.timestamp.toDate();
+    DateTime reviewDateTime = review.timestamp.toDate();
 
     // Format date (e.g., Jan 1, 2023)
     String formattedDate = DateFormat('MMM d, yyyy').format(reviewDateTime);
@@ -95,7 +108,6 @@ class ReviewItem extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 16.0, fontWeight: FontWeight.w600),
                 ),
-                
                 const SizedBox(height: 8.0),
                 StreamBuilder<DocumentSnapshot>(
                   stream: db.collection('firebase').doc(uid).snapshots(),
@@ -109,6 +121,9 @@ class ReviewItem extends StatelessWidget {
                     }
 
                     final userName = snapshot.data!['User_Name'] ?? 'Unknown';
+
+                     final count =review.feedbackcount;
+
                     return Text(
                       'USERNAME: $userName',
                       style:
@@ -118,6 +133,17 @@ class ReviewItem extends StatelessWidget {
                 ),
                 Text(formattedTime),
                 Text(formattedDate),
+                // Text(review.feedbackcount),
+               
+                viewFeedback(count),
+                // Row(
+                //           children: List.generate(
+                //             reviews[index].rating,
+                //             (i) => Icon(Icons.star, color: Colors.amber, size: 16),
+                //           ),
+                // )
+                
+                
               ],
             ),
             Visibility(
@@ -148,3 +174,60 @@ class ReviewItem extends StatelessWidget {
     );
   }
 }
+
+Widget viewFeedback(String count) {
+  int starCount = int.tryParse(count) ?? 0;
+  
+  // Ensure starCount is within the valid range of 0 to 5
+  starCount = starCount.clamp(0, 5);
+  
+  return Row(
+    children: List.generate(starCount, (index) => Icon(Icons.star)),
+  );
+}
+
+
+//    viewfeedback(String count) {
+//   switch (count) {
+//     case '1':
+//       return Row(
+//         children: [
+//           Icon(Icons.star),
+//         ],
+//       );
+//     case '2':
+//       return Row(
+//         children: [
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//         ],
+//       );
+//     case '3':
+//       return Row(
+//         children: [
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//         ],
+//       );
+//     case '4':
+//       return Row(
+//         children: [
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//         ],
+//       );
+//     case '5':
+//       return Row(
+//         children: [
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//           Icon(Icons.star),
+//         ],
+//       );
+//   }
+// }

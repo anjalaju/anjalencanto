@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
+import 'package:main_project/model/addProject.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
 
 class Searchpage extends StatefulWidget {
@@ -12,6 +14,18 @@ class Searchpage extends StatefulWidget {
 }
 
 class _SearchpageState extends State<Searchpage> {
+ 
+
+  @override
+  void initState() {
+    super.initState(); 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<FunctionProvider>(context, listen: false).clearSearchEvent();
+    });
+  }
+   
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,26 +71,127 @@ class _SearchpageState extends State<Searchpage> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              const SizedBox(
-                height: 80,
+              SizedBox(
+                height: Helper.h(context) * .010,
               ),
-              Consumer<FunctionProvider>(builder: (context, helper, child) {
-                return TextField(
-                decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    hintText: ("Search by location"),
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: const Icon(Icons.location_on)),
+              Consumer<FunctionProvider>(
+                builder: (context, helper, child) {
+                  return TextFormField(
+                    decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        hintText: ("Search by location"),
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: const Icon(Icons.location_on)),
                     onChanged: (value) {
-                     helper.searchevent();
-                    log('${ helper.eventfull.length}');
+                      helper.searcheven(value);
+                       setState(() {
+                        
+                       });
+                       
                     },
-              );
-              },)
+
+                    
+                  );
+                },
+              ),
+              SizedBox(
+                height: Helper.h(context) * .10,
+              ),
+              Consumer<FunctionProvider>(
+                builder: (context, helper, child) {
+                  return FutureBuilder(
+                    future: helper.getAlleventsearch(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+
+                     
+
+                      final list = helper.searchevent.isEmpty
+                          ? helper.eventsearc
+                          : helper.searchevent;
+
+                          list.shuffle();
+
+                      return list.isEmpty
+                          ? Center(
+                              child: Text('Empty'),
+                            )
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: list.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  width: 120,
+                                  // height: Helper.h(context) * .20,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(
+                                        Helper.W(context) * .050),
+                                    color: Colors.grey.shade100,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: Helper.W(context) * .050,
+                                      vertical: Helper.W(context) * .050,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    'EVENT NAME  :${list[index].eventName}'),
+                                                Text(
+                                                    'EVENT LOCATION :${list[index].eventPlace}'),
+                                                Text(
+                                                  'EVENT CATEGORY :${list[index].eventmainCategory}',
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          Helper.W(context) *
+                                                              .025),
+                                                ),
+                                                Text(
+                                                    'EVENT DISCR :${list[index].discription}'),
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            Container(
+                                              width: Helper.W(context) * .25,
+                                              height: Helper.h(context) * .140,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                    list[index].Image,
+                                                  ))),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: Helper.h(context) * .030,
+                                );
+                              },
+                            );
+                    },
+                  );
+                },
+              )
             ],
           ),
         ),

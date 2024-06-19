@@ -288,6 +288,7 @@ class _LogaState extends State<EntreDonateaccessories> {
                                       place: placeame.text,
                                       numberofitem: numberofitem.text,
                                       selected: selectedvalue,
+                                        uid: auth.currentUser!.uid,
                                     ),
                                   )
                                   .then(

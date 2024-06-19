@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/view/USER/homepage/account.dart';
 import 'package:main_project/view/USER/homepage/homepage.dart';
 import 'package:main_project/view/USER/homepage/notificationpage.dart';
 import 'package:main_project/view/USER/homepage/offerpage.dart';
 import 'package:main_project/view/USER/homepage/searchpage.dart';
+import 'package:provider/provider.dart';
 
 class bottomnavipage extends StatefulWidget {
   int indexnum = 0;
@@ -15,10 +18,14 @@ class bottomnavipage extends StatefulWidget {
 }
 
 class _bottomnavipageState extends State<bottomnavipage> {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+   
+
   final _pages = [
     const homepage(),
     const Searchpage(),
-     notificationpage(),
+    notificationpage(),
     const offerpage(),
     const Accountpage(),
   ];
@@ -50,24 +57,25 @@ Widget myNav({
     unselectedItemColor: Colors.black,
     showSelectedLabels: true,
     onTap: onTap,
-    items: const [
-      BottomNavigationBarItem(
+    items:  [
+     const BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
           backgroundColor: Color(0xffB7B7B7)),
-      BottomNavigationBarItem(
+     const BottomNavigationBarItem(
           icon: Icon(Icons.search),
           label: 'Search',
           backgroundColor: Color(0xffB7B7B7)),
-      BottomNavigationBarItem(
-          icon: Icon(Icons.notifications_active),
-          label: 'Notification',
-          backgroundColor: Color(0xffB7B7B7)),
-      BottomNavigationBarItem(
+       BottomNavigationBarItem(
+        icon: Icon(Icons.notifications_active),
+        label: 'Notification',
+        backgroundColor: Color(0xffB7B7B7),
+      ),
+    const  BottomNavigationBarItem(
           icon: Icon(Icons.card_giftcard),
           label: 'Offers',
           backgroundColor: Color(0xffB7B7B7)),
-      BottomNavigationBarItem(
+    const  BottomNavigationBarItem(
           icon: Icon(Icons.account_box),
           label: 'Account',
           backgroundColor: Color(0xffB7B7B7)),

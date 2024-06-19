@@ -55,7 +55,7 @@ class EventViewAdmin extends StatelessWidget {
 
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: GridView.builder(
+                  child: list.isEmpty ? Center(child: Text('NO EVENT FOIUND !!!'),):GridView.builder(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     itemCount: list.length,
@@ -159,6 +159,11 @@ class EventViewAdmin extends StatelessWidget {
                                   ),
                                   Text(
                                     ' Price: ${list[index].startingPriceFrom}',
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 13),
+                                  ),
+                                  Text(
+                                    ' UID: ${list[index].uid}',
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 13),
                                   ),

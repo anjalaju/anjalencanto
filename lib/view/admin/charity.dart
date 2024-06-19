@@ -62,98 +62,105 @@ class CharityAdmin extends StatelessWidget {
                     itemCount: list.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 5,
-                      crossAxisSpacing: Helper.W(context) * .030,
-                      mainAxisSpacing: Helper.W(context) * .030,
+                      crossAxisSpacing: Helper.W(context) * .010,
+                      mainAxisSpacing: Helper.W(context) * .010,
                     ),
                     itemBuilder: (context, index) {
-                      return Stack(
-                        children: [
-                          Material(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            elevation: 4,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Color(0xff850F8D),
-                                  borderRadius: BorderRadius.circular(20)),
-                              width: Helper.W(context) * .50,
-                              // height: Helper.h(context) * .110,
-
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      return Material(
+                        
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        elevation: 4,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xff850F8D),
+                              borderRadius: BorderRadius.circular(20)),
+                          width: Helper.W(context) * .50,
+                          height:600,
+                      
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: Helper.h(context) * .010,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  SizedBox(
-                                    height: Helper.h(context) * .020,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      InkWell(
-                                          onTap: () {
-                                            db
-                                                .collection('Donatescreen')
-                                                .doc(list[index].id)
-                                                .delete();
-                                          },
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 5),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12)),
-                                              height: 35,
-                                              width: 35,
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          )),
-                                    ],
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      width: Helper.W(context) * .050,
-                                      height: Helper.h(context) * .125,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(list[index].image),
+                                  InkWell(
+                                      onTap: () {
+                                        db
+                                            .collection('Donatescreen')
+                                            .doc(list[index].id)
+                                            .delete();
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      12)),
+                                          height: 35,
+                                          width: 35,
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Helper.h(context) * .010,
-                                  ),
-                                  Text(
-                                    ' Item Name: ${list[index].itemname}',
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  Text(' Donated by: ${list[index].name}',
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  Text(
-                                      ' No of Items: ${list[index].numberofitem}',
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  Text(' Place: ${list[index].place}',
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  Text(
-                                      ' Category: ${list[index].selected}',
-                                      style:
-                                          const TextStyle(color: Colors.white)),
-                                  SizedBox(
-                                    height: Helper.h(context) * .010,
-                                  ),
                                 ],
                               ),
-                            ),
+                              Center(
+                                child: Container(
+                                  width: Helper.W(context) * .050,
+                                  height: Helper.h(context) * .125,
+                                  decoration: BoxDecoration(
+                                    
+                                      image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(list[index].image),
+                                  )),
+                                ),
+                              ),
+                              SizedBox(
+                                height: Helper.h(context) * .010,
+                              ),
+                              Text(
+                                ' Item Name: ${list[index].itemname}',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              Text(' Donated by: ${list[index].name}',
+                                  style:
+                                      const TextStyle(color: Colors.white)),
+                              Text(
+                                  ' No of Items: ${list[index].numberofitem}',
+                                  style:
+                                      const TextStyle(color: Colors.white)),
+                              Text(' Place: ${list[index].place}',
+                                  style:
+                                      const TextStyle(color: Colors.white)),
+                              Text(
+                                  ' Category: ${list[index].selected}',
+                                  style:
+                                      const TextStyle(color: Colors.white)),
+                                       Text(
+                                  ' Category: ${list[index].selected}',
+                                  style:
+                                      const TextStyle(color: Colors.white)),
+                                       Text(
+                                  ' UID: ${list[index].uid}',
+                                  style:
+                                      const TextStyle(color: Colors.white)),
+                                      
+                              SizedBox(
+                                height: Helper.h(context) * .010,
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       );
                     },
                   ),

@@ -277,6 +277,7 @@ class _LogaState extends State<Donatedress> {
                                       place: placeame.text,
                                       numberofitem: numberofitem.text,
                                        selected:selectedvalue,
+                                         uid: auth.currentUser!.uid,
                                     ),
                                   )
                                   .then(

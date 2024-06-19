@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/admin/drawer.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -9,13 +10,14 @@ class AdminLogin extends StatefulWidget {
 }
 
 class _AdminLoginState extends State<AdminLogin> {
+
+    final adminuid ='jbJgXdZbm7X5HSt7aHfQ6fFNQmh1';
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _obscureText = true;
   final _formkey = GlobalKey<FormState>();
   bool isloading = false;
-  final String adminEmail = "anjaladmin@gmail.com";
-  final String adminPassword = "anjaladmin123";
+ 
 
   Future<void> login() async {
     try {
@@ -23,24 +25,16 @@ class _AdminLoginState extends State<AdminLogin> {
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
 
-      if (userCredential.user != null &&
-          emailController.text == adminEmail &&
-          passwordController.text == adminPassword) {
+      if (userCredential.user!.uid == adminuid) {
         // Store login attempt in Firestore
-        await FirebaseFirestore.instance
-            .collection('admin')
-            .doc('adminDoc')
-            .set({
-          'email': emailController.text,
-          'userId': 'adminDoc',
-          'loginTime': FieldValue.serverTimestamp(),
-        });
+        
 
         // Navigate to the admin dashboard
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Drawerpage()),
         );
+        SuccesToast(context, 'Loggin Succes');
       } else {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -49,11 +43,11 @@ class _AdminLoginState extends State<AdminLogin> {
       }
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to sign in: ${e.message}'),
+        content: Text('Failed to sign in:'),
       ));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error: ${e.toString()}'),
+        content: Text('Error: '),
       ));
     }
   }
@@ -61,7 +55,7 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:const Color(0xff219C90),
+      backgroundColor: const Color(0xff219C90),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -181,7 +175,8 @@ class _AdminLoginState extends State<AdminLogin> {
                           onPressed: login,
                           child: const Text(
                             "Login",
-                            style: TextStyle(fontSize: 18,
+                            style: TextStyle(
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           )),

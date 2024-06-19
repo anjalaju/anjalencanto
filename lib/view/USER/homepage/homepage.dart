@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/view/USER/Charity/Homepage.dart';
 import 'package:main_project/view/USER/Drawer/Revieww.dart';
 import 'package:main_project/view/USER/Drawer/Settings.dart';
@@ -15,6 +16,7 @@ import 'package:main_project/view/USER/events/eventpage.dart';
 import 'package:main_project/view/USER/Drawer/shotlist.dart';
 import 'package:main_project/view/USER/booking/bookingevent.dart';
 import 'package:main_project/usertype.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class homepage extends StatefulWidget {
@@ -30,6 +32,8 @@ class _homepageState extends State<homepage> {
 
   @override
   Widget build(BuildContext context) {
+    final prod = Provider.of<FunctionProvider>(context, listen: false);
+
     String id = _auth.currentUser!.uid;
     print("${_auth.currentUser!.uid}..........");
     return WillPopScope(
@@ -468,6 +472,19 @@ class _homepageState extends State<homepage> {
                       ));
                 },
                 icon: const Icon(Icons.event_note)),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: FutureBuilder(
+                future: prod.getNotificationall(),
+                 builder: (context, snapshot) {
+                  final data = prod.allnoti;
+                return Badge(
+                isLabelVisible: data.isNotEmpty,
+                label: Text(data.length.toString()),
+                child: Icon(Icons.notification_important_outlined),
+              );
+              },),
+            ),
           ],
         ),
         body: SingleChildScrollView(

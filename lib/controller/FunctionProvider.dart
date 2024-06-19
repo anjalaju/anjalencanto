@@ -103,7 +103,43 @@ class FunctionProvider with ChangeNotifier {
 
    Stream<QuerySnapshot>  getAllEvent(){
     return db.collection('AddEvent').snapshots();
+    
    }
+  
+   List<EventModel> eventsearc=[];
+    Future  getAlleventsearch()async{
+
+      final snapshot =await db.collection('AddEvent').get();
+
+      eventsearc =  snapshot.docs.map((e){
+        return   EventModel.fromJsone(e.data());
+        }).toList();
+// notifyListeners();
+    }
+  
+
+
+    
+    List<EventModel> searchevent=[];
+
+    searcheven(String searchkey){
+      searchevent = List.from(eventsearc);
+      searchevent = eventsearc.where((element)=> 
+           element.eventPlace.toLowerCase().contains(searchkey.toLowerCase())
+      ).toList();
+      notifyListeners();
+    }
+
+
+
+    void clearSearchEvent() {
+    searchevent.clear();
+    notifyListeners();
+  }
+
+
+
+ 
 
 
    Stream<QuerySnapshot> getallcharity(){
@@ -211,6 +247,9 @@ class FunctionProvider with ChangeNotifier {
     });
      
   }
+
+
+  
 
   File? selectedimage;
   String? url;
@@ -357,7 +396,7 @@ List<EventModel> list = [];
            
     
     List<EventModel> eventfull=[];
-    Future  searchevent()async{
+    Future  searcheventt()async{
       
      final snapshot=await  db.collection('AddEvent').get();
 
