@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/model/likepostmodel.dart';
@@ -72,97 +73,136 @@ class _ShortlistState extends State<Shortlist> {
                       }).toList();
 
                       return list.isEmpty
-                          ? const Center(
-                              child: const Text('No favorite'),
-                            )
-                          : GridView.builder(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: Helper.W(context) * .020,
-                              ),
-                              shrinkWrap: true,
-                              itemCount: list.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 20,
-                              ),
-                              itemBuilder: (context, index) {
-                                final post = list[index].postid;
-
-                                Stream<DocumentSnapshot> poststrem = db
-                                    .collection('AddEvent')
-                                    .doc(post)
-                                    .snapshots();
-
-                                return StreamBuilder(
-                                  stream: poststrem,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const CircularProgressIndicator();
-                                    }
-                                    var eventData = snapshot.data!.data()
-                                        as Map<String, dynamic>;
-                                    EventModel eventModel =
-                                        EventModel.fromJsone(eventData);
-
-                                    // EventModel eventModel = EventModel.fromJsone(poststrem)
-
-                                    return GestureDetector(
-                                      onTap: () {},
-                                      child: Container(
-                                        width: Helper.W(context) * .050,
-                                        height: Helper.W(context) * .020,
-                                        // color: Colors.red,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              width: Helper.W(context) * .250,
-                                              height: Helper.h(context) * .120,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(
-                                                  eventModel.Image,
-                                                ),
-                                              )),
-                                            ),
-                                            Text(eventModel.eventName),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Shortlistphotographer(
-                                                        eventModel: eventModel,
-                                                      ),
-                                                    ));
-                                              },
-                                              child: Container(
-                                                alignment: Alignment.center,
-                                                width: Helper.W(context) * .250,
-                                                height:
-                                                    Helper.W(context) * .050,
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(),
-                                                ),
-                                                child:
-                                                    const Text('VIEW DETAILS'),
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                          ? Container(
+                              height: MediaQuery.of(context).size.height / 1.3,
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    // child: const Text('No favorite'),
+                                    child: Container(
+                                      height: 100,
+                                      color: Colors.black,
+                                      child: Image.asset(
+                                        'images/nofavorite.webp',
+                                        fit: BoxFit.cover,
                                       ),
-                                    );
-                                  },
-                                );
-                              },
-                            );
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GridView.builder(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: Helper.W(context) * .020,
+                                ),
+                                shrinkWrap: true,
+                                itemCount: list.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 20,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final post = list[index].postid;
+                            
+                                  Stream<DocumentSnapshot> poststrem = db
+                                      .collection('AddEvent')
+                                      .doc(post)
+                                      .snapshots();
+                            
+                                  return StreamBuilder(
+                                    stream: poststrem,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const CircularProgressIndicator();
+                                      }
+                                      var eventData = snapshot.data!.data()
+                                          as Map<String, dynamic>;
+                                      EventModel eventModel =
+                                          EventModel.fromJsone(eventData);
+                            
+                                      // EventModel eventModel = EventModel.fromJsone(poststrem)
+                            
+                                      return GestureDetector(
+                                        onTap: () {},
+                                        child: Container(
+                                          width: Helper.W(context) * .050,
+                                          height: Helper.W(context) * .020,
+                                          // color: Colors.red,
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(width: 2,color: Colors.pink),color: Color.fromARGB(255, 183, 194, 203)
+                                          ),
+                                          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width: Helper.W(context) * .250,
+                                                height: Helper.h(context) * .120,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    eventModel.Image,
+                                                  ),
+                                                )),
+                                              ),
+                                              // Text(eventModel.eventName),
+                                              SizedBox(height: 3,),
+                                              Text(
+                                                   eventModel.eventName,
+                                                    style: GoogleFonts.lato(
+                                                     
+                                                      fontSize: 10,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),SizedBox(height: 8,),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Shortlistphotographer(
+                                                          eventModel: eventModel,
+                                                        ),
+                                                      ));
+                                                },
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  width: Helper.W(context) * .250,
+                                                  height:
+                                                      Helper.W(context) * .050,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(8),
+                                                    color: Colors.black,
+                                                    border: Border.all(),
+                                                  ),
+                                                  child: Text(
+                                                    'View Details',
+                                                    style: GoogleFonts.lato(
+                                                     
+                                                      fontSize: 9,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                          );
                     },
                   );
                 },

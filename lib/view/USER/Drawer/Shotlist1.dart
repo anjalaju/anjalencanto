@@ -75,31 +75,43 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                         // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.eventModel.discription),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(widget.eventModel.eventName),
-                             Consumer<FunctionProvider>(builder: (context, helper, child) {
-                               return  IconButton(
-                                  onPressed: ()async {
-                                   helper.deletePostLike(widget.eventModel.id.toString(),context);
-                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottomnavipage(indexnum: 0,),));
-
-                                  }, icon: Icon(Icons.delete));
-                             },)
+                              Consumer<FunctionProvider>(
+                                builder: (context, helper, child) {
+                                  return IconButton(
+                                      onPressed: () async {
+                                        helper.deletePostLike(
+                                            widget.eventModel.id.toString(),
+                                            context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  bottomnavipage(
+                                                indexnum: 0,
+                                              ),
+                                            ));
+                                      },
+                                      icon: const Icon(Icons.delete));
+                                },
+                              )
                             ],
                           ),
+                          Text(widget.eventModel.eventPlace),
+
+                          Text(widget.eventModel.discription),
+
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("photo+video"),
+                              const Icon(Icons.currency_rupee),
+                              Text(' ${widget.eventModel.startingPriceFrom}',style: const TextStyle(fontWeight:FontWeight.w900),),
                             ],
                           ),
-                          Text(widget.eventModel.startingPriceFrom),
-                          Text("per day"),
-                          Text(widget.eventModel.id.toString())
 
+                          // Text(widget.eventModel.id.toString())
                         ],
                       ),
                       const SizedBox(

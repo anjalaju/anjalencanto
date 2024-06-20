@@ -67,6 +67,8 @@ class _homepageState extends State<homepage> {
 
                       Center(
                         child: InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             _showImagePickerBottomSheet(context);
                           },
@@ -107,13 +109,55 @@ class _homepageState extends State<homepage> {
 
                                 String imageUrl = data.data()!['Image'];
 
-                                return CircleAvatar(
-                                  backgroundColor: Colors.black,
-                                  radius: 91,
-                                  child: CircleAvatar(
-                                    radius: 87,
-                                    backgroundImage: NetworkImage(imageUrl),
-                                  ),
+                                // return CircleAvatar(
+                                //   backgroundColor: Colors.black,
+                                //   radius: 91,
+                                //   child: CircleAvatar(
+                                //     radius: 87,
+                                //     backgroundImage: NetworkImage(imageUrl),
+                                //   ),
+                                // );
+
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      radius: 91,
+                                      child: CircleAvatar(
+                                        radius: 87,
+                                        backgroundImage: NetworkImage(imageUrl),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 5,
+                                      bottom: 15,
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          _showImagePickerBottomSheet(context);
+                                        },
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.black,
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons
+                                                  .camera_alt, // You can use any icon you like
+                                              size:
+                                                  24, // Adjust the size of the icon
+                                              color: Colors
+                                                  .white, // Adjust the color of the icon
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
                             ),
@@ -476,14 +520,15 @@ class _homepageState extends State<homepage> {
               padding: const EdgeInsets.only(right: 20),
               child: FutureBuilder(
                 future: prod.getNotificationall(),
-                 builder: (context, snapshot) {
+                builder: (context, snapshot) {
                   final data = prod.allnoti;
-                return Badge(
-                isLabelVisible: data.isNotEmpty,
-                label: Text(data.length.toString()),
-                child: Icon(Icons.notification_important_outlined),
-              );
-              },),
+                  return Badge(
+                    isLabelVisible: data.isNotEmpty,
+                    label: Text(data.length.toString()),
+                    child: const Icon(Icons.notification_important_outlined),
+                  );
+                },
+              ),
             ),
           ],
         ),

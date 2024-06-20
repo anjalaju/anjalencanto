@@ -288,7 +288,7 @@ class FunctionProvider with ChangeNotifier {
 
     if (snapshot.exists) {
       signleentr =
-          EnterprenurModel.fromjsone(snapshot.data() as Map<String, dynamic>);
+          EnterprenurModel.fromJsone(snapshot.data() as Map<String, dynamic>);
     }
   }
 

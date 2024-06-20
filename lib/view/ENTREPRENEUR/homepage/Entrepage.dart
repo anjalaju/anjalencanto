@@ -32,6 +32,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
           return Center(child: CircularProgressIndicator(),);
         }
         final endata=  helperprovdr.signleentr;
+        
         return Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -108,7 +109,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         height: 50,
                         child: ListTile(
                           title: Text(
-                            endata!.EnterprenurName,
+                            endata!.entrepreneurName,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
@@ -135,7 +136,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                       SizedBox(
                         height: 50,
                         child: ListTile(
-                          title: Text( endata.EnterprenurNumber),
+                          title: Text( endata.entrepreneurNumber),
                           textColor: Color.fromARGB(255, 0, 0, 0),
                           leading: Icon(Icons.call),
                           iconColor: Color.fromRGBO(0, 0, 0, 1),
@@ -159,7 +160,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         height: 50,
                         child: ListTile(
                           title: Text(
-                             endata.EnterprenurEmail,
+                             endata.entrepreneurEmail,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
@@ -192,7 +193,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                           //   style: TextStyle(
                           //       fontSize: 20, fontWeight: FontWeight.w500),
                           // ),
-                               title:endata.businesname!.isEmpty ?
+                               title:endata.businessName!.isEmpty ?
                                TextFormField(
                            
                             controller: bisname,
@@ -202,7 +203,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                               )
                             ),
                           )
-                           :   Text(endata.businesname.toString()),
+                           :   Text(endata.businessName.toString()),
                           textColor: Color.fromARGB(255, 0, 0, 0),
                           leading: Icon(Icons.apartment),
                           iconColor: Color.fromRGBO(0, 0, 0, 1),

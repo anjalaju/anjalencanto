@@ -56,15 +56,15 @@ class AuthProvider with ChangeNotifier {
           .then((value) async {
         await instance.addEnterprenur(
           EnterprenurModel(
-            EnterprenurName: functionprovider.entername.text,
-            EnterprenurNumber: functionprovider.enternumber.text,
-            EnterprenurEmail: functionprovider.enteremail.text,
-            EnterprenurPassword: functionprovider.enterpassword.text,
+            entrepreneurName: functionprovider.entername.text,
+            entrepreneurNumber: functionprovider.enternumber.text,
+            entrepreneurEmail: functionprovider.enteremail.text,
+            entrepreneurPassword: functionprovider.enterpassword.text,
             image: '',
-            businesname: '',
+            businessName: '',
             location: '',
             uid: value.user!.uid,
-            usertype: 'enterprenur',
+            userType: 'enterprenur',
           ),
           value.user!.uid
         );

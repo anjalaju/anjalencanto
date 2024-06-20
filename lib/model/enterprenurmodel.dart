@@ -1,59 +1,112 @@
  
 
 
-class EnterprenurModel {
-  String EnterprenurName;
-  String EnterprenurNumber;
-  String EnterprenurEmail;
-  String EnterprenurPassword;
-  String? id;
-  String? image;
-  String? businesname;
- String? location ;
- String uid;
- String usertype;
+// class EnterprenurModel {
+//   String EnterprenurName;
+//   String EnterprenurNumber;
+//   String EnterprenurEmail;
+//   String EnterprenurPassword;
+//   String? id;
+//   String? image;
+//   String? businesname;
+//  String? location ;
+//  String uid;
+//  String usertype;
   
 
+//   EnterprenurModel({
+//     required this.EnterprenurName,
+//     required this.EnterprenurNumber,
+//     required this.EnterprenurEmail,
+//     required this.EnterprenurPassword,
+//     this.id,
+//     required  this.image,
+//     this.businesname,
+//     this.location,
+//     required this.uid,
+//     required this.usertype,
+     
+//   });
+
+//   Map<String, dynamic> toJsone(idd) => {
+//         'EnterprenurName': EnterprenurName,
+//         'EnterprenurNumber': EnterprenurNumber,
+//         'EnterprenurEmail': EnterprenurEmail,
+//         'EnterprenurPassword': EnterprenurPassword,
+//         'id': idd,
+//         'profileimage':image,
+//         'businessname':businesname,
+//         'location':location,
+//        'uid':uid,
+//        'usertpe':usertype
+//       };
+
+//   factory EnterprenurModel.fromjsone(Map<String, dynamic> Json) {
+//     return EnterprenurModel(
+//       EnterprenurName: Json['EnterprenurName'],
+//       EnterprenurNumber: Json['EnterprenurNumber'],
+//       EnterprenurEmail: Json['EnterprenurEmail'],
+//       EnterprenurPassword: Json['EnterprenurPassword'],
+//       id: Json['idd'],
+//       image: Json['profileimage'],
+//        businesname: Json['businessname'],
+//       location: Json['location'],
+//       uid: Json['uid'],
+//      usertype: Json['usertype'],
+        
+//     );
+//   }
+// }
+class EnterprenurModel {
+  String entrepreneurName;
+  String entrepreneurNumber;
+  String entrepreneurEmail;
+  String entrepreneurPassword;
+  String? id;
+  String? image;
+  String? businessName;
+  String? location;
+  String uid;
+  String userType;
+
   EnterprenurModel({
-    required this.EnterprenurName,
-    required this.EnterprenurNumber,
-    required this.EnterprenurEmail,
-    required this.EnterprenurPassword,
+    required this.entrepreneurName,
+    required this.entrepreneurNumber,
+    required this.entrepreneurEmail,
+    required this.entrepreneurPassword,
     this.id,
-    required  this.image,
-    this.businesname,
+    this.image,
+    this.businessName,
     this.location,
     required this.uid,
-    required this.usertype,
-     
+    required this.userType,
   });
 
-  Map<String, dynamic> toJsone(idd) => {
-        'EnterprenurName': EnterprenurName,
-        'EnterprenurNumber': EnterprenurNumber,
-        'EnterprenurEmail': EnterprenurEmail,
-        'EnterprenurPassword': EnterprenurPassword,
+  Map<String, dynamic> toJsone(String idd) => {
+        'entrepreneurName': entrepreneurName,
+        'entrepreneurNumber': entrepreneurNumber,
+        'entrepreneurEmail': entrepreneurEmail,
+        'entrepreneurPassword': entrepreneurPassword,
         'id': idd,
-        'profileimage':image,
-        'businessname':businesname,
-        'location':location,
-       'uid':uid,
-       'usertpe':usertype
+        'profileImage': image,
+        'businessName': businessName,
+        'location': location,
+        'uid': uid,
+        'userType': userType,
       };
 
-  factory EnterprenurModel.fromjsone(Map<String, dynamic> Json) {
+  factory EnterprenurModel.fromJsone(Map<String, dynamic> json) {
     return EnterprenurModel(
-      EnterprenurName: Json['EnterprenurName'],
-      EnterprenurNumber: Json['EnterprenurNumber'],
-      EnterprenurEmail: Json['EnterprenurEmail'],
-      EnterprenurPassword: Json['EnterprenurPassword'],
-      id: Json['idd'],
-      image: Json['profileimage'],
-       businesname: Json['businessname'],
-      location: Json['location'],
-      uid: Json['uid'],
-     usertype: Json['usertype'],
-        
+      entrepreneurName: json['entrepreneurName'],
+      entrepreneurNumber: json['entrepreneurNumber'],
+      entrepreneurEmail: json['entrepreneurEmail'],
+      entrepreneurPassword: json['entrepreneurPassword'],
+      id: json['id'],
+      image: json['profileImage'],
+      businessName: json['businessName'],
+      location: json['location'],
+      uid: json['uid'],
+      userType: json['userType'],
     );
   }
 }

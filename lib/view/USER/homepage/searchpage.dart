@@ -1,8 +1,6 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
-import 'package:main_project/model/addProject.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
 

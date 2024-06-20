@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:main_project/view/USER/homepage/EDIT/age.dart';
 import 'package:main_project/view/USER/homepage/EDIT/editmobileno.dart';
 import 'package:main_project/view/USER/homepage/EDIT/place.dart';
@@ -97,13 +101,60 @@ class _AccountpageState extends State<Accountpage> {
 
                     String imageUrl = data.data()!['Image'];
 
-                    return Center(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 91,
-                        child: CircleAvatar(
-                          radius: 87,
-                          backgroundImage: NetworkImage(imageUrl),
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        _showImagePickerBottomSheet(context);
+                      },
+                      child: Center(
+                        // child: CircleAvatar(
+                        //   backgroundColor: Colors.black,
+                        //   radius: 91,
+                        //   child: CircleAvatar(
+                        //     radius: 87,
+                        //     backgroundImage: NetworkImage(imageUrl),
+                        //   ),
+                        // ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: 91,
+                              child: CircleAvatar(
+                                radius: 87,
+                                backgroundImage: NetworkImage(imageUrl),
+                              ),
+                            ),
+                            Positioned(
+                              right: 5,
+                              bottom: 15,
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  _showImagePickerBottomSheet(context);
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.black,
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: Icon(
+                                      Icons
+                                          .camera_alt, // You can use any icon you like
+                                      size: 24, // Adjust the size of the icon
+                                      color: Colors
+                                          .white, // Adjust the color of the icon
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -156,9 +207,13 @@ class _AccountpageState extends State<Accountpage> {
                       return const CircularProgressIndicator(); // Placeholder for loading state
                     },
                   ),
-                  InkWell(onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const NameEditPage()));
-                  },
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const NameEditPage()));
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         vertical: 1.5,
@@ -199,7 +254,10 @@ class _AccountpageState extends State<Accountpage> {
                 },
               ),
               const SizedBox(height: 20),
-              const Text("Mobile number",style: TextStyle(fontWeight: FontWeight.bold),),
+              const Text(
+                "Mobile number",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,7 +298,10 @@ class _AccountpageState extends State<Accountpage> {
                 color: Colors.black,
               ),
               const SizedBox(height: 10),
-              const Text("Place",style: TextStyle(fontWeight: FontWeight.bold),),
+              const Text(
+                "Place",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -281,7 +342,10 @@ class _AccountpageState extends State<Accountpage> {
                 color: Colors.black,
               ),
               const SizedBox(height: 10),
-              const Text("Age",style: TextStyle(fontWeight: FontWeight.bold),),
+              const Text(
+                "Age",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -326,5 +390,90 @@ class _AccountpageState extends State<Accountpage> {
         ),
       ),
     );
+  }
+
+  void _showImagePickerBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(
+                  Icons.camera,
+                  color: Colors.indigo,
+                ),
+                title: const Text(
+                  'Take a photo',
+                  style: TextStyle(color: Colors.indigo),
+                ),
+                onTap: () {
+                  _pickImage(ImageSource.camera).then((value) async {
+                    SettableMetadata metadata =
+                        SettableMetadata(contentType: 'image/jpeg');
+                    final currenttime = TimeOfDay.now();
+                    UploadTask uploadTask = FirebaseStorage.instance
+                        .ref()
+                        .child('shoapimage/shop$currenttime')
+                        .putFile(_imageFile!, metadata);
+                    TaskSnapshot snapshot = await uploadTask;
+                    await snapshot.ref.getDownloadURL().then((url) {
+                      String id = _auth.currentUser!.uid;
+                      FirebaseFirestore.instance
+                          .collection('firebase')
+                          .doc(id)
+                          .update({'Image': url});
+                    });
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Colors.indigo),
+                title: const Text(
+                  'Choose from gallery',
+                  style: TextStyle(color: Colors.indigo),
+                ),
+                onTap: () {
+                  _pickImage(ImageSource.gallery).then((value) async {
+                    SettableMetadata metadata =
+                        SettableMetadata(contentType: 'image/jpeg');
+                    final currenttime = TimeOfDay.now();
+                    UploadTask uploadTask = FirebaseStorage.instance
+                        .ref()
+                        .child('shoapimage/shop$currenttime')
+                        .putFile(_imageFile!, metadata);
+                    TaskSnapshot snapshot = await uploadTask;
+                    await snapshot.ref.getDownloadURL().then((url) {
+                      String id = _auth.currentUser!.uid;
+                      FirebaseFirestore.instance
+                          .collection('firebase')
+                          .doc(id)
+                          .update({'Image': url});
+                    });
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  File? _imageFile;
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    } else {}
   }
 }
