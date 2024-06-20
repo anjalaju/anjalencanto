@@ -1,4 +1,10 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/ENTREPRENEUR/Entrechat.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
@@ -13,12 +19,469 @@ class Entrepsavedate extends StatefulWidget {
 }
 
 class _EntrepsavedateState extends State<Entrepsavedate> {
+  // edit
+
+  File? _imageFile;
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    } else {}
+  }
+
+  String? producturl;
+
+  // bootm sheet update
+  Future editbootmsheet(EventModel eventModel) async {
+    editname.text = eventModel.eventName;
+    editplace.text = eventModel.eventPlace;
+    discription.text = eventModel.discription;
+    price.text = eventModel.startingPriceFrom;
+
+    await
+        //  showModalBottomSheet<void>(
+        //   enableDrag: true,
+        //   // scrollControlDisabledMaxHeightRatio: 5,
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return Container(
+
+        //       child: SingleChildScrollView(
+        //         child: Column(
+        //           children: <Widget>[
+        //             SizedBox(
+        //               height: Helper.h(context) * .10,
+        //             ),
+        //             Row(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 GestureDetector(
+        //                   onTap: () async {
+        //                     await _pickImage(ImageSource.gallery).then((value) async {
+        //                       SettableMetadata metadata =
+        //                           SettableMetadata(contentType: 'image/jpeg');
+        //                       final currenttime = TimeOfDay.now();
+        //                       UploadTask uploadTask = FirebaseStorage.instance
+        //                           .ref()
+        //                           .child('eventimage/$currenttime')
+        //                           .putFile(_imageFile!, metadata);
+        //                       TaskSnapshot snapshot = await uploadTask;
+        //                       producturl = await snapshot.ref.getDownloadURL();
+        //                     });
+        //                   },
+        //                   child: Container(
+        //                     width: Helper.W(context) * .50,
+        //                     height: Helper.h(context) * .20,
+        //                     decoration: BoxDecoration(
+        //                         border: Border.all(),
+        //                         image: DecorationImage(
+        //                           fit: BoxFit.cover,
+        //                           image: NetworkImage(eventModel.Image),
+        //                         )),
+        //                   ),
+        //                 ),
+        //               ],
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: editname,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: price,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: editplace,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             SizedBox(
+        //               width: Helper.W(context) * .50,
+        //               child: TextFormField(
+        //                 textInputAction: TextInputAction.next,
+        //                 controller: discription,
+        //                 decoration:
+        //                     const InputDecoration(border: OutlineInputBorder()),
+        //               ),
+        //             ),
+        //             SizedBox(
+        //               height: Helper.h(context) * .020,
+        //             ),
+        //             Consumer<FunctionProvider>(
+        //               builder: (context, instance, child) {
+        //                 return GestureDetector(
+        //                   onTap: () async {
+        //                     Navigator.pop(context);
+        //                     if (producturl != null) {
+        //                       await instance
+        //                           .updateevent(
+        //                         eventModel.id,
+        //                         editname.text,
+        //                         price.text,
+        //                         editplace.text,
+        //                         discription.text,
+        //                         producturl,
+        //                       )
+        //                           .then((value) {
+        //                         Navigator.pop(context);
+        //                         SuccesToast(context, 'update succes');
+        //                         setState(() {});
+        //                       });
+        //                     } else {
+        //                       ScaffoldMessenger.of(context).showSnackBar(
+        //                           const SnackBar(content: Text('Please wait')));
+        //                     }
+        //                     SuccesToast(context, 'update succes');
+
+        //                   },
+        //                   child: Container(
+        //                     alignment: Alignment.center,
+        //                     width: Helper.W(context) * .40,
+        //                     height: Helper.h(context) * .050,
+        //                     decoration: BoxDecoration(
+        //                       border: Border.all(),
+        //                     ),
+        //                     child: const Text('Update '),
+        //                   ),
+        //                 );
+        //               },
+        //             ),SizedBox(height: 250,),
+        //           ],
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // );
+
+        showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled:
+          true, // Allows the bottom sheet to take full screen height when dragged
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          maxChildSize: 0.8,
+          minChildSize: 0.8,
+          expand: false,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: Padding(
+                padding:
+                    const EdgeInsets.all(16.0), // Added padding for better UI
+                child: Column(
+                  children: <Widget>[
+                    // SizedBox(
+                    //   height: Helper.h(context) * .10,
+                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await _pickImage(ImageSource.gallery)
+                                .then((value) async {
+                              SettableMetadata metadata =
+                                  SettableMetadata(contentType: 'image/jpeg');
+                              final currenttime = TimeOfDay.now();
+                              UploadTask uploadTask = FirebaseStorage.instance
+                                  .ref()
+                                  .child('eventimage/$currenttime')
+                                  .putFile(_imageFile!, metadata);
+                              TaskSnapshot snapshot = await uploadTask;
+                              producturl = await snapshot.ref.getDownloadURL();
+                            });
+                          },
+                          child: Container(
+                            width: Helper.W(context) * .50,
+                            height: Helper.h(context) * .20,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(eventModel.Image),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'Auditorium Name:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: editname,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'Price:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: price,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'Place:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: editplace,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    const Row(
+                      children: [
+                        Text(
+                          'description:',
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      // width: Helper.W(context) * .50,
+                      child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: discription,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for normal state
+                              borderSide:
+                                  const BorderSide(), // Default border side
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                  8.0), // Border radius for focused state
+                              borderSide: const BorderSide(
+                                  color: Colors.green,
+                                  width: 2), // Default focused border side
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: Helper.h(context) * .020,
+                    ),
+                    Consumer<FunctionProvider>(
+                      builder: (context, instance, child) {
+                        return GestureDetector(
+                          onTap: () async {
+                            Navigator.pop(context);
+                            // if (producturl != null) {
+                              await instance
+                                  .updateevent(
+                                eventModel.id,
+                                editname.text,
+                                price.text,
+                                editplace.text,
+                                discription.text,
+                                producturl,
+                              )
+                                  .then((value) {
+                                Navigator.pop(context);
+                                SuccesToast(context, 'Update success');
+                                setState(() {});
+                              });
+                            // } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Please wait')),
+                              );
+                            // }
+                            SuccesToast(context, 'Update success');
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: Helper.W(context) * .5,
+                            height: Helper.h(context) * .050,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(),
+                            ),
+                            child: const Text(
+                              'Update',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 250,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _showMyDialog(EventModel eventModel) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete event'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Are you sure delete'),
+                Text(eventModel.eventName)
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('no'),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+            Consumer<FunctionProvider>(
+              builder: (context, instance, child) {
+                return TextButton(
+                  child: const Text('conform'),
+                  onPressed: () async {
+                    await instance.deletedoc(eventModel.id).then((value) {
+                      SuccesToast(context, 'succes delete event');
+                      Navigator.pop(context);
+                    });
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  final editname = TextEditingController();
+  final editplace = TextEditingController();
+
+  final discription = TextEditingController();
+
+  final price = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Save the date cards',
+            'Banquet Halls',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
           ),
           backgroundColor: Colors.transparent,
@@ -46,18 +509,19 @@ class _EntrepsavedateState extends State<Entrepsavedate> {
               stream: instance.getEventproject('Card makes', 'save the date'),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
+
                 List<EventModel> list = [];
                 list = snapshot.data!.docs.map((e) {
                   return EventModel.fromJsone(e.data() as Map<String, dynamic>);
                 }).toList();
                 if (snapshot.hasData) {
                   return list.isEmpty
-                      ? Center(
-                          child: Text('no data'),
+                      ? const Center(
+                          child: Text('No data'),
                         )
                       : SingleChildScrollView(
                           child: Column(
@@ -79,7 +543,9 @@ class _EntrepsavedateState extends State<Entrepsavedate> {
                               itemCount: list.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    log('the data index doc ${list[index].id}');
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10),
@@ -127,9 +593,9 @@ class _EntrepsavedateState extends State<Entrepsavedate> {
                                                   Text(list[index].eventPlace),
                                                   IconButton(
                                                       onPressed: () async {
-                                                        // await _showMyDialog(
-                                                        //   list[index],
-                                                        // );
+                                                        await _showMyDialog(
+                                                          list[index],
+                                                        );
                                                       },
                                                       icon: const Icon(
                                                           Icons.delete))
@@ -143,8 +609,8 @@ class _EntrepsavedateState extends State<Entrepsavedate> {
                                                   Text(list[index].discription),
                                                   IconButton(
                                                       onPressed: () {
-                                                        // editbootmsheet(
-                                                        //     list[index]);
+                                                        editbootmsheet(
+                                                            list[index]);
                                                       },
                                                       icon: const Icon(
                                                           Icons.edit))
@@ -206,7 +672,7 @@ class _EntrepsavedateState extends State<Entrepsavedate> {
                                                         .push(MaterialPageRoute(
                                                       builder: (context) =>
                                                           EntreChatpage(
-                                                        name: 'Banquet Halls',
+                                                        name: 'Save the date cards',
                                                       ),
                                                     ));
                                                   },
@@ -277,15 +743,16 @@ class _EntrepsavedateState extends State<Entrepsavedate> {
               },
             );
           },
-        ));
+        )
+        );
   }
-}
 
-void _makePhoneCall(String phoneNumber) async {
-  final url = 'tel:$phoneNumber';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+  void _makePhoneCall(String phoneNumber) async {
+    final url = 'tel:$phoneNumber';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
