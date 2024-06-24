@@ -65,7 +65,7 @@ class _DecoratorsState extends State<Decorators> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Planning And Dcro', 'Decarotors'),
+                  stream: helper.getEventprojectuser('Planning And Dcro', 'Decarotors'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

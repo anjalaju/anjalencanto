@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:main_project/view/USER/booking/payment.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/model/userbookingmodel.dart';
@@ -11,13 +12,15 @@ import 'package:provider/provider.dart';
 
 class Bookimgpage extends StatefulWidget {
   EventModel eventModel;
-  Bookimgpage({super.key,required this.eventModel});
+  Bookimgpage({super.key, required this.eventModel});
 
   @override
   State<Bookimgpage> createState() => _LogaState();
 }
 
 class _LogaState extends State<Bookimgpage> {
+
+  DateTime selecdate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     final functionprovider = Provider.of<FunctionProvider>(context);
@@ -160,23 +163,49 @@ class _LogaState extends State<Bookimgpage> {
                 SizedBox(
                   height: 30,
                 ),
-                TextField(
-                  readOnly: true,
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.calendar_today),
-                    hintText: selectedDate != null
-                        ? '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}'
-                        : 'Select Date',
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+                // TextField(
+                //   readOnly: true,
+                //   onTap: () {
+                //     _selectDate(context);
+                //   },
+                //   decoration: InputDecoration(
+                //     prefixIcon: Icon(Icons.calendar_today),
+                //     hintText: selectedDate != null
+                //         ? '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}'
+                //         : 'Select Date',
+                //     fillColor: Colors.white,
+                //     filled: true,
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(20),
+                //     ),
+                //   ),
+                // ),
+                TextFormField(
+                            readOnly: true,
+                            decoration: InputDecoration(
+                                // filled: true,
+                                hintText: selecdate != null
+                                    ? "${selecdate!.day}/${selecdate!.month}/${selecdate!.year}"
+                                    : "Date",
+                                // hintText: " Name",
+                                // prefixIcon: Icon(Icons.person),
+                                // fillColor: Color(0xFFF3EEEE),
+                                suffixIcon: IconButton(
+                                    onPressed: () async {
+                                      final DateTime? date =
+                                          await showDatePicker(
+                                              context: context,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(3000));
+
+                                      if (selecdate != null) {
+                                        setState(() {
+                                          selecdate = date!;
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(Icons.date_range))),
+                          ),
                 SizedBox(height: 10),
                 Text("Small Discription"),
                 TextField(
@@ -207,31 +236,33 @@ class _LogaState extends State<Bookimgpage> {
                           backgroundColor:
                               MaterialStateProperty.all(Color(0xccFF4141))),
                       onPressed: () {
-                        if(selectedDate!= null){
-                           Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Payment(
-                              bookingModle: BookingModle(
-                                name: functionprovider.bookingname.text,
-                                email: functionprovider.bookemail.text,
-                                phonenumber:
-                                    functionprovider.bookphonenumber.text,
-                                date: selectedDate.toString(),
-                                discription:
-                                    functionprovider.bookdiscription.text,
-                                eventid: widget.eventModel!.id.toString(),
-                                userid: auth.currentUser!.uid,
-                                paymentstatus: 'Pending',
-                                eventprice: widget.eventModel!.startingPriceFrom,
+                      final formatdate=  DateFormat('dd-MM-yyyy').format(selecdate);
+                        if (selectedDate != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Payment(
+                                bookingModle: BookingModle(
+                                  name: functionprovider.bookingname.text,
+                                  email: functionprovider.bookemail.text,
+                                  phonenumber:
+                                      functionprovider.bookphonenumber.text,
+                                  date: formatdate,
+                                  discription:
+                                      functionprovider.bookdiscription.text,
+                                  eventid: widget.eventModel!.id.toString(),
+                                  userid: auth.currentUser!.uid,
+                                  paymentstatus: 'Pending',
+                                  eventprice:
+                                      widget.eventModel!.startingPriceFrom,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                        }else{
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('select data time')));
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('select data time')));
                         }
-                       
                       },
                       child: const Text(
                         "Payment",
@@ -248,7 +279,7 @@ class _LogaState extends State<Bookimgpage> {
         ));
   }
 
-  DateTime? selectedDate;
+  DateTime? selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(

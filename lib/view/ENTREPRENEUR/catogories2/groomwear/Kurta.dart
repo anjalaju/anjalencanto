@@ -506,7 +506,7 @@ class _EntrepkurtaState extends State<Entrepkurta> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Groom wear and accessories', 'Kurtha'),
+              stream: instance.getEventproject('Groom wear and accessories', 'Kurtha',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

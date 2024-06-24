@@ -49,8 +49,12 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child:Consumer<FunctionProvider>(builder: (context, helper, child) {
               final data= helper.donted;
-            return FutureBuilder(future: helper.getallDonated('DonatedAccsesies'), builder: (context, snapshot) {
-              return ListView.separated(
+            return  FutureBuilder(future: helper.getallDonated('DonatedAccsesies',auth.currentUser!.uid), builder: (context, snapshot) {
+              return data.isEmpty
+                    ? Center(
+                        child: Text('NOt FOUNT !'),
+                      )
+                    : ListView.separated(
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),
                 itemCount: data.length,

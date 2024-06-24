@@ -506,7 +506,7 @@ class _EntrepgiftsState extends State<Entrepgifts> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Gift', 'gifts'),
+              stream: instance.getEventproject('Gift', 'gifts',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

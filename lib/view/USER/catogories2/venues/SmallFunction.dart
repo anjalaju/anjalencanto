@@ -65,7 +65,7 @@ class _SmallfunctionState extends State<Smallfunction> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Venues', 'Small Function/ Part halls'),
+                  stream: helper.getEventprojectuser('Venues', 'Small Function/ Part halls'),
                   builder: (context, snapshot) {
 
                    if(snapshot.connectionState == ConnectionState.waiting){

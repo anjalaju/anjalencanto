@@ -13,6 +13,44 @@ class BookEventScren extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Future<void> _showMyDialog(  id) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('ARE YOU SURE CONFORM YOUR EVENT CLOSE'),
+        content: const SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('This is a demo alert dialog.'),
+              Text('Would you like to approve of this message?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('CLOSE'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+           Consumer<FunctionProvider>(builder: (context, helper, child) {
+             return TextButton(
+            child: const Text('Approve'),
+            onPressed: () {
+              helper.deleteBooking(id);
+
+              Navigator.of(context).pop();
+            },
+          );
+           },)
+        ],
+      );
+    },
+  );
+}
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -61,7 +99,7 @@ class BookEventScren extends StatelessWidget {
 
                     if (snapshot.hasData) {
                       return list.isEmpty
-                          ?  const Center(
+                          ? const Center(
                               child: Text('No booking'),
                             )
                           : ListView.separated(
@@ -82,31 +120,58 @@ class BookEventScren extends StatelessWidget {
                                     children: [
                                       Row(
                                         children: [
-                                          StreamBuilder(
-                                            stream: data,
-                                            builder: (context, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              }
-                                              return Container(
-                                                width: 100,
-                                                height: 100,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.red,
-                                                    image: DecorationImage(
+                                          Column(
+                                            children: [
+                                              StreamBuilder(
+                                                stream: data,
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    );
+                                                  }
+                                                  return Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.red,
+                                                      image: DecorationImage(
                                                         image: NetworkImage(
-                                                            snapshot.data![
-                                                                'image']))),
-                                              );
-                                            },
+                                                          snapshot
+                                                              .data!['image'],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
+                                          Row(
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                      'PAYMNET STATUS :${list[index].paymentstatus}'),
+                                                  Text(
+                                                      'BOOKING DATE :${list[index].date}'),
+                                                  Text(
+                                                      'EVENT PRICE :${list[index].eventprice}'),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          IconButton(
+                                              onPressed: () async{
+                                               await _showMyDialog(list[index].id);
+                                              },
+                                              icon: Icon(Icons.delete))
                                         ],
                                       ),
-                                      Text(list[index].email)
                                     ],
                                   ),
                                 );
@@ -123,7 +188,6 @@ class BookEventScren extends StatelessWidget {
                 );
               },
             ),
-            
           ],
         ),
       ),

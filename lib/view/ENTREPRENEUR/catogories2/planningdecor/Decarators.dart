@@ -506,7 +506,7 @@ class _EntrepdecorrState extends State<Entrepdecorr> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Planning And Dcro', 'Decarotors'),
+              stream: instance.getEventproject('Planning And Dcro', 'Decarotors',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

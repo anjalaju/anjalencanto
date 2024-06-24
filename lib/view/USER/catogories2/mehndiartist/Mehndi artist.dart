@@ -65,7 +65,7 @@ class _MehndiartisttState extends State<Mehndiartistt> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Mehandi artist', 'Mehandhi artist'),
+                  stream: helper.getEventprojectuser('Mehandi artist', 'Mehandhi artist'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

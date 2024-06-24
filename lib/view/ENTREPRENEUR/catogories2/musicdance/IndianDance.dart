@@ -506,7 +506,7 @@ class _EntrepindiandanState extends State<Entrepindiandan> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Music dance', 'indian dance'),
+              stream: instance.getEventproject('Music dance', 'indian dance',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -81,24 +81,78 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future signin(email, password, BuildContext context) async {
-    try {
-      auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Entreloginnotification(),
-          ),
-        );
-        SuccesToast(context, 'Loggin succes');
-        clearcontrl();
-      });
-    } on FirebaseException catch (e) {
-      Infotoast(context, 'error loggin');
+  // Future<void> signin(email, password, BuildContext context) async {
+  //   try {
+
+  //   final UserCredential userCredential=  auth
+  //         .signInWithEmailAndPassword(email: email, password: password)
+  //         .then((value)async {
+         
+  //     final uid =   value.user!.uid;
+  //       final snapshot = await  db.collection('enterprenur')
+         
+  //       .where('userType',isEqualTo: 'enterprenur').get();
+
+  //       if(snapshot.docs.isNotEmpty){
+  //         Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => const Entreloginnotification(),
+  //         ),
+  //       );
+  //       }else{
+  //         Infotoast(context, 'check mail');
+  //       }
+
+
+        
+  //       SuccesToast(context, 'Loggin succes');
+  //       clearcontrl();
+  //     });
+  //   } on FirebaseException catch (e) {
+  //     Infotoast(context, 'error loggin');
+  //   }
+  // }
+
+  Future<void> signin(String email, String password, BuildContext context) async {
+  try {
+    final UserCredential userCredential = await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    final uid = userCredential.user!.uid;
+    final snapshot = await db
+        .collection('enterprenur')
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Entreloginnotification(),
+        ),
+      );
+      SuccesToast(context, 'Login success');
+      clearcontrl();
+    } else {
+      Infotoast(context, 'User not found');
     }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      Infotoast(context, 'No user found for that email');
+    } else if (e.code == 'wrong-password') {
+      Infotoast(context, 'Wrong password provided for that user');
+    } else {
+      Infotoast(context, 'Error signing in');
+    }
+  } catch (e) {
+    print(e.toString());
+    Infotoast(context, 'Error signing in');
   }
+}
+
 
   Future logoutevent(BuildContext context) async {
     try {

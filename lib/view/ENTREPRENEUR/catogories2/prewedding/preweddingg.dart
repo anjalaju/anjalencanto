@@ -506,7 +506,7 @@ class _EntreppreweddingState extends State<Entrepprewedding> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Pre wedding shoot', 'pre wedding photograpers'),
+              stream: instance.getEventproject('Pre wedding shoot', 'pre wedding photograpers',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

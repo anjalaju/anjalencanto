@@ -173,7 +173,7 @@ class _LogaState extends State<Payment> {
                                         widget.bookingModle.discription,
                                     eventid: widget.bookingModle.eventid,
                                     userid: widget.bookingModle.userid,
-                                    paymentstatus: 'value.status.toString()',
+                                    paymentstatus: 'succes',
                                     eventprice: widget.bookingModle.eventprice),
                               )
                                   .then((value) {

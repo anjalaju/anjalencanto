@@ -65,7 +65,7 @@ class _GroommakeupsState extends State<Groommakeups> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Makeup artist', 'Groom Makeup'),
+                  stream: helper.getEventprojectuser('Makeup artist', 'Groom Makeup'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

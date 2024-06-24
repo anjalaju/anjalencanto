@@ -506,7 +506,7 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Makeup artist', 'Bridal Makeup'),
+              stream: instance.getEventproject('Makeup artist', 'Bridal Makeup',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

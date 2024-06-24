@@ -506,7 +506,7 @@ class _EntrepbiriyaniState extends State<Entrepbiriyani> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Catering', 'Biriyani Dishes'),
+              stream: instance.getEventproject('Catering', 'Biriyani Dishes',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

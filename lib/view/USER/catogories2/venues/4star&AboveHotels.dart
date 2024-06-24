@@ -65,7 +65,7 @@ class _FourstarhotelState extends State<Fourstarhotel> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Venues', '4star &abouve hotels'),
+                  stream: helper.getEventprojectuser('Venues', '4star &abouve hotels'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

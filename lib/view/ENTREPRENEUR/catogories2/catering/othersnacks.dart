@@ -506,7 +506,7 @@ class _EntrepsnacksState extends State<Entrepsnacks> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Catering', 'Other snacks'),
+              stream: instance.getEventproject('Catering', 'Other snacks',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

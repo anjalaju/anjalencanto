@@ -506,7 +506,7 @@ class _EntrepmehndiState extends State<Entrepmehndi> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Mehandi artist', 'Mehandhi artist'),
+              stream: instance.getEventproject('Mehandi artist', 'Mehandhi artist',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -506,7 +506,7 @@ class _EntrepgounsState extends State<Entrepgouns> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Bridal wear and accssories', 'Wedding Gowns'),
+              stream: instance.getEventproject('Bridal wear and accssories', 'Wedding Gowns',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

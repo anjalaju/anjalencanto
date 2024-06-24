@@ -506,7 +506,7 @@ class _EntrepgroommakeState extends State<Entrepgroommake> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Makeup artist', 'Groom Makeup'),
+              stream: instance.getEventproject('Makeup artist', 'Groom Makeup',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

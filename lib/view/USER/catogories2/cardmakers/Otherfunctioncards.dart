@@ -65,7 +65,7 @@ class _OtherfunctioncardsState extends State<Otherfunctioncards> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Card makes', ' other function cards'),
+                  stream: helper.getEventprojectuser('Card makes', ' other function cards'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

@@ -9,7 +9,7 @@ class EventModel {
   String? id;
   String enterprenurid;
   String phonenumber;
-  String uid;
+  
 
   EventModel({
     required this.eventName,
@@ -22,7 +22,7 @@ class EventModel {
     required this.discription,
     required this.startingPriceFrom,
     required this.phonenumber,
-    required this.uid,
+   
   });
 
   Map<String, dynamic> toJson(idd) => {
@@ -36,7 +36,7 @@ class EventModel {
         'enterprenurid': enterprenurid,
         'id': idd,
         'phonenumber': phonenumber,
-        'uid':uid,
+       
       };
 
   factory EventModel.fromJsone(Map<String, dynamic> jsone) {
@@ -51,7 +51,7 @@ class EventModel {
       startingPriceFrom: jsone['startingprice'],
       phonenumber: jsone['phonenumber'],
       id: jsone['id'],
-      uid: jsone['uid'],
+      
     );
   }
 }

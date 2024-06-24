@@ -506,7 +506,7 @@ class _EntrepkalyanaState extends State<Entrepkalyana> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Venues', 'Klyana mandapam'),
+              stream: instance.getEventproject('Venues', 'Klyana mandapam',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/feedback_Review.dart';
@@ -42,6 +43,17 @@ class ViewRevies extends StatelessWidget {
                   final review = reviewList[index];
                   final uid = review.useruid;
 
+                  int feedback;
+                  try {
+                    feedback = int.parse(review.feedbackcount);
+                  } catch (e) {
+                    try {
+                      feedback = double.parse(review.feedbackcount).toInt();
+                    } catch (e) {
+                      feedback = 0;
+                    }
+                  }
+
                   return Column(
                     children: [
                       ReviewItem(
@@ -49,14 +61,9 @@ class ViewRevies extends StatelessWidget {
                         uid: uid,
                         docid: documentId,
                         count: review.feedbackcount,
+                        feedback: feedback,
                       ),
-                      // Row(
-                      //     children: List.generate(
-                      //       int.parse(reviewList[index].feedbackcount),
-                      //       (i) => Icon(Icons.star, color: Colors.amber, size: 16),
-                      //     ),
-                      // )
-                      Text(review.feedbackcount)
+                      Text(review.feedbackcount),
                     ],
                   );
                 },
@@ -71,13 +78,53 @@ class ViewRevies extends StatelessWidget {
   }
 }
 
+class ReviewFeedbackIcons extends StatelessWidget {
+  final double feedbackCount;
+
+  ReviewFeedbackIcons({required this.feedbackCount});
+  
+  
+ 
+   
+  @override
+  Widget build(BuildContext context) {
+     double value = feedbackCount;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        RatingBar.builder(
+            
+          itemSize: 25,
+          initialRating:value,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {},
+          
+        )]
+    );
+  }
+}
+
 class ReviewItem extends StatelessWidget {
   final FeedbackReview review;
   final String uid;
   final String docid;
   final String count;
+  final int feedback;
 
-  ReviewItem({required this.review, required this.uid, required this.docid,required this.count});
+  ReviewItem(
+      {required this.review,
+      required this.uid,
+      required this.docid,
+      required this.count,
+      required this.feedback});
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +169,7 @@ class ReviewItem extends StatelessWidget {
 
                     final userName = snapshot.data!['User_Name'] ?? 'Unknown';
 
-                     final count =review.feedbackcount;
+                    final count = review.feedbackcount;
 
                     return Text(
                       'USERNAME: $userName',
@@ -133,17 +180,9 @@ class ReviewItem extends StatelessWidget {
                 ),
                 Text(formattedTime),
                 Text(formattedDate),
-                // Text(review.feedbackcount),
-               
-                viewFeedback(count),
-                // Row(
-                //           children: List.generate(
-                //             reviews[index].rating,
-                //             (i) => Icon(Icons.star, color: Colors.amber, size: 16),
-                //           ),
-                // )
-                
-                
+                ReviewFeedbackIcons(
+                  feedbackCount: feedback.toDouble(),
+                ),
               ],
             ),
             Visibility(
@@ -177,10 +216,10 @@ class ReviewItem extends StatelessWidget {
 
 Widget viewFeedback(String count) {
   int starCount = int.tryParse(count) ?? 0;
-  
+
   // Ensure starCount is within the valid range of 0 to 5
   starCount = starCount.clamp(0, 5);
-  
+
   return Row(
     children: List.generate(starCount, (index) => Icon(Icons.star)),
   );

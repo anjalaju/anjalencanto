@@ -506,7 +506,7 @@ class _EntrepwesterndanState extends State<Entrepwesterndan> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Music dance', 'Western dance'),
+              stream: instance.getEventproject('Music dance', 'Western dance',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

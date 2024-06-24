@@ -65,7 +65,7 @@ class _GiftssState extends State<Giftss> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Gift', 'gifts'),
+                  stream: helper.getEventprojectuser('Gift', 'gifts'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

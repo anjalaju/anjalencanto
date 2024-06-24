@@ -65,7 +65,7 @@ class _HyderabadyState extends State<Hyderabady> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Catering ', ' hyderabad Dishes'),
+                  stream: helper.getEventprojectuser('Catering ', ' hyderabad Dishes'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

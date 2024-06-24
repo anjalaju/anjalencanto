@@ -65,7 +65,7 @@ class _FunctionsState extends State<Functions> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Planning And Dcro', 'Small function Decor'),
+                  stream: helper.getEventprojectuser('Planning And Dcro', 'Small function Decor'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

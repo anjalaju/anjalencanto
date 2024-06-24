@@ -18,8 +18,8 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
-  final bisname=TextEditingController();
-  final location =TextEditingController();
+  final bisname = TextEditingController();
+  final location = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final helperprovdr = Provider.of<FunctionProvider>(context);
@@ -28,11 +28,13 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
             child: FutureBuilder(
       future: helperprovdr.getEnterprenurdata(auth.currentUser!.uid),
       builder: (context, snapshot) {
-        if(snapshot.connectionState==ConnectionState.waiting){
-          return Center(child: CircularProgressIndicator(),);
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
-        final endata=  helperprovdr.signleentr;
-        
+        final endata = helperprovdr.signleentr;
+
         return Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -82,7 +84,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                             right: 40,
                             child: IconButton(
                               onPressed: () async {
-                                await helperprovdr.imagePicker();
+                                // await helperprovdr.imagePicker();
                               },
                               icon: const Icon(Icons.add),
                               iconSize: 30,
@@ -103,7 +105,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child:   Column(
+                  child: Column(
                     children: [
                       SizedBox(
                         height: 50,
@@ -136,7 +138,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                       SizedBox(
                         height: 50,
                         child: ListTile(
-                          title: Text( endata.entrepreneurNumber),
+                          title: Text(endata.entrepreneurNumber),
                           textColor: Color.fromARGB(255, 0, 0, 0),
                           leading: Icon(Icons.call),
                           iconColor: Color.fromRGBO(0, 0, 0, 1),
@@ -154,13 +156,13 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child:   Column(
+                  child: Column(
                     children: [
                       SizedBox(
                         height: 50,
                         child: ListTile(
                           title: Text(
-                             endata.entrepreneurEmail,
+                            endata.entrepreneurEmail,
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
@@ -182,28 +184,18 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child:   Column(
+                  child: Column(
                     children: [
                       SizedBox(
                         // height: 50,
                         child: ListTile(
-                          // title: Text(
-                          //    endata.businesname!.isEmpty?'add bussines name':
-                          //   endata.businesname.toString(),
-                          //   style: TextStyle(
-                          //       fontSize: 20, fontWeight: FontWeight.w500),
-                          // ),
-                               title:endata.businessName!.isEmpty ?
-                               TextFormField(
-                           
-                            controller: bisname,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                
-                              )
-                            ),
-                          )
-                           :   Text(endata.businessName.toString()),
+                          title: endata.businessName!.isEmpty
+                              ? TextFormField(
+                                  controller: bisname,
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder()),
+                                )
+                              : Text(endata.businessName.toString()),
                           textColor: Color.fromARGB(255, 0, 0, 0),
                           leading: Icon(Icons.apartment),
                           iconColor: Color.fromRGBO(0, 0, 0, 1),
@@ -221,29 +213,18 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child:   Column(
+                  child: Column(
                     children: [
                       SizedBox(
                         // height: 50,
                         child: ListTile(
-                          // title: Text(
-                          //   endata.location!.isEmpty?
-                          //   'please add location' : endata.location.toString() ,
-                          //   style: TextStyle(
-                          //     fontSize: 20,
-                          //     fontWeight: FontWeight.w500,
-                          //   ),
-                          // ),
-                         
-                           title:endata.location!.isEmpty?TextFormField(
-                           
-                            controller: location,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                
-                              )
-                            ),
-                          ) :   Text(endata.location.toString()),
+                          title: endata.location!.isEmpty
+                              ? TextFormField(
+                                  controller: location,
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder()),
+                                )
+                              : Text(endata.location.toString()),
                           textColor: Color.fromARGB(255, 0, 0, 0),
                           leading: Icon(Icons.location_on_sharp),
                           iconColor: Color.fromRGBO(0, 0, 0, 1),
@@ -260,14 +241,16 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        helperprovdr.updatProfiel(auth.currentUser!.uid,bisname.text,location.text);
+                        helperprovdr.updatProfielonly(
+                            auth.currentUser!.uid,);
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        width: Helper.W(context) * .20,
+                        width: Helper.W(context) * .50,
                         height: Helper.h(context) * .060,
                         // color: Colors.red,
                         decoration: BoxDecoration(
+
                           border: Border.all(),
                         ),
                         child: Text('Update add'),

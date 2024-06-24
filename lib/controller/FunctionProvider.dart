@@ -52,30 +52,28 @@ class FunctionProvider with ChangeNotifier {
     snapshot.set(eventModel.toJson(snapshot.id));
   }
 
-
-  Future addDonate(Donatemodel donate)async{
+  Future addDonate(Donatemodel donate) async {
     final snapshot = db.collection('Donatescreen').doc();
 
-     snapshot.set(donate.tojasone(snapshot.id));
+    snapshot.set(donate.tojasone(snapshot.id));
   }
 
   //------------------------get------------------------
 
   List<EventModel> listevent = [];
-  Stream<QuerySnapshot> getEventproject(mainwere, subwere) {
-    // final snapshot = db
-    //     .collection('AddEvent')
-    //     .where('eventmaincategory', isEqualTo: mainwere)
-    //     .where('eventsubcategory', isEqualTo: subwere)
-    //     .snapshots();
+  Stream<QuerySnapshot> getEventproject(mainwere, subwere, uid) {
+    return db
+        .collection('AddEvent')
+        .where('eventmaincategory', isEqualTo: mainwere)
+        .where('eventsubcategory', isEqualTo: subwere)
+        .where('enterprenurid', isEqualTo: uid)
+        .snapshots();
+  }
 
-    // snapshot.listen((event) {
-    //   listevent = event.docs.map((e) {
-    //     return EventModel.fromJsone(e.data());
-    //   }).toList();
-    // });
-    // notifyListeners();
-
+  Stream<QuerySnapshot> getEventprojectuser(
+    mainwere,
+    subwere,
+  ) {
     return db
         .collection('AddEvent')
         .where('eventmaincategory', isEqualTo: mainwere)
@@ -83,75 +81,100 @@ class FunctionProvider with ChangeNotifier {
         .snapshots();
   }
 
-   List<Donatemodel> donted=[];
-   Future getallDonated(selected)async{
-     final snapshot=await  db.collection('Donatescreen').where('Selected',isEqualTo: selected).get();
+  List<EventModel> banqustall = [];
+  Future allsearch({
+    required String eventmaincategory,
+    required String eventsubcategory,
+  }) async {
+    final snapshot = await db
+        .collection('AddEvent')
+        .where('eventmaincategory', isEqualTo: eventmaincategory)
+        .where('eventsubcategory', isEqualTo: eventsubcategory)
+        .get();
 
-     donted = snapshot.docs.map((e){
+    if (snapshot.docs.isNotEmpty) {
+      banqustall = snapshot.docs.map((e) {
+        return EventModel.fromJsone(e.data());
+      }).toList();
+    }
+  }
+
+  List<EventModel> searchall = [];
+
+  searcheventbycategory(String serchkey) {
+    searchall = List.from(banqustall);
+    searchall = banqustall
+        .where(
+          (element) =>
+              element.eventName.toLowerCase().contains(
+                    serchkey.toLowerCase(),
+                  ) ||
+              element.eventPlace.toLowerCase().contains(
+                    serchkey.toLowerCase(),
+                  ),
+        )
+        .toList();
+
+    notifyListeners();
+  }
+
+  List<Donatemodel> donted = [];
+  Future getallDonated(selected ,authuid) async {
+    final snapshot = await db
+        .collection('Donatescreen')
+        .where('Selected', isEqualTo: selected)
+        .where('uid',isEqualTo: authuid)
+        .get();
+
+    donted = snapshot.docs.map((e) {
       return Donatemodel.fromjsone(e.data());
-     }).toList();
-   notifyListeners();
-    // donted= snapshot .map((e) { 
-    //   return Donatemodel.fromjsone()
-    //  }).toList();
-   }
+    }).toList();
+    notifyListeners();
+  }
 
-
-
-
-
-
-   Stream<QuerySnapshot>  getAllEvent(){
+  Stream<QuerySnapshot> getAllEvent() {
     return db.collection('AddEvent').snapshots();
-    
-   }
-  
-   List<EventModel> eventsearc=[];
-    Future  getAlleventsearch()async{
+  }
 
-      final snapshot =await db.collection('AddEvent').get();
+  List<EventModel> eventall = [];
+  Future getAlleventallh() async {
+    final snapshot = await db.collection('AddEvent').get();
 
-      eventsearc =  snapshot.docs.map((e){
-        return   EventModel.fromJsone(e.data());
-        }).toList();
-// notifyListeners();
-    }
-  
+    eventall = snapshot.docs.map((e) {
+      return EventModel.fromJsone(e.data());
+    }).toList();
+    notifyListeners();
+  }
 
+  List<EventModel> searchevent = [];
 
-    
-    List<EventModel> searchevent=[];
+  searcheven(String searchkey) {
+    searchevent = List.from(eventall);
+    searchevent = eventall
+        .where((element) =>
+            element.eventPlace.toLowerCase().contains(searchkey.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
 
-    searcheven(String searchkey){
-      searchevent = List.from(eventsearc);
-      searchevent = eventsearc.where((element)=> 
-           element.eventPlace.toLowerCase().contains(searchkey.toLowerCase())
-      ).toList();
-      notifyListeners();
-    }
-
-
-
-    void clearSearchEvent() {
+  void clearSearchEvent() {
     searchevent.clear();
     notifyListeners();
   }
 
-
-
- 
-
-
-   Stream<QuerySnapshot> getallcharity(){
+  Stream<QuerySnapshot> getallcharity() {
     return db.collection('Donatescreen').snapshots();
-   }
+  }
 
+  Stream<QuerySnapshot> getReviewuser(docid) {
+    return db
+        .collection('AddEvent')
+        .doc(docid)
+        .collection('FeedbackReview')
+        .snapshots();
+  }
 
-   Stream<QuerySnapshot> getReviewuser(docid){
-     return db.collection('AddEvent').doc(docid).collection('FeedbackReview').snapshots();
-   }
-
- Future<void> deleteReview(String docid, String reviewId) async {
+  Future<void> deleteReview(String docid, String reviewId) async {
     try {
       await db
           .collection('AddEvent')
@@ -166,20 +189,49 @@ class FunctionProvider with ChangeNotifier {
 
   //------------------------ update------------------------
 
-  Future updateevent(
-      docid, eventname, eventprice, eventplace, eventdiscription, image) async {
-    EventModel? eventModel;
+  Future<void> updateevent(
+    docId,
+    String eventName,
+    String eventPrice,
+    String eventPlace,
+    String eventDescription,
+    String? imageUrl,
+  ) async {
+    try {
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection('AddEvent')
+          .doc(docId)
+          .get();
 
-    db.collection('AddEvent').doc(docid).update({
-      'eventname': eventname,
-      'startingprice': eventprice,
-      'eventplace': eventplace,
-      'eventdiscription': eventdiscription,
-      'image': image.isEmpty ? eventModel!.Image : image,
-    });
+      if (!docSnapshot.exists) {
+        throw Exception("Event not found");
+      }
 
-    log('this image sjdja ${eventModel!.Image}');
-     notifyListeners();
+      Map<String, dynamic> existingData =
+          docSnapshot.data() as Map<String, dynamic>;
+
+      await FirebaseFirestore.instance
+          .collection('AddEvent')
+          .doc(docId)
+          .update({
+        'eventname':
+            eventName.isNotEmpty ? eventName : existingData['eventname'],
+        'startingprice':
+            eventPrice.isNotEmpty ? eventPrice : existingData['startingprice'],
+        'eventplace':
+            eventPlace.isNotEmpty ? eventPlace : existingData['eventplace'],
+        'eventdiscription': eventDescription.isNotEmpty
+            ? eventDescription
+            : existingData['eventdiscription'],
+        'image': imageUrl != null && imageUrl.isNotEmpty
+            ? imageUrl
+            : existingData['image'],
+      });
+
+      log('Update successful with image URL: ${existingData['image']}');
+    } catch (e) {
+      log('Failed to update event: $e');
+    }
   }
 
   ///------------------------delete------------------------
@@ -211,7 +263,9 @@ class FunctionProvider with ChangeNotifier {
   Future addCompalint(ComplaintModel complaintModel) async {
     final snapshot = await db.collection('Alert').doc();
 
-    snapshot.set(complaintModel.tojsone(snapshot.id,));
+    snapshot.set(complaintModel.tojsone(
+      snapshot.id,
+    ));
   }
 
   // Stream<QuerySnapshot> getAllcomplaint() {
@@ -220,8 +274,9 @@ class FunctionProvider with ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllcomplaint() {
     return FirebaseFirestore.instance.collection('Alert').snapshots();
   }
+
   Future addReview(AddReview addReview) async {
-    final snapshot =   db.collection('AddReview').doc();
+    final snapshot = db.collection('AddReview').doc();
 
     snapshot.set(addReview.tojsone(snapshot.id));
   }
@@ -242,14 +297,10 @@ class FunctionProvider with ChangeNotifier {
 
     snapshot.listen((event) {
       allnoti = event.docs.map((e) {
-        return NotificationModel.fromjsone(e.data()  );
+        return NotificationModel.fromjsone(e.data());
       }).toList();
     });
-     
   }
-
-
-  
 
   File? selectedimage;
   String? url;
@@ -273,10 +324,18 @@ class FunctionProvider with ChangeNotifier {
     log('${url.toString()}====================================================');
   }
 
+  Future updatProfielonly(
+    uid,
+  ) async {
+    db.collection('enterprenur').doc(uid).update({
+      'profileImage': url,
+    });
+    notifyListeners();
+  }
+
   Future updatProfiel(uid, bisname, location) async {
     db.collection('enterprenur').doc(uid).update({
-      'profileimage': url,
-      'businessname': bisname,
+      'businessName': bisname,
       'location': location,
     });
     notifyListeners();
@@ -296,9 +355,11 @@ class FunctionProvider with ChangeNotifier {
     final SNAPSHOT = await db.collection('PostLike').doc(id).get();
 
     if (SNAPSHOT.exists) {
-      dislike (SNAPSHOT.id);
-    }else{
-      final doc=db.collection('PostLike').doc(likepostmodel.likeuid +likepostmodel.likeid.toString() );
+      dislike(SNAPSHOT.id);
+    } else {
+      final doc = db
+          .collection('PostLike')
+          .doc(likepostmodel.likeuid + likepostmodel.likeid.toString());
       await doc.set(likepostmodel.toJSne());
     }
     notifyListeners();
@@ -309,110 +370,125 @@ class FunctionProvider with ChangeNotifier {
   }
 
   bool? islike;
-  Future fetchlikedpostpost(id)async{
+  Future fetchlikedpostpost(id) async {
     final snapshot = await db.collection('PostLike').doc(id).get();
-      if(snapshot.exists){
-        islike = true;
-        return islike;
-      }else{
-        islike=false;
-        return islike;
-      }
-      
+    if (snapshot.exists) {
+      islike = true;
+      return islike;
+    } else {
+      islike = false;
+      return islike;
+    }
   }
 
-
-  clearcontrooler(){
-    selectedimage=null;
-    url=null;
+  clearcontrooler() {
+    selectedimage = null;
+    url = null;
     notifyListeners();
   }
- 
 
- Stream<QuerySnapshot>  getpostlike(uid){
-  return db.collection('PostLike').where('likeuid',isEqualTo: uid).snapshots();
-  
-  
- }
+  Stream<QuerySnapshot> getpostlike(uid) {
+    return db
+        .collection('PostLike')
+        .where('likeuid', isEqualTo: uid)
+        .snapshots();
+  }
 
-  Future addReviewFeedback(FeedbackReview feedbackreview,pddocid)async{
-    final snapshot=  db.collection('AddEvent').doc(pddocid).collection('FeedbackReview').doc();
+  Future addReviewFeedback(FeedbackReview feedbackreview, pddocid) async {
+    final snapshot = db
+        .collection('AddEvent')
+        .doc(pddocid)
+        .collection('FeedbackReview')
+        .doc();
 
     snapshot.set(feedbackreview.tojsone(snapshot.id));
-
-  }  
-
+  }
 
   // Stream get
 
-
-
-
-
-
-
-
   ///delete======================================
-   
 
-     
-Future deletePostLike(String postId,BuildContext context) async {
-  try {
-     
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('PostLike')
-        .where('postid', isEqualTo: postId)
-        .get();
+  Future deletePostLike(String postId, BuildContext context) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('PostLike')
+          .where('postid', isEqualTo: postId)
+          .get();
 
-    
-    if (querySnapshot.docs.isNotEmpty) {
-       
-      await querySnapshot.docs.first.reference.delete();
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs.first.reference.delete();
 
-      SuccesToast(context, 'Remove fav');
+        SuccesToast(context, 'Remove fav');
+      }
+    } catch (e) {
+      print('Error deleting post like: $e');
     }
-  } catch (e) {
-    
-    print('Error deleting post like: $e');
   }
-}
-
 
   String? rating;
-  void starCound(rating){
-       rating = 
-       rating;
-       notifyListeners();
+  void starCound(rating) {
+    rating = rating;
+    notifyListeners();
   }
 
+  claerrat() {
+    rating = null;
+    notifyListeners();
+  }
 
+  // searching
 
-  // searching 
+  List<EventModel> searchmodel = [];
 
-    List<EventModel>searchmodel=[];
-   
-List<EventModel> list = [];
+  List<EventModel> list = [];
 
-           
-    
-    List<EventModel> eventfull=[];
-    Future  searcheventt()async{
-      
-     final snapshot=await  db.collection('AddEvent').get();
+  List<EventModel> eventfull = [];
+  Future searcheventt() async {
+    final snapshot = await db.collection('AddEvent').get();
 
-     eventfull= snapshot.docs.map((e){
+    eventfull = snapshot.docs.map(
+      (e) {
         return EventModel.fromJsone(e.data());
-      },).toList();
-     log('${eventfull.length}');
-   }
+      },
+    ).toList();
+    log('${eventfull.length}');
+  }
 
+  Future deleteBooking(id) async {
+    try {
+      db.collection('Boookingevent').doc(id).delete();
+    } catch (e) {
+      e.toString();
+    }
+  }
 
-  //  List<EventModel>
-    
+  Stream<QuerySnapshot> getAllbookingenterprenur() {
+    return db.collection('Boookingevent').snapshots();
+  }
+
+  // Future<void> deleteUserAccount(uid) async {
+  //   try {
+  //     await FirebaseAuth.instance.currentUser!.delete().then((e) {
+  //       db.collection('firebase').doc(uid).delete();
+  //     });
+  //     await user?.delete();
+  //   } on FirebaseAuthException catch (e) {
+  //     e.toString();
+
+  //     if (e.code == "requires-recent-login") {
+  //       // await _reauthenticateAndDelete();
+  //     } else {
+  //       // Handle other Firebase exceptions
+  //     }
+  //   } catch (e) {
+  //     e.toString();
+
+  //     // Handle general exception
+  //   }
+  // }
+
 }
 
-
-
 //  list = snapshot.docs.map((e) {
-      //         return EventModel.fromJsone(e.data() as Map<String, dynamic>);
-      //       }).toList();
+//         return EventModel.fromJsone(e.data() as Map<String, dynamic>);
+//       }).toList();

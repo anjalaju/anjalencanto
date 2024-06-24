@@ -65,7 +65,7 @@ class _KanjivaaramState extends State<Kanjivaaram> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Bridal wear and accssories', 'Kanjeevaram silk sarees'),
+                  stream: helper.getEventprojectuser('Bridal wear and accssories', 'Kanjeevaram silk sarees'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

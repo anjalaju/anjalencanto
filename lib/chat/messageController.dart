@@ -1,48 +1,51 @@
  
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
  
-import 'package:main_project/chat/model.dart';
+// import 'package:main_project/chat/model.dart';
 
-class MessageController {
-  final db = FirebaseFirestore.instance;
+// class MessageController {
+//   final db = FirebaseFirestore.instance;
 
-  sendMessage(String receiverId, message) {
-    String senderId = FirebaseAuth.instance.currentUser!.uid;
-    String receiverUId = receiverId;
-    Timestamp timestamp = Timestamp.now();
+//   sendMessage(String receiverId, message) {
+//     String senderId = FirebaseAuth.instance.currentUser!.uid;
+//     String receiverUId = receiverId;
+//     Timestamp timestamp = Timestamp.now();
 
-    ChatMessage messageModel = ChatMessage(
-        senderId: senderId,
-        receiverId: receiverUId,
-        text: message,
-        timestamp: timestamp);
+//     ChatMessage messageModel = ChatMessage(
+//         senderId: senderId,
+//         receiverId: receiverUId,
+//         text: message,
+//         timestamp: timestamp,
 
-    List<String> ids = [senderId, receiverUId];
+        
+//         );
 
-    ids.sort();
+//     List<String> ids = [senderId, receiverUId];
 
-    String chatRoomId = ids.join('_');
+//     ids.sort();
 
-    db
-        .collection('Chat_room')
-        .doc(chatRoomId)
-        .collection("message")
-        .add(messageModel.toMap());
-  }
+//     String chatRoomId = ids.join('_');
 
-  Stream<QuerySnapshot> receiveMessage(userId, otherUserId) {
-    List<String> ids = [userId, otherUserId];
-    ids.sort();
+//     db
+//         .collection('Chat_room')
+//         .doc(chatRoomId)
+//         .collection("message")
+//         .add(messageModel.toMap());
+//   }
 
-    String chatRoomId = ids.join('_');
+//   Stream<QuerySnapshot> receiveMessage(userId, otherUserId) {
+//     List<String> ids = [userId, otherUserId];
+//     ids.sort();
 
-    return db
-        .collection('Chat_room')
-        .doc(chatRoomId)
-        .collection("message")
-        .orderBy("timestamp", descending: true)
-        .snapshots();
-}
-}
+//     String chatRoomId = ids.join('_');
+
+//     return db
+//         .collection('Chat_room')
+//         .doc(chatRoomId)
+//         .collection("message")
+//         .orderBy("timestamp", descending: true)
+//         .snapshots();
+// }
+// }

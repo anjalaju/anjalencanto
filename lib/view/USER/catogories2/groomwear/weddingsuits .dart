@@ -65,7 +65,7 @@ class _WeddingsuitsState extends State<Weddingsuits> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Groom wear and accessories', 'Wedding suits'),
+                  stream: helper.getEventprojectuser('Groom wear and accessories', 'Wedding suits'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

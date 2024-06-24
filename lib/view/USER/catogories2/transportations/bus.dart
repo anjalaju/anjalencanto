@@ -66,7 +66,7 @@ class _BusState extends State<Bus> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Transportation', 'Bus '),
+                  stream: helper.getEventprojectuser('Transportation', 'Bus '),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

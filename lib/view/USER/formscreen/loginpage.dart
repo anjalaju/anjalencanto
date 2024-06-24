@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/USER/formscreen/forgetpassword/forgetpage.dart';
 import 'package:main_project/view/USER/formscreen/loginnotifi.dart';
 import 'package:main_project/view/USER/formscreen/signup.dart';
@@ -22,44 +23,85 @@ class _LogaState extends State<loginpage> {
   final _formkey = GlobalKey<FormState>();
   bool isloading = false;
 
-  login() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (password != null) {
-      try {
-        setState(() {
-          isloading = true;
-        });
-        UserCredential credential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        print('${credential.user!.uid}***************');
-        preferences.setString('isloggin', credential.user!.uid);
+  // login() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   if (password != null) {
+  //     try {
+  //       setState(() {
+  //         isloading = true;
+  //       });
+  //       UserCredential credential = await FirebaseAuth.instance
+  //           .signInWithEmailAndPassword(email: email, password: password);
+  //       print('${credential.user!.uid}***************');
+  //       preferences.setString('isloggin', credential.user!.uid);
 
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Login successfull')));
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const loginnotification(),
-            ));
-        setState(() {
-          isloading = false;
-        });
-      } on FirebaseAuthException catch (e) {
-        setState(() {
-          isloading = false;
-        });
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Something wrong!!!')));
-        if (e.code == 'weak-password') {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('weak password')));
-        } else if (e.code == 'email-already-in-use') {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('email already use')));
-        }
-      }
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Login successfull')));
+  //       Navigator.pushReplacement(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => const loginnotification(),
+  //           ));
+  //       setState(() {
+  //         isloading = false;
+  //       });
+  //     } on FirebaseAuthException catch (e) {
+  //       setState(() {
+  //         isloading = false;
+  //       });
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Something wrong!!!')));
+  //       if (e.code == 'weak-password') {
+  //         ScaffoldMessenger.of(context)
+  //             .showSnackBar(const SnackBar(content: Text('weak password')));
+  //       } else if (e.code == 'email-already-in-use') {
+  //         ScaffoldMessenger.of(context)
+  //             .showSnackBar(const SnackBar(content: Text('email already use')));
+  //       }
+  //     }
+  //   }
+  // }
+
+
+
+Future<void> login() async {
+  try {
+    final UserCredential userCredential = await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    final uid = userCredential.user!.uid;
+    final snapshot = await db
+        .collection('firebase')
+        .where('Id', isEqualTo: uid)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const loginnotification(),
+        ),
+      );
+      SuccesToast(context, 'Login success');
+      
+    } else {
+      Infotoast(context, 'User not found');
     }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      Infotoast(context, 'No user found for that email');
+    } else if (e.code == 'wrong-password') {
+      Infotoast(context, 'Wrong password provided for that user');
+    } else {
+      Infotoast(context, 'Error signing in');
+    }
+  } catch (e) {
+    print(e.toString());
+    Infotoast(context, 'Error signing in');
   }
+}
 
   @override
   Widget build(BuildContext context) {

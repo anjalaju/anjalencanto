@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/usertype.dart';
 import 'package:main_project/view/ENTREPRENEUR/formscreen/welcome.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/settingchange.dart';
-
 
 class EntreSettingpage extends StatefulWidget {
   const EntreSettingpage({super.key});
@@ -37,50 +37,49 @@ class _EntreSettingpageState extends State<EntreSettingpage> {
           ),
           color: Colors.black,
         ),
-      
       ),
       body: ListView(
         children: [
-          const ListTile(
-            leading: Icon(
-              Icons.language,
-              size: 30,
-            ),
-            title: Text(
-              "Language",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            //  onTap: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => homepage(),
-            //         ));
+          // const ListTile(
+          //   leading: Icon(
+          //     Icons.language,
+          //     size: 30,
+          //   ),
+          //   title: Text(
+          //     "Language",
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   ),
+          //   //  onTap: () {
+          //   //     Navigator.push(
+          //   //         context,
+          //   //         MaterialPageRoute(
+          //   //           builder: (context) => homepage(),
+          //   //         ));
 
-            //   },
-          ),
+          //   //   },
+          // ),
           const Divider(
             thickness: 0.5,
             color: Colors.black,
           ),
-          const ListTile(
-            leading: Icon(
-              Icons.dark_mode,
-              size: 30,
-            ),
-            title: Text(
-              "Dark mode",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            //  onTap: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => homepage(),
-            //         ));
+          // const ListTile(
+          //   leading: Icon(
+          //     Icons.dark_mode,
+          //     size: 30,
+          //   ),
+          //   title: Text(
+          //     "Dark mode",
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //   ),
+          //   //  onTap: () {
+          //   //     Navigator.push(
+          //   //         context,
+          //   //         MaterialPageRoute(
+          //   //           builder: (context) => homepage(),
+          //   //         ));
 
-            //   },
-          ),
+          //   //   },
+          // ),
           const Divider(
             thickness: 0.5,
             color: Colors.black,
@@ -121,7 +120,7 @@ class _EntreSettingpageState extends State<EntreSettingpage> {
               //     MaterialPageRoute(
               //       builder: (context) => const Entrewelcome(),
               //     ));
-                showDialog(
+              showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
@@ -167,10 +166,18 @@ class _EntreSettingpageState extends State<EntreSettingpage> {
                                 ))),
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                builder: (context) => const EntrewelcomeEnterpRenur(),
-                              ));
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserType(),
+                                ),
+                                (route) => false,
+                              );
+
+                              // Navigator.of(context)
+                              //     .pushReplacement(MaterialPageRoute(
+                              //   builder: (context) => const EntrewelcomeEnterpRenur(),
+                              // ));
                             },
                             child: const Text(
                               "Yes",

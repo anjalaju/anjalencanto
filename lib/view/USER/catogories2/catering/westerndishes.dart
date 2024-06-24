@@ -65,7 +65,7 @@ class _WesterndishesState extends State<Westerndishes> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Catering', ' Western Dishes'),
+                  stream: helper.getEventprojectuser('Catering', ' Western Dishes'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

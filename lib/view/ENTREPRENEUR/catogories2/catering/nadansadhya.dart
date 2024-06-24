@@ -506,7 +506,7 @@ class _EntrepnadansadyaState extends State<Entrepnadansadya> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Catering', 'Nadan Sadhya'),
+              stream: instance.getEventproject('Catering', 'Nadan Sadhya',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

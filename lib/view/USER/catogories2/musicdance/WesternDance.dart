@@ -65,7 +65,7 @@ class _WesternDanceState extends State<WesternDance> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Music dance', 'Western dance'),
+                  stream: helper.getEventprojectuser('Music dance', 'Western dance'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

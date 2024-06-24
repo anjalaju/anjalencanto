@@ -506,7 +506,7 @@ class _EntrepbussState extends State<Entrepbuss> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Transportation', 'Bus'),
+              stream: instance.getEventproject('Transportation', 'Bus',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

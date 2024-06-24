@@ -65,7 +65,7 @@ class _PhotographersState extends State<Photographers> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Photograpers', 'Photographersd'),
+                  stream: helper.getEventprojectuser('Photograpers', 'Photographersd'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

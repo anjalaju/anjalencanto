@@ -66,7 +66,7 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Venues', 'Klyana mandapam'),
+                  stream: helper.getEventprojectuser('Venues', 'Klyana mandapam'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

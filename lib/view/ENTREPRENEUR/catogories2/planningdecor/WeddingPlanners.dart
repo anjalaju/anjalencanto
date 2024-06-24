@@ -506,7 +506,7 @@ class _EntrepweddplanState extends State<Entrepweddplan> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Planning And Dcro', 'Wedding planeers'),
+              stream: instance.getEventproject('Planning And Dcro', 'Wedding planeers',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

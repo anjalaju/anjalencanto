@@ -27,7 +27,8 @@ class _LogaState extends State<Entredetailspage> {
     'Makeup artist',
     'Bridal wear and accssories',
     'Groom wear and accessories',
-    'Rentals',
+    'Rental Dress',
+    'Rental Jwellery',
     'Mehandi artist',
     'Transportation',
     'Gift',
@@ -68,7 +69,8 @@ class _LogaState extends State<Entredetailspage> {
       'Wedding Gown'
     ],
     'Groom wear and accessories': ['Shervani', 'Wedding suits', 'Kurtha'],
-    'Rentals': ['Rental Dress', 'Rental jewelry'],
+    'Rental Dress': ['Bridal Rendals', 'Groom Rendals'],
+    'Rental Jwellery': ['Rental Jwellery'],
     'Mehandi artist': ['Mehandhi artist'],
     'Transportation': ['Bus ', 'car', 'traveller'],
     'Gift': ['gifts'],
@@ -372,7 +374,7 @@ class _LogaState extends State<Entredetailspage> {
                                   discription: authprvdr.eventdiscription.text,
                                   startingPriceFrom: authprvdr.eventprice.text,
                                   phonenumber: authprvdr.phonenumber.text,
-                                  uid: auth.currentUser!.uid, 
+                               
                                 ),
                               )
                                   .then((value) {
@@ -442,35 +444,35 @@ class _LogaState extends State<Entredetailspage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                leading: const Icon(
-                  Icons.camera,
-                  color: Colors.indigo,
-                ),
-                title: const Text(
-                  'Take a photo',
-                  style: TextStyle(color: Colors.indigo),
-                ),
-                onTap: () async {
-                  await _pickImage(ImageSource.camera).then((value) async {
-                    SettableMetadata metadata =
-                        SettableMetadata(contentType: 'image/jpeg');
-                    final currenttime = TimeOfDay.now();
-                    UploadTask uploadTask = FirebaseStorage.instance
-                        .ref()
-                        .child('eventimage/$currenttime')
-                        .putFile(_imageFile!, metadata);
-                    TaskSnapshot snapshot = await uploadTask;
-                    await snapshot.ref.getDownloadURL().then((value) {
-                      setState(() {
-                        producturl = value;
-                         Navigator.pop(context);
-                      });
-                    });
-                  });
+              // ListTile(
+              //   leading: const Icon(
+              //     Icons.camera,
+              //     color: Colors.indigo,
+              //   ),
+              //   title: const Text(
+              //     'Take a photo',
+              //     style: TextStyle(color: Colors.indigo),
+              //   ),
+              //   onTap: () async {
+              //     await _pickImage(ImageSource.camera).then((value) async {
+              //       SettableMetadata metadata =
+              //           SettableMetadata(contentType: 'image/jpeg');
+              //       final currenttime = TimeOfDay.now();
+              //       UploadTask uploadTask = FirebaseStorage.instance
+              //           .ref()
+              //           .child('eventimage/$currenttime')
+              //           .putFile(_imageFile!, metadata);
+              //       TaskSnapshot snapshot = await uploadTask;
+              //       await snapshot.ref.getDownloadURL().then((value) {
+              //         setState(() {
+              //           producturl = value;
+              //            Navigator.pop(context);
+              //         });
+              //       });
+              //     });
                  
-                },
-              ),
+              //   },
+              // ),
               ListTile(
                 leading: const Icon(Icons.photo_library, color: Colors.indigo),
                 title: const Text(

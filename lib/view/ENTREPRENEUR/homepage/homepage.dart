@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:main_project/usertype.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/ENTREPRENEUR/Charity/Homepage.dart';
 import 'package:main_project/view/ENTREPRENEUR/events/eventpage.dart';
 import 'package:main_project/view/ENTREPRENEUR/formscreen/welcome.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/Offer.dart';
+import 'package:main_project/view/ENTREPRENEUR/homepage/booking_details.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/complaints.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/detailspage.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/notificationsend.dart';
@@ -153,11 +155,20 @@ class _EntreHomeState extends State<EntreHome> {
                             IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const EntreSettingpage(),
+                                  builder: (context) =>
+                                      const EntreSettingpage(),
                                 ));
                               },
                               icon: const Icon(Icons.settings),
                             ),
+                            IconButton(
+                                onPressed: () {
+                                 Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BookingDetails(),
+                                ));
+                                },
+                                icon: const Icon(Icons.access_alarms)),
                           ],
                         )
                       ],
@@ -369,7 +380,6 @@ class _EntreHomeState extends State<EntreHome> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                       
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -412,13 +422,13 @@ class _EntreHomeState extends State<EntreHome> {
                             ),
                           ),
                         ),
-
-                         GestureDetector(
+                        GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const EntreCharityhomepage(),
+                                  builder: (context) =>
+                                      const EntreCharityhomepage(),
                                 ));
                           },
                           child: Card(
@@ -455,7 +465,7 @@ class _EntreHomeState extends State<EntreHome> {
                             ),
                           ),
                         ),
-                     ],
+                      ],
                     ),
                   ],
                 ),

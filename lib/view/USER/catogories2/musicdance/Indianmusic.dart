@@ -65,7 +65,7 @@ class _IndianmusicState extends State<Indianmusic> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Music dance', 'indian music'),
+                  stream: helper.getEventprojectuser('Music dance', 'indian music'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

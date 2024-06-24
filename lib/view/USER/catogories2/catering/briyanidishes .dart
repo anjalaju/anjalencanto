@@ -65,7 +65,7 @@ class _BiriyaniState extends State<Biriyani> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Catering', ' Biriyani Dishes'),
+                  stream: helper.getEventprojectuser('Catering', ' Biriyani Dishes'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

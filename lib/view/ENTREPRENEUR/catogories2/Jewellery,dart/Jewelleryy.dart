@@ -506,7 +506,7 @@ class _EntrepjellacceState extends State<Entrepjellacce> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Jewellery and Accessories', ' Jewellery'),
+              stream: instance.getEventproject('Jewellery and Accessories', ' Jewellery',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

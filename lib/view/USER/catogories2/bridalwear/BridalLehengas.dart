@@ -65,7 +65,7 @@ class _BridallehankasState extends State<Bridallehankas> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Bridal wear and accssories', 'Bridal lehengas'),
+                  stream: helper.getEventprojectuser('Bridal wear and accssories', 'Bridal lehengas'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

@@ -506,7 +506,7 @@ class _EntrepphotographersState extends State<Entrepphotographers> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Photograpers', 'Photographersd'),
+              stream: instance.getEventproject('Photograpers', 'Photographersd',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -65,7 +65,7 @@ class _KurtaState extends State<Kurta> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Groom wear and accessories', 'Kurtha'),
+                  stream: helper.getEventprojectuser('Groom wear and accessories', 'Kurtha'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

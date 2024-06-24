@@ -65,7 +65,7 @@ class _SherwaniState extends State<Sherwani> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Groom wear and accessories', 'Shervani'),
+                  stream: helper.getEventprojectuser('Groom wear and accessories', 'Shervani'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

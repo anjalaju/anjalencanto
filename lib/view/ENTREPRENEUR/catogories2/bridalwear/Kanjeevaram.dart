@@ -506,7 +506,7 @@ class _EntrepkanjeeState extends State<Entrepkanjee> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Bridal wear and accssories', 'Kanjeevaram silk sarees'),
+              stream: instance.getEventproject('Bridal wear and accssories', 'Kanjeevaram silk sarees',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

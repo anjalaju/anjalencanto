@@ -163,7 +163,7 @@ class EventViewAdmin extends StatelessWidget {
                                         color: Colors.white, fontSize: 13),
                                   ),
                                   Text(
-                                    ' UID: ${list[index].uid}',
+                                    ' UID: ${list[index].enterprenurid}',
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 13),
                                   ),

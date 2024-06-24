@@ -65,7 +65,7 @@ class _AccessoriesjewelleryState extends State<Accessoriesjewellery> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Jewellery and Accessories', 'Accessories'),
+                  stream: helper.getEventprojectuser('Jewellery and Accessories', 'Accessories'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

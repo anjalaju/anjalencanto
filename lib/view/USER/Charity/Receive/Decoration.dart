@@ -52,7 +52,7 @@ class _ReceivedecorState extends State<Receivedecor> {
                 final data = helper.donted;
 
                 return FutureBuilder(
-                  future: helper.getallDonated('Decorationitems'),
+                  future: helper.getallDonated('Decorationitems',auth.currentUser!.uid),
                   builder: (context, snapshot) {
                     return ListView.separated(
                       shrinkWrap: true,

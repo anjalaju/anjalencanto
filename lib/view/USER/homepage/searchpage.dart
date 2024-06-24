@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
+import 'package:main_project/model/addProject.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +18,9 @@ class _SearchpageState extends State<Searchpage> {
   @override
   void initState() {
     super.initState(); 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<FunctionProvider>(context, listen: false).clearSearchEvent();
-    });
+    
+      Provider.of<FunctionProvider>(context, listen: false).getAlleventallh();
+   
   }
    
   
@@ -86,9 +87,9 @@ class _SearchpageState extends State<Searchpage> {
                         suffixIcon: const Icon(Icons.location_on)),
                     onChanged: (value) {
                       helper.searcheven(value);
-                       setState(() {
+                      //  setState(() {
                         
-                       });
+                      //  });
                        
                     },
 
@@ -101,29 +102,37 @@ class _SearchpageState extends State<Searchpage> {
               ),
               Consumer<FunctionProvider>(
                 builder: (context, helper, child) {
-                  return FutureBuilder(
-                    future: helper.getAlleventsearch(),
+                  return StreamBuilder(
+                    stream: helper.getAllEvent(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       }
 
+                      List<EventModel> list=[];
+
+
+                      list = snapshot.data!.docs.map((e){
+                        return EventModel.fromJsone(e.data()as Map<String,dynamic>);
+                      }
+                      ).toList();
+
                      
 
-                      final list = helper.searchevent.isEmpty
-                          ? helper.eventsearc
+                      final Searchlist = helper.searchevent.isEmpty
+                          ? helper.eventall
                           : helper.searchevent;
 
-                          list.shuffle();
+                          // list.shuffle();
 
-                      return list.isEmpty
+                      return helper.searchevent.isEmpty
                           ? Center(
-                              child: Text('Empty'),
+                              child: Text('note found!'),
                             )
                           : ListView.separated(
                               shrinkWrap: true,
                               physics: BouncingScrollPhysics(),
-                              itemCount: list.length,
+                              itemCount: Searchlist.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   width: 120,
@@ -148,18 +157,18 @@ class _SearchpageState extends State<Searchpage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                    'EVENT NAME  :${list[index].eventName}'),
+                                                    'EVENT NAME  :${Searchlist[index].eventName}'),
                                                 Text(
-                                                    'EVENT LOCATION :${list[index].eventPlace}'),
+                                                    'EVENT LOCATION :${Searchlist[index].eventPlace}'),
                                                 Text(
-                                                  'EVENT CATEGORY :${list[index].eventmainCategory}',
+                                                  'EVENT CATEGORY :${Searchlist[index].eventmainCategory}',
                                                   style: TextStyle(
                                                       fontSize:
                                                           Helper.W(context) *
                                                               .025),
                                                 ),
                                                 Text(
-                                                    'EVENT DISCR :${list[index].discription}'),
+                                                    'EVENT DISCR :${Searchlist[index].discription}'),
                                               ],
                                             ),
                                             Spacer(),
@@ -170,7 +179,7 @@ class _SearchpageState extends State<Searchpage> {
                                                   border: Border.all(),
                                                   image: DecorationImage(
                                                       image: NetworkImage(
-                                                    list[index].Image,
+                                                    Searchlist[index].Image,
                                                   ))),
                                             )
                                           ],

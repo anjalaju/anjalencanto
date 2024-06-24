@@ -6,7 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:main_project/chat/chatmain.dart';
+import 'package:main_project/chat/chatpage.dart';
 import 'package:main_project/view/ENTREPRENEUR/Entrechat.dart';
+import 'package:main_project/view/USER/chat.dart';
 import 'package:main_project/view/USER/events/eventpage.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
@@ -26,6 +29,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
   // edit
 
   File? _imageFile;
+
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
@@ -41,6 +45,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
 
   // bootm sheet update
   Future editbootmsheet(EventModel eventModel) async {
+    final ValueNotifier<bool> _isLoading = ValueNotifier(false);
     editname.text = eventModel.eventName;
     editplace.text = eventModel.eventPlace;
     discription.text = eventModel.discription;
@@ -215,6 +220,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                           onTap: () async {
                             await _pickImage(ImageSource.gallery)
                                 .then((value) async {
+                              _isLoading.value = true;
                               SettableMetadata metadata =
                                   SettableMetadata(contentType: 'image/jpeg');
                               final currenttime = TimeOfDay.now();
@@ -224,15 +230,16 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                   .putFile(_imageFile!, metadata);
                               TaskSnapshot snapshot = await uploadTask;
                               producturl = await snapshot.ref.getDownloadURL();
+                              _isLoading.value = false;
                             });
                           },
                           child: Container(
                             width: Helper.W(context) * .50,
-                            height: Helper.h(context) * .20,
+                            height: Helper.h(context) * .50,
                             decoration: BoxDecoration(
                               border: Border.all(),
                               image: DecorationImage(
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                                 image: NetworkImage(eventModel.Image),
                               ),
                             ),
@@ -254,23 +261,24 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                     SizedBox(
                       // width: Helper.W(context) * .50,
                       child: TextFormField(
-                          textInputAction: TextInputAction.next,
-                          controller: editname,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  8.0), // Border radius for normal state
-                              borderSide:
-                                  const BorderSide(), // Default border side
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                  8.0), // Border radius for focused state
-                              borderSide: const BorderSide(
-                                  color: Colors.green,
-                                  width: 2), // Default focused border side
-                            ),
-                          )),
+                        textInputAction: TextInputAction.next,
+                        controller: editname,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                8.0), // Border radius for normal state
+                            borderSide:
+                                const BorderSide(), // Default border side
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(
+                                8.0), // Border radius for focused state
+                            borderSide: const BorderSide(
+                                color: Colors.green,
+                                width: 2), // Default focused border side
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: Helper.h(context) * .020,
@@ -298,7 +306,8 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                  8.0), // Border radius for focused state
+                                8.0,
+                              ), // Border radius for focused state
                               borderSide: const BorderSide(
                                   color: Colors.green,
                                   width: 2), // Default focused border side
@@ -376,47 +385,57 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                     ),
                     Consumer<FunctionProvider>(
                       builder: (context, instance, child) {
-                        return GestureDetector(
-                          onTap: () async {
-                            print('55');
-                            Navigator.pop(context);
-                            // if (producturl != null) {
-                              await instance
-                                  .updateevent(
-                                eventModel.id,
-                                editname.text,
-                                price.text,
-                                editplace.text,
-                                discription.text,
-                                producturl,
-                              )
-                                  .then((value) {
-                                Navigator.pop(context);
-                                SuccesToast(context, 'Update success');
-                                setState(() {});
-                              });
-                            // } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Please wait')),
-                              );
-                            // }
-                            SuccesToast(context, 'Update success');
+                        return ValueListenableBuilder<bool>(
+                          valueListenable: _isLoading,
+                          builder: (context, isLoading, child) {
+                            return GestureDetector(
+                              onTap: isLoading
+                                  ? null
+                                  : () async {
+                                      print('55');
+                                      Navigator.pop(context);
+
+                                      await instance
+                                          .updateevent(
+                                        eventModel.id,
+                                        editname.text,
+                                        price.text,
+                                        editplace.text,
+                                        discription.text,
+                                        producturl,
+                                      )
+                                          .then((value) {
+                                        producturl = null;
+
+                                        SuccesToast(context, 'Update success');
+                                        log('the then kfkdfj  ${producturl}');
+                                      });
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text('Please wait')),
+                                      );
+
+                                      SuccesToast(context, 'Update success');
+                                    },
+                              child:isLoading ? Text('WAITING THE IMAG UPLOAD') : Container(
+                                alignment: Alignment.center,
+                                width: Helper.W(context) * .5,
+                                height: Helper.h(context) * .050,
+                                decoration: BoxDecoration(
+                                  color:isLoading ?  Colors.red : Colors.green,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(),
+                                ),
+                                child: const Text(
+                                  'Update',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            );
                           },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: Helper.W(context) * .5,
-                            height: Helper.h(context) * .050,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(),
-                            ),
-                            child: const Text(
-                              'Update',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          ),
                         );
                       },
                     ),
@@ -511,7 +530,8 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Venues', 'Banquet halls'),
+              stream: instance.getEventproject(
+                  'Venues', 'Banquet halls', auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -673,13 +693,11 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                                                   Color(0xffFF004D))),
                                                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
                                                   onPressed: () {
-                                                    Navigator.of(context)
-                                                        .push(MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EntreChatpage(
-                                                        name: 'Banquet Halls',
-                                                      ),
-                                                    ));
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ChatRoom()),
+                                                    );
                                                   },
                                                   child: const Row(
                                                     children: [
@@ -729,6 +747,9 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                               )
                                             ],
                                           ),
+                                        ),
+                                        SizedBox(
+                                          height: Helper.h(context)*.050,
                                         )
                                       ],
                                     ),
@@ -736,8 +757,13 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                 );
                               },
                               separatorBuilder: (context, index) {
-                                return const SizedBox(
+                                return Column(
+                                  children: [
+                                    Divider(),
+                                      SizedBox(
                                   height: 40,
+                                ),
+                                  ],
                                 );
                               },
                             ),
@@ -748,8 +774,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
               },
             );
           },
-        )
-        );
+        ));
   }
 
   void _makePhoneCall(String phoneNumber) async {

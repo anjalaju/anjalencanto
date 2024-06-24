@@ -65,7 +65,7 @@ class _PreweddingshootState extends State<Preweddingshoott> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Pre wedding shoot', 'pre wedding photograpers'),
+                  stream: helper.getEventprojectuser('Pre wedding shoot', 'pre wedding photograpers'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

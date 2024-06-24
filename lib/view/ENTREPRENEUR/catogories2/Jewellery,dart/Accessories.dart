@@ -506,7 +506,7 @@ class _EntrepaccesjullState extends State<Entrepaccesjull> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Jewellery and Accessories', 'Accessories'),
+              stream: instance.getEventproject('Jewellery and Accessories', 'Accessories',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

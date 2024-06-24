@@ -506,7 +506,7 @@ class _EntrepwesterndishState extends State<Entrepwesterndish> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Catering', 'Western Dishes'),
+              stream: instance.getEventproject('Catering', 'Western Dishes',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

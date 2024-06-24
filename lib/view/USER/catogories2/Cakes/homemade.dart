@@ -65,7 +65,7 @@ class _HomemadecakesState extends State<Homemadecakes> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Cakes', ' home made cakes'),
+                  stream: helper.getEventprojectuser('Cakes', ' home made cakes'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

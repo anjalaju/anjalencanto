@@ -506,7 +506,7 @@ class _EntrepwesternmusState extends State<Entrepwesternmus> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Music dance', 'Western music'),
+              stream: instance.getEventproject('Music dance', 'Western music',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

@@ -65,7 +65,7 @@ class _NadansaddyaState extends State<Nadansaddya> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Catering', ' Nadan Sadhya'),
+                  stream: helper.getEventprojectuser('Catering', ' Nadan Sadhya'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

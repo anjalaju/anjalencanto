@@ -65,7 +65,7 @@ class _BridalmakeupsState extends State<Bridalmakeups> {
             Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 return StreamBuilder(
-                  stream: helper.getEventproject('Makeup artist', 'Bridal Makeup'),
+                  stream: helper. getEventprojectuser('Makeup artist', 'Bridal Makeup'),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(

@@ -506,7 +506,7 @@ class _EntrepsnallfnssState extends State<Entrepsnallfnss> {
         body: Consumer<FunctionProvider>(
           builder: (context, instance, child) {
             return StreamBuilder(
-              stream: instance.getEventproject('Planning And Dcro', ' Small function Decor'),
+              stream: instance.getEventproject('Planning And Dcro', ' Small function Decor',auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
