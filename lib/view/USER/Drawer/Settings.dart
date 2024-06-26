@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/view/USER/Drawer/settingchangepass.dart';
 import 'package:main_project/view/USER/formscreen/welcome.dart';
@@ -173,10 +174,12 @@ class _SettingpageState extends State<Settingpage> {
                                 ))),
                         ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context)
+                             FirebaseAuth.instance.currentUser!.delete().then((e){
+                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
                                 builder: (context) => welcome(),
                               ));
+                             });
                             },
                             child: const Text(
                               "Yes",
