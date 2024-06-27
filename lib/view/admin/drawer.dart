@@ -9,6 +9,7 @@ import 'package:main_project/view/admin/charity.dart';
 import 'package:main_project/view/admin/complaint.dart';
 import 'package:main_project/view/admin/eventsviw_admin.dart';
 import 'package:main_project/view/admin/login.dart';
+import 'package:main_project/view/admin/offers.dart';
 import 'package:main_project/view/admin/reviewview.dart';
 
 class Drawerpage extends StatelessWidget {
@@ -266,6 +267,20 @@ class Drawerpage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => NotificationPgae(),
+                ));
+              },
+            ),
+            const Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              leading:
+                  const Icon(Icons.local_offer, color: Colors.black),
+              title: const Text('Offers',
+                  style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Adminoffers(),
                 ));
               },
             ),

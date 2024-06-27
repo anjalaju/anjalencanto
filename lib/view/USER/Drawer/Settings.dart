@@ -177,7 +177,7 @@ class _SettingpageState extends State<Settingpage> {
                              FirebaseAuth.instance.currentUser!.delete().then((e){
                                Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
-                                builder: (context) => welcome(),
+                                builder: (context) => const welcome(),
                               ));
                              });
                             },

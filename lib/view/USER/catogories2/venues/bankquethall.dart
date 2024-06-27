@@ -57,7 +57,7 @@ class _BankquethallState extends State<Bankquethall> {
                       SizedBox(
                         height: Helper.h(context) * .020,
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('PRODUCT REVIEW AND FEED BACK'),
@@ -72,8 +72,8 @@ class _BankquethallState extends State<Bankquethall> {
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
+                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => const Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
@@ -90,7 +90,7 @@ class _BankquethallState extends State<Bankquethall> {
                       ),
                       TextFormField(
                         controller: feedbackcon,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: 'ADD FEEDBACK',
                             border: OutlineInputBorder()),
                         validator: (value) {
@@ -120,11 +120,11 @@ class _BankquethallState extends State<Bankquethall> {
                                       model.id);
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Success')));
+                                      const SnackBar(content: Text('Success')));
                                   provider.claerrat();
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                           content: Text(
                                               'please select the rating')));
                                 }
@@ -139,7 +139,7 @@ class _BankquethallState extends State<Bankquethall> {
                               decoration: BoxDecoration(
                                 border: Border.all(),
                               ),
-                              child: Text('ADD REVIEW'),
+                              child: const Text('ADD REVIEW'),
                             ),
                           ),
                         ],
@@ -217,7 +217,7 @@ class _BankquethallState extends State<Bankquethall> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
@@ -236,17 +236,17 @@ class _BankquethallState extends State<Bankquethall> {
 
 
                         if(searchall.isEmpty){
-                          return Text('NO SEARCH EVENT FOUND');
+                          return const Text('NO SEARCH EVENT FOUND');
                         }
 
 
                         if (snapshot.hasData) {
                           return list.isEmpty
-                              ? Center(
+                              ? const Center(
                                   child: Text('no event '),
                                 )
                               : ListView.separated(
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: searchall.length,
                                   itemBuilder: (context, index) {
@@ -268,7 +268,7 @@ class _BankquethallState extends State<Bankquethall> {
                                               fit: BoxFit.cover,
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 10,
                                           ),
                                           Padding(
@@ -411,14 +411,14 @@ class _BankquethallState extends State<Bankquethall> {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.currency_rupee,
                                                       size: 20,
                                                     ),
                                                     Text(
                                                       searchall[index]
                                                           .startingPriceFrom,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 18),
@@ -516,7 +516,7 @@ class _BankquethallState extends State<Bankquethall> {
                                                   ),
                                                   onPressed: () {
                                                     _makePhoneCall(
-                                                        '7025053483');
+                                                        list[index].phonenumber);
                                                   },
                                                   child: const Row(
                                                     children: [
@@ -548,7 +548,7 @@ class _BankquethallState extends State<Bankquethall> {
                                                   decoration: BoxDecoration(
                                                     border: Border.all(),
                                                   ),
-                                                  child: Text(
+                                                  child: const Text(
                                                     'ADD REVIEW ',
                                                     style: TextStyle(
                                                       fontWeight:
@@ -571,7 +571,7 @@ class _BankquethallState extends State<Bankquethall> {
                                                 ));
                                                 ;
                                               },
-                                              child: Text('View Revies'))
+                                              child: const Text('View Revies'))
                                           // Consumer<FunctionProvider>(
                                           //   builder: (context, heper, child) {
                                           //     return StreamBuilder(
@@ -668,7 +668,7 @@ class _BankquethallState extends State<Bankquethall> {
                                     );
                                   },
                                   separatorBuilder: (context, index) {
-                                    return SizedBox(
+                                    return const SizedBox(
                                       height: 10,
                                     );
                                   },

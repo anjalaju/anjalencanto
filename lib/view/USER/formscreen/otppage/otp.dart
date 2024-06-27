@@ -61,6 +61,7 @@ class _signupotpState extends State<signupotp> {
           "Id": uid,
           "Mobile_No": widget.mobilenumber,
           "Image": '',
+          "timestamp":DateTime.now(),
         };
         await addfirebase(registereinfomap, uid);
         const SnackBar(content: Text("Details added to firebase Succesfully"));

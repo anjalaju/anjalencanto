@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,33 +46,37 @@ class AuthProvider with ChangeNotifier {
 
   Future SignupEnterprenur(BuildContext context, email, password) async {
     try {
-      final instance = Provider.of<FunctionProvider>(context,listen: false);
-      final functionprovider = Provider.of<AuthProvider>(context,listen: false);
+      final instance = Provider.of<FunctionProvider>(context, listen: false);
+      final functionprovider =
+          Provider.of<AuthProvider>(context, listen: false);
 
       auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) async {
         await instance.addEnterprenur(
-          EnterprenurModel(
-            entrepreneurName: functionprovider.entername.text,
-            entrepreneurNumber: functionprovider.enternumber.text,
-            entrepreneurEmail: functionprovider.enteremail.text,
-            entrepreneurPassword: functionprovider.enterpassword.text,
-            image: '',
-            businessName: '',
-            location: '',
-            uid: value.user!.uid,
-            userType: 'enterprenur',
-          ),
-          value.user!.uid
-        );
+            EnterprenurModel(
+                entrepreneurName: functionprovider.entername.text,
+                entrepreneurNumber: functionprovider.enternumber.text,
+                entrepreneurEmail: functionprovider.enteremail.text,
+                entrepreneurPassword: functionprovider.enterpassword.text,
+                image: '',
+                businessName: '',
+                location: '',
+                uid: value.user!.uid,
+                userType: 'enterprenur',
+                timestamp: DateTime.now()),
+            value.user!.uid);
 
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const Entresuccessfull()),
           (route) => false,
         );
+       
+
         clearcontrl();
+         functionprovider.entername.clear();
+         functionprovider.enternumber.clear();
       });
     } on FirebaseException catch (e) {
       Infotoast(context, 'Error ');
@@ -87,10 +89,10 @@ class AuthProvider with ChangeNotifier {
   //   final UserCredential userCredential=  auth
   //         .signInWithEmailAndPassword(email: email, password: password)
   //         .then((value)async {
-         
+
   //     final uid =   value.user!.uid;
   //       final snapshot = await  db.collection('enterprenur')
-         
+
   //       .where('userType',isEqualTo: 'enterprenur').get();
 
   //       if(snapshot.docs.isNotEmpty){
@@ -104,8 +106,6 @@ class AuthProvider with ChangeNotifier {
   //         Infotoast(context, 'check mail');
   //       }
 
-
-        
   //       SuccesToast(context, 'Loggin succes');
   //       clearcontrl();
   //     });
@@ -114,45 +114,44 @@ class AuthProvider with ChangeNotifier {
   //   }
   // }
 
-  Future<void> signin(String email, String password, BuildContext context) async {
-  try {
-    final UserCredential userCredential = await auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    final uid = userCredential.user!.uid;
-    final snapshot = await db
-        .collection('enterprenur')
-        .where('uid', isEqualTo: uid)
-        .get();
-
-    if (snapshot.docs.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Entreloginnotification(),
-        ),
+  Future<void> signin(
+      String email, String password, BuildContext context) async {
+    try {
+      final UserCredential userCredential =
+          await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-      SuccesToast(context, 'Login success');
-      clearcontrl();
-    } else {
-      Infotoast(context, 'User not found');
-    }
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      Infotoast(context, 'No user found for that email');
-    } else if (e.code == 'wrong-password') {
-      Infotoast(context, 'Wrong password provided for that user');
-    } else {
+
+      final uid = userCredential.user!.uid;
+      final snapshot =
+          await db.collection('enterprenur').where('uid', isEqualTo: uid).get();
+
+      if (snapshot.docs.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Entreloginnotification(),
+          ),
+        );
+        SuccesToast(context, 'Login success');
+        clearcontrl();
+      } else {
+        Infotoast(context, 'User not found');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Infotoast(context, 'No user found for that email');
+      } else if (e.code == 'wrong-password') {
+        Infotoast(context, 'Wrong password provided for that user');
+      } else {
+        Infotoast(context, 'Error signing in');
+      }
+    } catch (e) {
+      print(e.toString());
       Infotoast(context, 'Error signing in');
     }
-  } catch (e) {
-    print(e.toString());
-    Infotoast(context, 'Error signing in');
   }
-}
-
 
   Future logoutevent(BuildContext context) async {
     try {

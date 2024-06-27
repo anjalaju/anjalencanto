@@ -68,7 +68,7 @@ class EnterprenurModel {
   String? location;
   String uid;
   String userType;
-
+DateTime timestamp;
   EnterprenurModel({
     required this.entrepreneurName,
     required this.entrepreneurNumber,
@@ -80,6 +80,7 @@ class EnterprenurModel {
     this.location,
     required this.uid,
     required this.userType,
+     required this.timestamp,
   });
 
   Map<String, dynamic> toJsone(String idd) => {
@@ -93,6 +94,7 @@ class EnterprenurModel {
         'location': location,
         'uid': uid,
         'userType': userType,
+         'timestamp': timestamp.toIso8601String(),
       };
 
   factory EnterprenurModel.fromJsone(Map<String, dynamic> json) {
@@ -107,6 +109,7 @@ class EnterprenurModel {
       location: json['location'],
       uid: json['uid'],
       userType: json['userType'],
+       timestamp: DateTime.parse(json['timestamp']),
     );
   }
 }

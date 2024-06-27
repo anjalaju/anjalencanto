@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scrolling_fab_animated/flutter_scrolling_fab_animated.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/offerpageb.dart';
 
-class Entreofferpage extends StatefulWidget {
-  const Entreofferpage({super.key});
+class Adminoffers extends StatefulWidget {
+  const Adminoffers({super.key});
 
   @override
-  State<Entreofferpage> createState() => _EntreofferpageState();
+  State<Adminoffers> createState() => _AdminoffersState();
 }
 
-class _EntreofferpageState extends State<Entreofferpage> {  ScrollController _scrollController = ScrollController();
+class _AdminoffersState extends State<Adminoffers> {  ScrollController _scrollController = ScrollController();
  @override
   void dispose() {
     _scrollController.dispose();
@@ -126,7 +126,7 @@ class _EntreofferpageState extends State<Entreofferpage> {  ScrollController _sc
                                       12), // Optional: adds rounded corners
                                   child: Container(
                                     height:
-                                        MediaQuery.of(context).size.height / 3,
+                                        MediaQuery.of(context).size.height / 2,
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(

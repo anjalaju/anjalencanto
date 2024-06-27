@@ -20,8 +20,12 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
 
   Future<void> fetchEmployeeData() async {
     try {
-      var snapshot =
-          await FirebaseFirestore.instance.collection('enterprenur').get();
+      // var snapshot =
+      //     await FirebaseFirestore.instance.collection('enterprenur').get();
+       var snapshot = await FirebaseFirestore.instance
+        .collection('enterprenur')
+        .orderBy('timestamp', descending: true)
+        .get();
       if (snapshot.docs.isEmpty) {
         print("No documents found in 'employees' collection.");
       }
@@ -39,12 +43,13 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
         }
         return Employee(
           slno++,
-          data['profileimage'] ?? '',
-          data['EnterprenurName'] ?? '',
+          data['profileImage'] ?? '',
+          data['entrepreneurName'] ?? '',
           data['location'] ?? '',
+          data['businessName'] ?? '',
           age,
-          data['EnterprenurEmail'] ?? '',
-          data['EnterprenurNumber'] ?? '',
+          data['entrepreneurEmail'] ?? '',
+          data['entrepreneurNumber'] ?? '',
         );
       }).toList();
       totalUsers = employees.length;
@@ -154,6 +159,17 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
                               overflow: TextOverflow.ellipsis,
                             ))),
                     GridColumn(
+                        columnName: 'BusinessName',
+                        label: Container(
+                            color: Colors.indigo,
+                            padding: const EdgeInsets.all(8.0),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              'BusinessName',
+                              style: TextStyle(color: Colors.white),
+                              overflow: TextOverflow.ellipsis,
+                            ))),
+                    GridColumn(
                         columnName: 'email',
                         label: Container(
                             color: Colors.indigo,
@@ -180,7 +196,7 @@ class _EntrepreneurdetailsState extends State<Entrepreneurdetails> {
 }
 
 class Employee {
-  Employee(this.id, this.img, this.user_name, this.place, this.age, this.email,
+  Employee(this.id, this.img, this.user_name, this.place,this.bname, this.age, this.email,
       this.mobile_no);
 
   final int id;
@@ -189,6 +205,8 @@ class Employee {
   final String user_name;
 
   final String place;
+    final String bname;
+
   final int age;
   final String email;
   final String mobile_no;
@@ -204,6 +222,7 @@ class EmployeeDataSource extends DataGridSource {
               // DataGridCell<String>(columnName: 'user_name', value: e.user_name),
 
               DataGridCell<String>(columnName: 'location', value: e.place),
+              DataGridCell<String>(columnName: 'BusinessName', value: e.bname),
 
               DataGridCell<String>(columnName: 'email', value: e.email),
               DataGridCell<String>(columnName: 'mobile_no', value: e.mobile_no),

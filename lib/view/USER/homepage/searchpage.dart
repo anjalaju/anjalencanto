@@ -106,7 +106,7 @@ class _SearchpageState extends State<Searchpage> {
                     stream: helper.getAllEvent(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
 
                       List<EventModel> list=[];
@@ -126,12 +126,12 @@ class _SearchpageState extends State<Searchpage> {
                           // list.shuffle();
 
                       return helper.searchevent.isEmpty
-                          ? Center(
-                              child: Text('note found!'),
+                          ? const Center(
+                              child: Text('Not found!'),
                             )
                           : ListView.separated(
                               shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemCount: Searchlist.length,
                               itemBuilder: (context, index) {
                                 return Container(
@@ -171,7 +171,7 @@ class _SearchpageState extends State<Searchpage> {
                                                     'EVENT DISCR :${Searchlist[index].discription}'),
                                               ],
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Container(
                                               width: Helper.W(context) * .25,
                                               height: Helper.h(context) * .140,

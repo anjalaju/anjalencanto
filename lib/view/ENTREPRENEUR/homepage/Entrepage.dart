@@ -29,7 +29,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
       future: helperprovdr.getEnterprenurdata(auth.currentUser!.uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -112,12 +112,12 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         child: ListTile(
                           title: Text(
                             endata!.entrepreneurName,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          leading: Icon(Icons.person),
-                          iconColor: Color.fromRGBO(0, 0, 0, 1),
+                          textColor: const Color.fromARGB(255, 0, 0, 0),
+                          leading: const Icon(Icons.person),
+                          iconColor: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
                     ],
@@ -139,9 +139,9 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         height: 50,
                         child: ListTile(
                           title: Text(endata.entrepreneurNumber),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          leading: Icon(Icons.call),
-                          iconColor: Color.fromRGBO(0, 0, 0, 1),
+                          textColor: const Color.fromARGB(255, 0, 0, 0),
+                          leading: const Icon(Icons.call),
+                          iconColor: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
                     ],
@@ -163,12 +163,12 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         child: ListTile(
                           title: Text(
                             endata.entrepreneurEmail,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w500),
                           ),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          leading: Icon(Icons.email),
-                          iconColor: Color.fromRGBO(0, 0, 0, 1),
+                          textColor: const Color.fromARGB(255, 0, 0, 0),
+                          leading: const Icon(Icons.email),
+                          iconColor: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
                     ],
@@ -192,13 +192,13 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                           title: endata.businessName!.isEmpty
                               ? TextFormField(
                                   controller: bisname,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       border: OutlineInputBorder()),
                                 )
                               : Text(endata.businessName.toString()),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          leading: Icon(Icons.apartment),
-                          iconColor: Color.fromRGBO(0, 0, 0, 1),
+                          textColor: const Color.fromARGB(255, 0, 0, 0),
+                          leading: const Icon(Icons.apartment),
+                          iconColor: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
                     ],
@@ -221,13 +221,13 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                           title: endata.location!.isEmpty
                               ? TextFormField(
                                   controller: location,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       border: OutlineInputBorder()),
                                 )
                               : Text(endata.location.toString()),
-                          textColor: Color.fromARGB(255, 0, 0, 0),
-                          leading: Icon(Icons.location_on_sharp),
-                          iconColor: Color.fromRGBO(0, 0, 0, 1),
+                          textColor: const Color.fromARGB(255, 0, 0, 0),
+                          leading: const Icon(Icons.location_on_sharp),
+                          iconColor: const Color.fromRGBO(0, 0, 0, 1),
                         ),
                       )
                     ],
@@ -253,7 +253,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
 
                           border: Border.all(),
                         ),
-                        child: Text('Update add'),
+                        child: const Text('Update add'),
                       ),
                     )
                   ],

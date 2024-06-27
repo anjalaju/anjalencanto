@@ -36,7 +36,6 @@ class _LogaState extends State<Entresignup> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-       
                     const SizedBox(height: 60),
                     const Center(
                       child: Text(
@@ -63,7 +62,8 @@ class _LogaState extends State<Entresignup> {
                         if (value.length > 20) {
                           return 'Name can be at most 20 characters long';
                         }
-                        if (RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                        if (RegExp(r'[!@#\$%^&*(),.?":{}|<>]')
+                            .hasMatch(value)) {
                           return 'Name cannot contain special characters';
                         }
                         return null;
@@ -92,7 +92,7 @@ class _LogaState extends State<Entresignup> {
                         if (!RegExp(r'^\d{10}$').hasMatch(value)) {
                           return 'Invalid phone number format';
                         }
-      
+
                         return null;
                       },
                       onChanged: (value) {
@@ -172,17 +172,17 @@ class _LogaState extends State<Entresignup> {
                         if (password == null || password.isEmpty) {
                           return 'Please enter your password';
                         }
-      
+
                         // Password length should be at least 4 characters
                         if (password.length < 4) {
                           return 'Password must be at least 4 characters long.';
                         }
-      
+
                         // Password should contain at least one digit
                         if (!password.contains(RegExp(r'[0-9]'))) {
                           return 'Password must contain at least one digit.';
                         }
-      
+
                         _password = password; // Save the password
                         return null;
                       },
@@ -208,7 +208,9 @@ class _LogaState extends State<Entresignup> {
                           hintText: ("Confirm Password"),
                           prefixIcon: const Icon(Icons.lock),
                           suffixIcon: GestureDetector(
-                            onTap: () {},
+                            onTap: () { setState(() {
+                              _obscureText2 = !_obscureText2;
+                            });},
                             child: Icon(
                               _obscureText2
                                   ? Icons.visibility_off
@@ -242,24 +244,27 @@ class _LogaState extends State<Entresignup> {
                                   functionprovider.enterpassword.text,
                                 );
                                 // .then((value) async {
-                                  // await instance.addEnterprenur(
-                                  //   EnterprenurModel(
-                                  //     EnterprenurName:
-                                  //         functionprovider.entername.text,
-                                  //     EnterprenurNumber:
-                                  //         functionprovider.enternumber.text,
-                                  //     EnterprenurEmail:
-                                  //         functionprovider.enteremail.text,
-                                  //     EnterprenurPassword:
-                                  //         functionprovider.enterpassword.text,
-                                  //     image: '',
-                                  //     businesname: '',
-                                  //     location: '',
-                                  //     // uid: value.uid,
-                                  //   ),
-                                  // );
+                                // await instance.addEnterprenur(
+                                //   EnterprenurModel(
+                                //     EnterprenurName:
+                                //         functionprovider.entername.text,
+                                //     EnterprenurNumber:
+                                //         functionprovider.enternumber.text,
+                                //     EnterprenurEmail:
+                                //         functionprovider.enteremail.text,
+                                //     EnterprenurPassword:
+                                //         functionprovider.enterpassword.text,
+                                //     image: '',
+                                //     businesname: '',
+                                //     location: '',
+                                //     // uid: value.uid,
+                                //   ),
+                                // );
                                 // });
-                                SuccesToast(context, 'Succes loggin enterprenur');
+                               
+
+                                SuccesToast(
+                                    context, 'Succes login Entrepreneur');
                               }
                             },
                             child: const Text(

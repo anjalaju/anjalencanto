@@ -4,6 +4,7 @@ import 'package:main_project/Bussines_logic/firebase_options.dart';
 import 'package:main_project/controller/AuthProvider.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/controller/paymentcontroller.dart';
+import 'package:main_project/splashscreen.dart';
 import 'package:main_project/usertype.dart';
 import 'package:main_project/view/USER/homepage/homepage.dart';
 import 'package:main_project/view/admin/charity.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: UserType(),
+        home: SplashScreen(),
       ),
     );
   }

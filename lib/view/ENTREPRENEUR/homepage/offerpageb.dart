@@ -57,78 +57,76 @@ class _EnofferpageeState extends State<Enofferpagee> {
       ),
       backgroundColor: const Color(0xffF9F8C9),
       body: SingleChildScrollView(
-        
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              
-              const SizedBox(height: 30),
-              const Text("Image of product"),
-              const SizedBox(height: 7),
-              InkWell(
-                onTap: () {
-                  _showImagePickerBottomSheet(context);
-                },
-                child: Container(
-                  height: 130,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: _imageFile != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.file(
-                            _imageFile!,
-                            fit: BoxFit.fill,
-                          ),
-                        )
-                      : const Icon(
-                          Icons.add,
-                          size: 40,
-                        ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              Center(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    minimumSize: MaterialStateProperty.all(const Size(300, 50)),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    backgroundColor:
-                        MaterialStateProperty.all(const Color(0xffFF4141)),
-                  ),
-                  onPressed: () async {
-                    setState(() {
-      isloading = true;
-    });
-                   await addoffer();
-                   setState(() {
-      isloading = false;
-    });
-                    
+          child: Container(height: MediaQuery.of(context).size.height,
+          width:  MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 30),
+                const Text("Image of product"),
+                const SizedBox(height: 7),
+                InkWell(
+                  onTap: () {
+                    _showImagePickerBottomSheet(context);
                   },
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  child: Container(
+                    height: 130,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2,color: Colors.green),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: _imageFile != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.file(
+                              _imageFile!,
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.add,
+                            size: 40,
+                          ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 60),
-               Center(
-                     child: isloading
-                         ? CircularProgressIndicator()
-                         : Container()
-                   ),
-            ],
+                const SizedBox(height: 30),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      minimumSize: MaterialStateProperty.all(const Size(300, 50)),
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all(const Color(0xffFF4141)),
+                    ),
+                    onPressed: () async {
+                      setState(() {
+                        isloading = true;
+                      });
+                      await addoffer();
+                      setState(() {
+                        isloading = false;
+                      });
+                    },
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 60),
+                Center(
+                    child: isloading ? CircularProgressIndicator() : Container()),
+              ],
+            ),
           ),
         ),
       ),
@@ -136,7 +134,6 @@ class _EnofferpageeState extends State<Enofferpagee> {
   }
 
   Future<void> addoffer() async {
-    
     if (_imageFile == null) {
       Fluttertoast.showToast(
         msg: "No image selected",
@@ -149,7 +146,6 @@ class _EnofferpageeState extends State<Enofferpagee> {
       return;
     }
     try {
-      
       var id = const Uuid().v1();
       String fileExtension = _imageFile!.path.split('.').last;
       Reference storageRef = FirebaseStorage.instance
@@ -161,14 +157,13 @@ class _EnofferpageeState extends State<Enofferpagee> {
       TaskSnapshot taskSnapshot = await uploadTask;
       String fileUrl = await taskSnapshot.ref.getDownloadURL();
 
-      Offermodel offermodel = Offermodel(image: fileUrl, id: id);
+      Offermodel offermodel = Offermodel(image: fileUrl, id: id,timestamp: DateTime.now());
       await offercontroller.addoffer(offermodel, id);
 
       setState(() {
         _imageFile = null;
         _imagecontroller.clear();
       });
-      
 
       Fluttertoast.showToast(
         msg: "Post uploaded",

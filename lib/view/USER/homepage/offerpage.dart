@@ -34,29 +34,54 @@ class _offerpageState extends State<offerpage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             StreamBuilder(
-                stream:
-                    FirebaseFirestore.instance.collection('Offer').snapshots(),
+                // stream:
+                //     FirebaseFirestore.instance.collection('Offer').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('Offer')
+                    .orderBy('timestamp',
+                        descending: true) // Order by timestamp descending
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(child: Image.asset('images/no offer.avif'));
+                  }
                   return Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         final data = snapshot.data!.docs[index];
                         return Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: SizedBox(
-                              height: 200,
-                              width: 300,
-                              // color: Colors.amber,
-                              child: Image.network(
-                                '${data['Image']}',
-                                fit: BoxFit.cover,
-                              )),
-                        );
+                            padding: const EdgeInsets.all(10),
+                            // child: SizedBox(
+                            //     height: 200,
+                            //     width: 300,
+                            //     // color: Colors.amber,
+                            //     child: Image.network(
+                            //       '${data['Image']}',
+                            //       fit: BoxFit.cover,
+                            //     )),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 3,
+                              // width: MediaQuery.of(context).size.width,
+                              child: AspectRatio(
+                                aspectRatio:
+                                    16 / 9, // Adjust the aspect ratio as needed
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage('${data['Image']}'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                        12), // Optional: adds rounded corners
+                                  ),
+                                ),
+                              ),
+                            ));
                       },
                       itemCount: snapshot.data!.docs.length,
                     ),

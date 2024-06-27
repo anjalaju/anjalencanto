@@ -28,11 +28,6 @@ class _ChatPageState extends State<ChatPage> {
 
   final messagecontroller = TextEditingController();
 
-  
-
-  
-
-  
   void sendMessage() async {
     if (messagecontroller.text.isNotEmpty) {
       await chatService.sendMessage(widget.reciveerID, messagecontroller.text);
@@ -49,40 +44,96 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: StreamBuilder(
+      //     stream: getReciverdetails(),
+      //     builder: (context, snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.waiting) {
+      //         return CircularProgressIndicator();
+      //       }
+      //       if (snapshot.hasError || !snapshot.hasData || !snapshot.data!.exists) {
+      //         return Text('');
+      //       }
+
+      //       var data = snapshot.data!.data() as Map<String, dynamic>;
+      //       var profileImage = data['profileImage'] ?? '';
+      //       var entrepreneurEmail = data['entrepreneurName'] ?? '';
+
+      //       return Row(
+      //         children: [
+      //           Container(
+      //             width: Helper.W(context) * .080,
+      //             height: Helper.h(context) * .060,
+      //             decoration: BoxDecoration(
+      //                 color: Colors.red,
+      //                 shape: BoxShape.circle,
+      //                 image: DecorationImage(
+      //                   image: NetworkImage(
+      //                     profileImage,
+      //                   ),
+      //                 )),
+      //           ),
+      //           SizedBox(
+      //             width: Helper.W(context) * .05,
+      //           ),
+
+      //           Text(entrepreneurEmail),
+      //         ],
+      //       );
+      //     },
+      //   ),
+      // ),
       appBar: AppBar(
-        title: StreamBuilder(
-          stream: getReciverdetails(),
+        title: FutureBuilder<List<MapEntry<String, dynamic>>>(
+          future: getUserDetails(widget.reciveerID),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
             }
-            if (snapshot.hasError || !snapshot.hasData || !snapshot.data!.exists) {
+            if (snapshot.hasError || !snapshot.hasData) {
               return Text('');
             }
 
-            var data = snapshot.data!.data() as Map<String, dynamic>;
-            var profileImage = data['profileImage'] ?? '';
-            var entrepreneurEmail = data['entrepreneurEmail'] ?? '';
+            var data = Map<String, dynamic>.fromEntries(snapshot.data!);
+            print('${data}+===');
+            var profileImageEnt = data['profileImage'] ?? '';
+            var profileImageUser = data['Image'] ?? '';
+
+            var usertype = data['userType'];
+            var username = data['User_Name'] ?? '';
+            var enterprenurName = data['entrepreneurName'] ?? '';
 
             return Row(
               children: [
-                Container(
-                  width: Helper.W(context) * .080,
-                  height: Helper.h(context) * .060,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          profileImage,
+                usertype == 'enterprenur'
+                    ? Container(
+                        width: MediaQuery.of(context).size.width * .080,
+                        height: MediaQuery.of(context).size.height * .060,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(profileImageEnt),
+                          ),
                         ),
-                      )),
-                ),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width * .080,
+                        height: MediaQuery.of(context).size.height * .060,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(profileImageUser),
+                          ),
+                        ),
+                      ),
                 SizedBox(
-                  width: Helper.W(context) * .05,
+                  width: MediaQuery.of(context).size.width * .05,
                 ),
-
-                Text(entrepreneurEmail),
+                usertype == 'enterprenur'
+                    ? Text(enterprenurName)
+                    : Text(username),
               ],
             );
           },
@@ -178,4 +229,24 @@ class ChatBubble extends StatelessWidget {
       child: Text(message),
     );
   }
+}
+
+Future<List<MapEntry<String, dynamic>>> getUserDetails(String userID) async {
+  // Fetching user details from different collections
+  DocumentSnapshot entrepreneurSnapshot =
+      await db.collection('enterprenur').doc(userID).get();
+  DocumentSnapshot userSnapshot =
+      await db.collection('firebase').doc(userID).get();
+
+  Map<String, dynamic> userDetails = {};
+
+  if (entrepreneurSnapshot.exists) {
+    userDetails.addAll(entrepreneurSnapshot.data() as Map<String, dynamic>);
+  }
+  if (userSnapshot.exists) {
+    userDetails.addAll(userSnapshot.data() as Map<String, dynamic>);
+  }
+
+  // Convert the combined map into a list of key-value pairs
+  return userDetails.entries.toList();
 }
