@@ -55,7 +55,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   child: GestureDetector(
                     onTap: () async {
                       await helperprovdr.imagePicker();
-                      log(auth.currentUser!.uid);
+                  await  helperprovdr.updatProfielonly(auth.currentUser!.uid,helperprovdr.url).then((value) => helperprovdr.url =null,);
                     },
                     child: Container(
                       height: 100,
@@ -63,7 +63,7 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                       margin: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(helperprovdr.url.toString())),
+                              image: NetworkImage(endata!.image.toString())),
                           borderRadius: BorderRadius.circular(50),
                           color: Colors.white,
                           border: Border.all(
@@ -241,8 +241,11 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        helperprovdr.updatProfielonly(
-                            auth.currentUser!.uid,);
+                        helperprovdr.updatProfiel(
+                          auth.currentUser!.uid,
+                          bisname.text,
+                          location.text,
+                        );
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -250,7 +253,6 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         height: Helper.h(context) * .060,
                         // color: Colors.red,
                         decoration: BoxDecoration(
-
                           border: Border.all(),
                         ),
                         child: const Text('Update add'),

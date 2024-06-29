@@ -243,24 +243,7 @@ class _LogaState extends State<Entresignup> {
                                   functionprovider.enteremail.text,
                                   functionprovider.enterpassword.text,
                                 );
-                                // .then((value) async {
-                                // await instance.addEnterprenur(
-                                //   EnterprenurModel(
-                                //     EnterprenurName:
-                                //         functionprovider.entername.text,
-                                //     EnterprenurNumber:
-                                //         functionprovider.enternumber.text,
-                                //     EnterprenurEmail:
-                                //         functionprovider.enteremail.text,
-                                //     EnterprenurPassword:
-                                //         functionprovider.enterpassword.text,
-                                //     image: '',
-                                //     businesname: '',
-                                //     location: '',
-                                //     // uid: value.uid,
-                                //   ),
-                                // );
-                                // });
+                                
                                
 
                                 SuccesToast(
@@ -279,5 +262,9 @@ class _LogaState extends State<Entresignup> {
             ),
           )),
     );
+  }
+
+  clear(){
+    
   }
 }

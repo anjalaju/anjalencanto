@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
+import 'package:main_project/usertype.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/USER/Drawer/settingchangepass.dart';
 import 'package:main_project/view/USER/formscreen/welcome.dart';
+import 'package:provider/provider.dart';
 
 class Settingpage extends StatefulWidget {
   const Settingpage({super.key});
@@ -15,6 +19,7 @@ class _SettingpageState extends State<Settingpage> {
  
   @override
   Widget build(BuildContext context) {
+    final helper = Provider.of<FunctionProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -173,13 +178,28 @@ class _SettingpageState extends State<Settingpage> {
                                   fontSize: 20,
                                 ))),
                         ElevatedButton(
-                            onPressed: () {
-                             FirebaseAuth.instance.currentUser!.delete().then((e){
-                               Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                builder: (context) => const welcome(),
-                              ));
-                             });
+                            onPressed: ()async {
+                             await helper
+                                  .deleteAccound(auth.currentUser!.uid, context,'firebase')
+                                  .then(
+                                (value) async {
+                                  try {
+                                    await auth.currentUser!.delete();
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UserType()),
+                                      (route) => false,
+                                    );
+                                  } catch (e) {
+                                    Infotoast(context,
+                                        'Error deleting Firebase user');
+                                  }
+                                },
+                              ).catchError((error) {
+                                Infotoast(context,
+                                    'Error deleting account from Firestore');
+                              });
                             },
                             child: const Text(
                               "Yes",

@@ -165,6 +165,7 @@ class _LogaState extends State<Payment> {
                            await   helper
                                   .bookingEvent(
                                 BookingModle(
+                                  enterprenurid: widget.bookingModle.enterprenurid,
                                     name: widget.bookingModle.name,
                                     email: widget.bookingModle.email,
                                     phonenumber: widget.bookingModle.email,
@@ -190,15 +191,12 @@ class _LogaState extends State<Payment> {
                                 .then((value) {
                               final statu =
                                   value.status == UpiPaymentStatus.SUCCESS;
-                             
+                              
                             });
                           });
                        
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Paymentsuccessfull()));
+                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Paymentsuccessfull(),), (route) => false,);
                         },
                         child: const Text(
                           "Proceed to pay",

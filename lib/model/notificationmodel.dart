@@ -23,19 +23,23 @@
 //     );
 //   }
 // }
+ 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationModel {
   String notificationtitile;
   String notificationSubtitile;
   String? id;
-  Timestamp timestamp; // Add timestamp field
+  Timestamp timestamp;  
+  String email ;
 
   NotificationModel({
     required this.notificationtitile,
     required this.notificationSubtitile,
     this.id,
     required this.timestamp,
+    required this.email,
   });
 
   Map<String, dynamic> tojsone(idd) => {
@@ -43,6 +47,7 @@ class NotificationModel {
         'Notificationsubtitle': notificationSubtitile,
         'id': idd,
         'timestamp': timestamp,
+        'Email':email,
       };
 
   factory NotificationModel.fromjsone(Map<String, dynamic> jsone) {
@@ -50,7 +55,8 @@ class NotificationModel {
       notificationtitile: jsone['Notificationtitle'],
       notificationSubtitile: jsone['Notificationsubtitle'],
       id: jsone['id'],
-      timestamp: jsone['timestamp'],
+      timestamp: jsone['timestamp'] as Timestamp,
+      email: jsone['Email']  as String,
     );
   }
 }

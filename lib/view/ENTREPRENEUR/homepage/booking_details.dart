@@ -19,10 +19,12 @@ class BookingDetails extends StatelessWidget {
           Consumer<FunctionProvider>(
             builder: (context, helper, child) {
               return StreamBuilder(
-                stream: helper.getAllbookingenterprenur(),
+                stream: helper.getAllbookingenterprenur(auth.currentUser!.uid),
                 builder: (context, snapshot) {
-                  if(snapshot.connectionState==ConnectionState.waiting){
-                    return Center(child: CircularProgressIndicator(),);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }
                   List<BookingModle> booklist = [];
 
@@ -77,33 +79,34 @@ class BookingDetails extends StatelessWidget {
                                       child: StreamBuilder(
                                         stream: imageget(),
                                         builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return CircularProgressIndicator();
+                                          }
                                           return Image.network(
-                                            fit: BoxFit.cover,
+                                              fit: BoxFit.cover,
                                               snapshot.data['image']);
                                         },
                                       ),
                                     ),
                                     Text('EVENT NAME :${booklist[index].name}'),
-                                    StreamBuilder(stream: userget(), builder: (context, snapshot) {
-                                      return Text('BOOKING USER NAME:${snapshot.data['User_Name']}');
-                                    },),
-                                     Text('EVENT DICS :${booklist[index].discription}'),
-
+                                    StreamBuilder(
+                                      stream: userget(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return CircularProgressIndicator();
+                                        }
+                                        return Text(
+                                            'BOOKING USER NAME:${snapshot.data['User_Name']}');
+                                      },
+                                    ),
+                                    Text(
+                                        'EVENT DICS :${booklist[index].discription}'),
                                   ],
                                 ),
                               );
                             },
-
-
-
-
-
-
-
-
-
-
-                            
                           );
                   }
                   return Container();

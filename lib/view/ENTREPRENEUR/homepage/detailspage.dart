@@ -36,6 +36,7 @@ class _LogaState extends State<Entredetailspage> {
     'Music dance',
     'Card makes',
     'Pre wedding shoot',
+    'Constumes'
   ];
 
   final Map<String, List<String>> subcategory = {
@@ -83,6 +84,7 @@ class _LogaState extends State<Entredetailspage> {
     ],
     'Card makes': ['wedding cards', 'save the date', 'other function cards'],
     'Pre wedding shoot': ['pre wedding photograpers'],
+    'Constumes':['Western Suites','Kurties Sarees','Ethinic wear']
   };
   String? selectedMainCategory;
   String? selectedSubCategory;

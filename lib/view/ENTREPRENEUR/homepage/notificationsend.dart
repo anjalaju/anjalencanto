@@ -151,6 +151,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/notificationmodel.dart';
+import 'package:main_project/model/usermodel.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
 
@@ -167,10 +168,13 @@ class _EntrenotificationpageState extends State<Entrenotificationpage> {
 
   final formkey = GlobalKey<FormState>();
 
+  String? _selecteduser;
+
   @override
   Widget build(BuildContext context) {
+    final helper = Provider.of<FunctionProvider>(context);
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: const Text(
           'Notification',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
@@ -200,7 +204,10 @@ class _EntrenotificationpageState extends State<Entrenotificationpage> {
           child: Form(
             key: formkey,
             child: Column(
-              children: [const SizedBox(height: 85,),
+              children: [
+                const SizedBox(
+                  height: 85,
+                ),
                 const SizedBox(height: 20),
                 const Text(
                   'Create Notification',
@@ -209,6 +216,49 @@ class _EntrenotificationpageState extends State<Entrenotificationpage> {
                     fontWeight: FontWeight.w600,
                     color: Colors.indigo,
                   ),
+                ),
+                SizedBox(
+                  height: Helper.h(context) * .050,
+                ),
+                StreamBuilder(
+                  stream: helper.getusers(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return CircularProgressIndicator();
+                    }
+                    List<Usermodel> userlist = [];
+
+                    userlist = snapshot.data!.docs.map(
+                      (e) {
+                        return Usermodel.fromJosne(
+                            e.data() as Map<String, dynamic>);
+                      },
+                    ).toList();
+
+                    return DropdownButton(
+                      
+                      hint: Text('SELECT USER'),
+                      items: userlist.map(
+                        (e) {
+                          return DropdownMenuItem(
+                            value: e.Email,
+                            child: Text(
+                              e.Email,
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (String? value) {
+                        _selecteduser = value;
+                      },
+                    );
+                  },
+                ),
+
+
+
+                SizedBox(
+                  height: Helper.h(context) * .050,
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
@@ -256,12 +306,13 @@ class _EntrenotificationpageState extends State<Entrenotificationpage> {
                         if (formkey.currentState!.validate()) {
                           helper
                               .addNotification(
-                                NotificationModel(
-                                  notificationtitile: notificationtitile.text,
-                                  notificationSubtitile: notificationsubtitle.text,
-                                  timestamp: Timestamp.now(),
-                                ),
-                              )
+                            NotificationModel(
+                              notificationtitile: notificationtitile.text,
+                              notificationSubtitile: notificationsubtitle.text,
+                              timestamp: Timestamp.now(),
+                              email: _selecteduser.toString()
+                            ),
+                          )
                               .then((value) {
                             SuccesToast(context, 'Notification added');
                             clear();

@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:main_project/collection/offer_controller.dart';
 import 'package:main_project/model/offer_model.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:uuid/uuid.dart';
 
 class Enofferpagee extends StatefulWidget {
@@ -54,13 +55,15 @@ class _EnofferpageeState extends State<Enofferpagee> {
           icon: const Icon(Icons.arrow_back_ios_new),
           color: Colors.black,
         ),
+       
       ),
       backgroundColor: const Color(0xffF9F8C9),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(height: MediaQuery.of(context).size.height,
-          width:  MediaQuery.of(context).size.width,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +79,7 @@ class _EnofferpageeState extends State<Enofferpagee> {
                     height: 130,
                     width: 150,
                     decoration: BoxDecoration(
-                      border: Border.all(width: 2,color: Colors.green),
+                      border: Border.all(width: 2, color: Colors.green),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: _imageFile != null
@@ -102,7 +105,8 @@ class _EnofferpageeState extends State<Enofferpagee> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      minimumSize: MaterialStateProperty.all(const Size(300, 50)),
+                      minimumSize:
+                          MaterialStateProperty.all(const Size(300, 50)),
                       foregroundColor: MaterialStateProperty.all(Colors.white),
                       backgroundColor:
                           MaterialStateProperty.all(const Color(0xffFF4141)),
@@ -118,13 +122,15 @@ class _EnofferpageeState extends State<Enofferpagee> {
                     },
                     child: const Text(
                       "Submit",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),
                 ),
                 const SizedBox(height: 60),
                 Center(
-                    child: isloading ? CircularProgressIndicator() : Container()),
+                    child:
+                        isloading ? CircularProgressIndicator() : Container()),
               ],
             ),
           ),
@@ -157,7 +163,12 @@ class _EnofferpageeState extends State<Enofferpagee> {
       TaskSnapshot taskSnapshot = await uploadTask;
       String fileUrl = await taskSnapshot.ref.getDownloadURL();
 
-      Offermodel offermodel = Offermodel(image: fileUrl, id: id,timestamp: DateTime.now());
+      Offermodel offermodel = Offermodel(
+        image: fileUrl,
+        id: id,
+        timestamp: DateTime.now(),
+        uid: auth.currentUser!.uid,
+      );
       await offercontroller.addoffer(offermodel, id);
 
       setState(() {

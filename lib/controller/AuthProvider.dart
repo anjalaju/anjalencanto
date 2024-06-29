@@ -30,6 +30,16 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  clearcontroller(){
+    entername.clear();
+    enternumber.clear();
+    enteremail.clear();
+    enterpassword.clear();
+    notifyListeners();
+
+  }
+
   //enterprenur
   final entername = TextEditingController();
   final enternumber = TextEditingController();
@@ -67,6 +77,8 @@ class AuthProvider with ChangeNotifier {
                 timestamp: DateTime.now()),
             value.user!.uid);
 
+            cler(functionprovider);
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const Entresuccessfull()),
@@ -74,14 +86,28 @@ class AuthProvider with ChangeNotifier {
         );
        
 
-        clearcontrl();
-         functionprovider.entername.clear();
-         functionprovider.enternumber.clear();
+         clearcontroller(){
+    entername.clear();
+    enternumber.clear();
+    enteremail.clear();
+    enterpassword.clear();
+    notifyListeners();
+
+  }
+
       });
     } on FirebaseException catch (e) {
       Infotoast(context, 'Error ');
     }
   }
+
+  void cler(AuthProvider functionprovider) {
+  functionprovider.entername.clear();
+  functionprovider.enternumber.clear();
+  functionprovider.enteremail.clear();
+  functionprovider.enterpassword.clear();
+  functionprovider.notifyListeners();
+}
 
   // Future<void> signin(email, password, BuildContext context) async {
   //   try {

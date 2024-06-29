@@ -397,6 +397,7 @@ class _BankquethallState extends State<Bankquethall> {
                                                                             eventModel:
                                                                                 searchall[index],
                                                                           )));
+                                                          
                                                         },
                                                         child: const Row(
                                                           children: [

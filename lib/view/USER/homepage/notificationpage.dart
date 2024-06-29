@@ -167,6 +167,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:main_project/utils/String.dart';
 
 class notificationpage extends StatefulWidget {
   @override
@@ -180,7 +181,9 @@ class _notificationpageState extends State<notificationpage> {
   @override
   void initState() {
     super.initState();
-    _dataStream = _firestore.collection('Notiication').snapshots();
+    _dataStream = _firestore.collection('Notiication') 
+    .where('Email',isEqualTo: auth.currentUser!.email)
+    .snapshots();
   }
 
   @override
@@ -197,6 +200,7 @@ class _notificationpageState extends State<notificationpage> {
           'Notifications',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
+        
         backgroundColor: Colors.transparent,
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1),

@@ -326,9 +326,10 @@ class FunctionProvider with ChangeNotifier {
 
   Future updatProfielonly(
     uid,
+    urlp
   ) async {
     db.collection('enterprenur').doc(uid).update({
-      'profileImage': url,
+      'profileImage': urlp,
     });
     notifyListeners();
   }
@@ -431,6 +432,11 @@ class FunctionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
+  Stream<QuerySnapshot> getusers(){
+    return db.collection('firebase').snapshots();
+  }
+
   claerrat() {
     rating = null;
     notifyListeners();
@@ -462,8 +468,10 @@ class FunctionProvider with ChangeNotifier {
     }
   }
 
-  Stream<QuerySnapshot> getAllbookingenterprenur() {
-    return db.collection('Boookingevent').snapshots();
+  Stream<QuerySnapshot> getAllbookingenterprenur(uid) {
+    return db.collection('Boookingevent')
+    .where('enterprenuid',isEqualTo: uid)
+    .snapshots();
   }
 
   // Future<void> deleteUserAccount(uid) async {
@@ -486,6 +494,20 @@ class FunctionProvider with ChangeNotifier {
   //     // Handle general exception
   //   }
   // }
+
+
+  Future deleteAccound(uid,BuildContext context,String collection)async{
+   try{
+
+    db.collection(collection).doc(uid).delete().then((value) {
+       SuccesToast(context, 'delete accound');
+     },);
+     
+   }catch (e){
+     Infotoast(context, 'Error delete');
+     rethrow;
+   }
+  }
 
 }
 

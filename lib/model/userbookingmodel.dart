@@ -9,6 +9,7 @@ class BookingModle {
   String? id;
   String eventprice;
   String paymentstatus;
+  String enterprenurid;
 
   BookingModle({
     required this.name,
@@ -21,6 +22,7 @@ class BookingModle {
     required this.paymentstatus,
     required this.eventprice,
       this.id,
+      required this.enterprenurid,
   });
 
   Map<String, dynamic> tojsone(idd) => {
@@ -34,7 +36,9 @@ class BookingModle {
         'id': idd,
         'PaymentStatus':paymentstatus,
         'eventprice':eventprice,
+        'enterprenuid':enterprenurid,
       };
+
 
   factory BookingModle.fromjsone(Map<String, dynamic> jsone) {
     return BookingModle(
@@ -48,6 +52,7 @@ class BookingModle {
       paymentstatus: jsone['PaymentStatus'],
       id: jsone['id'],
       eventprice: jsone['eventprice'],
+      enterprenurid: jsone['enterprenuid'],
     );
   }
 }

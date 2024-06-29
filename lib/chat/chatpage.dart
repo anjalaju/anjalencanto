@@ -84,6 +84,8 @@ class _ChatPageState extends State<ChatPage> {
       //   ),
       // ),
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
         title: FutureBuilder<List<MapEntry<String, dynamic>>>(
           future: getUserDetails(widget.reciveerID),
           builder: (context, snapshot) {
@@ -95,50 +97,51 @@ class _ChatPageState extends State<ChatPage> {
             }
 
             var data = Map<String, dynamic>.fromEntries(snapshot.data!);
-            print('${data}+===');
             var profileImageEnt = data['profileImage'] ?? '';
             var profileImageUser = data['Image'] ?? '';
-
-            var usertype = data['userType'];
-            var username = data['User_Name'] ?? '';
-            var enterprenurName = data['entrepreneurName'] ?? '';
+            var userType = data['userType'];
+            var userName = data['User_Name'] ?? '';
+            var entrepreneurName = data['entrepreneurName'] ?? '';
 
             return Row(
               children: [
-                usertype == 'enterprenur'
-                    ? Container(
-                        width: MediaQuery.of(context).size.width * .080,
-                        height: MediaQuery.of(context).size.height * .060,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(profileImageEnt),
-                          ),
-                        ),
-                      )
-                    : Container(
-                        width: MediaQuery.of(context).size.width * .080,
-                        height: MediaQuery.of(context).size.height * .060,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(profileImageUser),
-                          ),
-                        ),
-                      ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * .05,
-                ),
-                usertype == 'enterprenur'
-                    ? Text(enterprenurName)
-                    : Text(username),
+                userType == 'enterprenur'
+                    ? (profileImageEnt.isEmpty
+                        ? CircleAvatar(
+                            backgroundImage: AssetImage('images/propic.png'),
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width * .080,
+                            height: MediaQuery.of(context).size.height * .060,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(profileImageEnt),
+                              ),
+                            ),
+                          ))
+                    : (profileImageUser.isEmpty
+                        ? CircleAvatar(
+                            backgroundImage: AssetImage('images/propic.png'),
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width * .080,
+                            height: MediaQuery.of(context).size.height * .060,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(profileImageUser),
+                              ),
+                            ),
+                          )),
+                SizedBox(width: MediaQuery.of(context).size.width * .05),
+                Text(userType == 'enterprenur' ? entrepreneurName : userName),
               ],
             );
           },
         ),
       ),
+
       body: Column(
         children: [
           Expanded(child: buildMessageList()),

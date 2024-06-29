@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/usertype.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/ENTREPRENEUR/formscreen/welcome.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/settingchange.dart';
+import 'package:provider/provider.dart';
 
 class EntreSettingpage extends StatefulWidget {
   const EntreSettingpage({super.key});
@@ -13,6 +16,7 @@ class EntreSettingpage extends StatefulWidget {
 class _EntreSettingpageState extends State<EntreSettingpage> {
   @override
   Widget build(BuildContext context) {
+    final helper = Provider.of<FunctionProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -37,6 +41,9 @@ class _EntreSettingpageState extends State<EntreSettingpage> {
           ),
           color: Colors.black,
         ),
+        actions: [
+          Text(auth.currentUser!.uid)
+        ],
       ),
       body: ListView(
         children: [
@@ -165,19 +172,28 @@ class _EntreSettingpageState extends State<EntreSettingpage> {
                                   fontSize: 20,
                                 ))),
                         ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UserType(),
-                                ),
-                                (route) => false,
-                              );
-
-                              // Navigator.of(context)
-                              //     .pushReplacement(MaterialPageRoute(
-                              //   builder: (context) => const EntrewelcomeEnterpRenur(),
-                              // ));
+                            onPressed: () async {
+                              await helper
+                                  .deleteAccound(auth.currentUser!.uid, context,'enterprenur')
+                                  .then(
+                                (value) async {
+                                  try {
+                                    await auth.currentUser!.delete();
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => UserType()),
+                                      (route) => false,
+                                    );
+                                  } catch (e) {
+                                    Infotoast(context,
+                                        'Error deleting Firebase user');
+                                  }
+                                },
+                              ).catchError((error) {
+                                Infotoast(context,
+                                    'Error deleting account from Firestore');
+                              });
                             },
                             child: const Text(
                               "Yes",
