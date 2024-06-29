@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:main_project/chat/chatcontroller.dart';
 import 'package:main_project/chat/chatmain.dart';
 import 'package:main_project/model/enterprenurmodel.dart';
@@ -90,10 +91,10 @@ class _ChatPageState extends State<ChatPage> {
           future: getUserDetails(widget.reciveerID),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             if (snapshot.hasError || !snapshot.hasData) {
-              return Text('');
+              return const Text('');
             }
 
             var data = Map<String, dynamic>.fromEntries(snapshot.data!);
@@ -107,7 +108,7 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 userType == 'enterprenur'
                     ? (profileImageEnt.isEmpty
-                        ? CircleAvatar(
+                        ? const CircleAvatar(
                             backgroundImage: AssetImage('images/propic.png'),
                           )
                         : Container(
@@ -121,7 +122,7 @@ class _ChatPageState extends State<ChatPage> {
                             ),
                           ))
                     : (profileImageUser.isEmpty
-                        ? CircleAvatar(
+                        ? const CircleAvatar(
                             backgroundImage: AssetImage('images/propic.png'),
                           )
                         : Container(
@@ -158,7 +159,7 @@ class _ChatPageState extends State<ChatPage> {
       stream: ChatService().getMessage(widget.reciveerID, senderID),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading....');
+          return const Text('Loading....');
         }
         return ListView(
           children:
@@ -170,12 +171,17 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget buildMessage(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
+    print('===${data}');
     bool isCurentUser = data['senderId'] == auth.currentUser!.uid;
     var alignment = isCurentUser ? Alignment.centerRight : Alignment.centerLeft;
+    var timestamp = data['timestamp'];
+    var formattedTime = '';
+
+    var dateTime = timestamp.toDate();
+    formattedTime = DateFormat.yMMMd().add_jm().format(dateTime);
 
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Container(
         alignment: alignment,
         child: Column(
@@ -185,6 +191,10 @@ class _ChatPageState extends State<ChatPage> {
             ChatBubble(
               message: data['text'],
               isCurentUSer: isCurentUser,
+            ),
+            Text(
+              formattedTime,
+              style: TextStyle(fontSize: 11),
             )
           ],
         ),
@@ -194,13 +204,13 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget buildUserInput() {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Row(
         children: [
           Expanded(
             child: TextFormField(
               controller: messagecontroller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Message',
                 border: OutlineInputBorder(),
               ),
@@ -208,7 +218,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           IconButton(
             onPressed: sendMessage,
-            icon: Icon(Icons.arrow_upward),
+            icon: const Icon(Icons.arrow_upward),
           )
         ],
       ),
@@ -219,6 +229,7 @@ class _ChatPageState extends State<ChatPage> {
 class ChatBubble extends StatelessWidget {
   final String message;
   final bool isCurentUSer;
+
   ChatBubble({
     super.key,
     required this.isCurentUSer,
@@ -228,8 +239,24 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: isCurentUSer ? Colors.green : Colors.grey,
-      child: Text(message),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(
+              10,
+            ),
+            topRight: Radius.circular(
+              15,
+            ),
+            bottomLeft: Radius.circular(10)),
+        color:
+            isCurentUSer ? const Color.fromARGB(255, 63, 133, 65) : Colors.grey,
+      ),
+      child: Text(
+        message,
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }
