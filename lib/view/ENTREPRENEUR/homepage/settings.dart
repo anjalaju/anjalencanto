@@ -41,9 +41,9 @@ class _EntreSettingpageState extends State<EntreSettingpage> {
           ),
           color: Colors.black,
         ),
-        actions: [
-          Text(auth.currentUser!.uid)
-        ],
+        // actions: [
+        //   Text(auth.currentUser!.uid)
+        // ],
       ),
       body: ListView(
         children: [
