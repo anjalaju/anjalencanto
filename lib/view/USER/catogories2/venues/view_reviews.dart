@@ -63,7 +63,6 @@ class ViewRevies extends StatelessWidget {
                         count: review.feedbackcount,
                         feedback: feedback,
                       ),
-                      Text(review.feedbackcount),
                     ],
                   );
                 },
@@ -82,33 +81,26 @@ class ReviewFeedbackIcons extends StatelessWidget {
   final double feedbackCount;
 
   ReviewFeedbackIcons({required this.feedbackCount});
-  
-  
- 
-   
+
   @override
   Widget build(BuildContext context) {
-     double value = feedbackCount;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        RatingBar.builder(
-            
-          itemSize: 25,
-          initialRating:value,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {},
-          
-        )]
-    );
+    double value = feedbackCount;
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      RatingBar.builder(
+        itemSize: 25,
+        initialRating: value,
+        minRating: 1,
+        direction: Axis.horizontal,
+        allowHalfRating: true,
+        itemCount: 5,
+        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+        itemBuilder: (context, _) => Icon(
+          Icons.star,
+          color: Colors.amber,
+        ),
+        onRatingUpdate: (rating) {},
+      )
+    ]);
   }
 }
 
@@ -183,6 +175,7 @@ class ReviewItem extends StatelessWidget {
                 ReviewFeedbackIcons(
                   feedbackCount: feedback.toDouble(),
                 ),
+                Text(count),
               ],
             ),
             Visibility(

@@ -54,19 +54,45 @@ class _ReceivedecorState extends State<Receivedecor> {
                 return FutureBuilder(
                   future: helper.getallDonated('Decorationitems',auth.currentUser!.uid),
                   builder: (context, snapshot) {
-                    return ListView.separated(
+                    return
+                    data.isEmpty?SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.2,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                            child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'images/no charity.jpeg'))),
+                                child: const Padding(
+                                  padding: EdgeInsets.only(top: 150.0),
+                                  child: Center(
+                                      child: Text(
+                                    "No Charity",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ))),
+                      ):
+
+                    
+                     ListView.separated(
                       shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Center(
-                              child: Container(
+                              child: SizedBox(
                                 height: 320,
                                 width: 240,
                                 // color: Colors.amber,
@@ -78,7 +104,7 @@ class _ReceivedecorState extends State<Receivedecor> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Text(data[index].name),
@@ -86,7 +112,7 @@ class _ReceivedecorState extends State<Receivedecor> {
                             Text(data[index].place),
                             Text("Number of items : ${data[index].numberofitem}"),
                             Text("Contact Number : ${data[index].contactnumber}"),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Padding(

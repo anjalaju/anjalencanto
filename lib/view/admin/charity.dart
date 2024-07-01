@@ -45,6 +45,18 @@ class CharityAdmin extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
+                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return SizedBox(height: MediaQuery.of(context).size.height,
+                          width:MediaQuery.of(context).size.width ,
+                            child: Center(
+                                child: Container(height: 200,width: 200,
+                                decoration: BoxDecoration(image: DecorationImage(image: AssetImage('images/no charity.jpeg'))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 150.0),
+                                    child: Center(child: Text("No Charity",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),)),
+                                  ))),
+                          );
+                        }
                 List<Donatemodel> list = [];
 
                 list = snapshot.data!.docs.map((e) {

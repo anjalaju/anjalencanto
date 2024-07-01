@@ -51,17 +51,37 @@ class _ReceuvejewellState extends State<Receuvejewell> {
               builder: (context, helper, child) {
                 final data = helper.donted;
                 return data.isEmpty
-                    ? Center(
-                        child: Text('NOt FOUNT !'),
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.2,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                            child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'images/no charity.jpeg'))),
+                                child: const Padding(
+                                  padding: EdgeInsets.only(top: 150.0),
+                                  child: Center(
+                                      child: Text(
+                                    "No Charity",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ))),
                       )
                     : ListView.separated(
                         shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return data.isEmpty
-                              ? Center(
-                                  child: Text('NO DATA FOUND !'),
+                              ? const Center(
+                                  child: const Text('NO DATA FOUND !'),
                                 )
                               : FutureBuilder(
                                   future: helper.getallDonated('Jewellery',auth.currentUser!.uid),
@@ -70,7 +90,7 @@ class _ReceuvejewellState extends State<Receuvejewell> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 30,
                                         ),
                                         Center(
@@ -86,15 +106,15 @@ class _ReceuvejewellState extends State<Receuvejewell> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 30,
                                         ),
                                         Text(data[index].name),
-                                        Text("Age : 25"),
+                                        Text("Age : ${data[index].age}"),
                                         Text(data[index].place),
-                                        Text("Number of items : 1"),
-                                        Text("Contact Number : 7994413795"),
-                                        SizedBox(
+                                        Text("Number of items :${data[index].numberofitem}"),
+                                        Text("Contact Number : ${data[index].contactnumber}"),
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Padding(

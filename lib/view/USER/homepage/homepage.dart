@@ -118,47 +118,95 @@ class _homepageState extends State<homepage> {
                                 //   ),
                                 // );
 
-                                return Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: Colors.black,
-                                      radius: 91,
-                                      child: CircleAvatar(
-                                        radius: 87,
-                                        backgroundImage: NetworkImage(imageUrl),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 5,
-                                      bottom: 15,
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () {
-                                          _showImagePickerBottomSheet(context);
-                                        },
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.black,
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(4.0),
-                                            child: Icon(
-                                              Icons
-                                                  .camera_alt, // You can use any icon you like
-                                              size:
-                                                  24, // Adjust the size of the icon
-                                              color: Colors
-                                                  .white, // Adjust the color of the icon
+                                return imageUrl == null || imageUrl.isEmpty
+                                    ? Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: Colors.black,
+                                            radius: 91,
+                                            child: CircleAvatar(
+                                              radius: 87,
+                                              backgroundImage: AssetImage(
+                                                  'images/propic.png'),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
+                                          Positioned(
+                                            right: 5,
+                                            bottom: 15,
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () {
+                                                _showImagePickerBottomSheet(
+                                                    context);
+                                              },
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.black,
+                                                ),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(4.0),
+                                                  child: Icon(
+                                                    Icons
+                                                        .camera_alt, // You can use any icon you like
+                                                    size:
+                                                        24, // Adjust the size of the icon
+                                                    color: Colors
+                                                        .white, // Adjust the color of the icon
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: Colors.black,
+                                            radius: 91,
+                                            child: CircleAvatar(
+                                              radius: 87,
+                                              backgroundImage:
+                                                  NetworkImage(imageUrl),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 5,
+                                            bottom: 15,
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () {
+                                                _showImagePickerBottomSheet(
+                                                    context);
+                                              },
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.black,
+                                                ),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.all(4.0),
+                                                  child: Icon(
+                                                    Icons
+                                                        .camera_alt, // You can use any icon you like
+                                                    size:
+                                                        24, // Adjust the size of the icon
+                                                    color: Colors
+                                                        .white, // Adjust the color of the icon
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
                               },
                             ),
                           ),
@@ -530,7 +578,6 @@ class _homepageState extends State<homepage> {
                 },
               ),
             ),
-            
           ],
         ),
         body: SingleChildScrollView(

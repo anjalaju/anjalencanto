@@ -66,13 +66,20 @@ class _EntrecomplaintState extends State<Entrecomplaint> {
                         return ComplaintModel.fromjsone(
                             e.data() as Map<String, dynamic>);
                       }).toList();
-
+  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return Container(height: MediaQuery.of(context).size.height/1.3,
+                        width:MediaQuery.of(context).size.width ,
+                          child: Center(
+                              child: Image.asset('images/no complaint.jpg')),
+                        );
+                      }
                       if (snapshot.hasData) {
-                        return list.isEmpty
-                            ? const Center(
-                                child: Text('No alert '),
-                              )
-                            : Padding(
+                        // return list.isEmpty
+                        //     ? const Center(
+                        //         child: Text('No alert '),
+                        //       )
+                            // :
+                          return   Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: ListView.separated(controller: ScrollController(),
                                   shrinkWrap: true,

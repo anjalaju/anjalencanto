@@ -51,148 +51,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
     discription.text = eventModel.discription;
     price.text = eventModel.startingPriceFrom;
 
-    await
-        //  showModalBottomSheet<void>(
-        //   enableDrag: true,
-        //   // scrollControlDisabledMaxHeightRatio: 5,
-        //   context: context,
-        //   builder: (BuildContext context) {
-        //     return Container(
-
-        //       child: SingleChildScrollView(
-        //         child: Column(
-        //           children: <Widget>[
-        //             SizedBox(
-        //               height: Helper.h(context) * .10,
-        //             ),
-        //             Row(
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               children: [
-        //                 GestureDetector(
-        //                   onTap: () async {
-        //                     await _pickImage(ImageSource.gallery).then((value) async {
-        //                       SettableMetadata metadata =
-        //                           SettableMetadata(contentType: 'image/jpeg');
-        //                       final currenttime = TimeOfDay.now();
-        //                       UploadTask uploadTask = FirebaseStorage.instance
-        //                           .ref()
-        //                           .child('eventimage/$currenttime')
-        //                           .putFile(_imageFile!, metadata);
-        //                       TaskSnapshot snapshot = await uploadTask;
-        //                       producturl = await snapshot.ref.getDownloadURL();
-        //                     });
-        //                   },
-        //                   child: Container(
-        //                     width: Helper.W(context) * .50,
-        //                     height: Helper.h(context) * .20,
-        //                     decoration: BoxDecoration(
-        //                         border: Border.all(),
-        //                         image: DecorationImage(
-        //                           fit: BoxFit.cover,
-        //                           image: NetworkImage(eventModel.Image),
-        //                         )),
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: editname,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: price,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: editplace,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: discription,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             Consumer<FunctionProvider>(
-        //               builder: (context, instance, child) {
-        //                 return GestureDetector(
-        //                   onTap: () async {
-        //                     Navigator.pop(context);
-        //                     if (producturl != null) {
-        //                       await instance
-        //                           .updateevent(
-        //                         eventModel.id,
-        //                         editname.text,
-        //                         price.text,
-        //                         editplace.text,
-        //                         discription.text,
-        //                         producturl,
-        //                       )
-        //                           .then((value) {
-        //                         Navigator.pop(context);
-        //                         SuccesToast(context, 'update succes');
-        //                         setState(() {});
-        //                       });
-        //                     } else {
-        //                       ScaffoldMessenger.of(context).showSnackBar(
-        //                           const SnackBar(content: Text('Please wait')));
-        //                     }
-        //                     SuccesToast(context, 'update succes');
-
-        //                   },
-        //                   child: Container(
-        //                     alignment: Alignment.center,
-        //                     width: Helper.W(context) * .40,
-        //                     height: Helper.h(context) * .050,
-        //                     decoration: BoxDecoration(
-        //                       border: Border.all(),
-        //                     ),
-        //                     child: const Text('Update '),
-        //                   ),
-        //                 );
-        //               },
-        //             ),SizedBox(height: 250,),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
-
-        showModalBottomSheet<void>(
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled:
           true, // Allows the bottom sheet to take full screen height when dragged
@@ -419,21 +278,25 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
 
                                       SuccesToast(context, 'Update success');
                                     },
-                              child:isLoading ? Text('WAITING THE IMAG UPLOAD') : Container(
-                                alignment: Alignment.center,
-                                width: Helper.W(context) * .5,
-                                height: Helper.h(context) * .050,
-                                decoration: BoxDecoration(
-                                  color:isLoading ?  Colors.red : Colors.green,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(),
-                                ),
-                                child: const Text(
-                                  'Update',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ),
+                              child: isLoading
+                                  ? Text('WAITING THE IMAG UPLOAD')
+                                  : Container(
+                                      alignment: Alignment.center,
+                                      width: Helper.W(context) * .5,
+                                      height: Helper.h(context) * .050,
+                                      decoration: BoxDecoration(
+                                        color: isLoading
+                                            ? Colors.red
+                                            : Colors.green,
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(),
+                                      ),
+                                      child: const Text(
+                                        'Update',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
                             );
                           },
                         );
@@ -749,7 +612,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: Helper.h(context)*.050,
+                                          height: Helper.h(context) * .050,
                                         )
                                       ],
                                     ),
@@ -760,9 +623,9 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                                 return Column(
                                   children: [
                                     Divider(),
-                                      SizedBox(
-                                  height: 40,
-                                ),
+                                    SizedBox(
+                                      height: 40,
+                                    ),
                                   ],
                                 );
                               },

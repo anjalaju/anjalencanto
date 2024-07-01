@@ -70,83 +70,150 @@ class _AdminoffersState extends State<Adminoffers> {  ScrollController _scrollCo
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              StreamBuilder(
-                  // stream: FirebaseFirestore.instance
-                  //     .collection('Offer')
-                  //     .snapshots(),
-                    stream: FirebaseFirestore.instance
-                    .collection('Offer')
-                    .orderBy('timestamp',
-                        descending: true) // Order by timestamp descending
-                    .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Center(child: Image.asset('images/no offer.avif'));
-                  }
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: ListView.separated(controller: _scrollController,
-                          separatorBuilder: (context, index) {
-                                            return    SizedBox(height: 20,);
-                        },
-                          itemBuilder: (context, index) {
-                            final data = snapshot.data!.docs[index];
-                            return Dismissible(
-                                key: Key(data.id.toString()),
-                                direction: DismissDirection.endToStart
-                                    , // Specify the direction to dismiss (e.g., horizontal, vertical, etc.)
-                                onDismissed: (direction) {
-                                  // Handle what happens after dismissal (e.g., remove item from list)
-                                  setState(() {
-                                    FirebaseFirestore.instance
-                                        .collection('Offer')
-                                        .doc(data.id)
-                                        .delete()
-                                        .then(
-                                            (value) => print('Document deleted'))
-                                        .catchError((error) => print(
-                                            'Failed to delete document: $error'));
-                                  });
-                                },
-                                background: Container(decoration: BoxDecoration(   borderRadius: BorderRadius.circular(
-                                          12), color: Colors.red, ),
+              // StreamBuilder(
+              //     // stream: FirebaseFirestore.instance
+              //     //     .collection('Offer')
+              //     //     .snapshots(),
+              //       stream: FirebaseFirestore.instance
+              //       .collection('Offer')
+              //       .orderBy('timestamp',
+              //           descending: true) // Order by timestamp descending
+              //       .snapshots(),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.connectionState == ConnectionState.waiting) {
+              //         return const Center(
+              //           child: CircularProgressIndicator(),
+              //         );
+              //       } if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              //       return Center(child: Image.asset('images/no offer.avif'));
+              //     }
+              //       return Expanded(
+              //         child: Padding(
+              //           padding: const EdgeInsets.only(top: 10.0),
+              //           child: ListView.separated(controller: _scrollController,
+              //             separatorBuilder: (context, index) {
+              //                               return    SizedBox(height: 20,);
+              //           },
+              //             itemBuilder: (context, index) {
+              //               final data = snapshot.data!.docs[index];
+              //               return Dismissible(
+              //                   key: Key(data.id.toString()),
+              //                   direction: DismissDirection.endToStart
+              //                       , // Specify the direction to dismiss (e.g., horizontal, vertical, etc.)
+              //                   onDismissed: (direction) {
+              //                     // Handle what happens after dismissal (e.g., remove item from list)
+              //                     setState(() {
+              //                       FirebaseFirestore.instance
+              //                           .collection('Offer')
+              //                           .doc(data.id)
+              //                           .delete()
+              //                           .then(
+              //                               (value) => print('Document deleted'))
+              //                           .catchError((error) => print(
+              //                               'Failed to delete document: $error'));
+              //                     });
+              //                   },
+              //                   background: Container(decoration: BoxDecoration(   borderRadius: BorderRadius.circular(
+              //                             12), color: Colors.red, ),
                                  
-                                  child: Icon(Icons.delete),
-                                  alignment: Alignment.centerRight,
-                                  padding: EdgeInsets.only(left: 20.0),
-                                ),
+              //                     child: Icon(Icons.delete),
+              //                     alignment: Alignment.centerRight,
+              //                     padding: EdgeInsets.only(left: 20.0),
+              //                   ),
                                
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                      12), // Optional: adds rounded corners
-                                  child: Container(
-                                    height:
-                                        MediaQuery.of(context).size.height / 2,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          12), // Optional: adds rounded corners
-                                    ),
-                                    child: Image.network(
-                                      '${data['Image']}',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ));
-                          },
-                          itemCount: snapshot.data!.docs.length,
-                        ),
-                      ),
-                    );
-                  }),
-              const SizedBox(
-                height: 20,
+              //                   child: ClipRRect(
+              //                     borderRadius: BorderRadius.circular(
+              //                         12), // Optional: adds rounded corners
+              //                     child: Container(
+              //                       height:
+              //                           MediaQuery.of(context).size.height / 2,
+              //                       width: MediaQuery.of(context).size.width,
+              //                       decoration: BoxDecoration(
+              //                         borderRadius: BorderRadius.circular(
+              //                             12), // Optional: adds rounded corners
+              //                       ),
+              //                       child: Image.network(
+              //                         '${data['Image']}',
+              //                         fit: BoxFit.fill,
+              //                       ),
+              //                     ),
+              //                   ));
+              //             },
+              //             itemCount: snapshot.data!.docs.length,
+              //           ),
+              //         ),
+              //       );
+              //     }),
+              StreamBuilder(
+  stream: FirebaseFirestore.instance
+      .collection('Offer')
+      .orderBy('timestamp', descending: true)
+      .snapshots(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+      return Center(child: Image.asset('images/no_offer.avif'));
+    }
+    return Expanded(
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Number of columns in the grid
+          crossAxisSpacing: 2.0, // Spacing between columns
+          mainAxisSpacing: 2.0, // Spacing between rows
+          childAspectRatio: 0.75, // Aspect ratio of each grid item
+        ),
+        itemCount: snapshot.data!.docs.length,
+        itemBuilder: (context, index) {
+          final data = snapshot.data!.docs[index];
+          return Dismissible(
+            key: Key(data.id.toString()),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
+              setState(() {
+                FirebaseFirestore.instance
+                    .collection('Offer')
+                    .doc(data.id)
+                    .delete()
+                    .then((value) => print('Document deleted'))
+                    .catchError(
+                        (error) => print('Failed to delete document: $error'));
+              });
+            },
+            background: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.red,
               ),
+              child: Icon(Icons.delete),
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(left: 20.0),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Image.network(
+                  '${data['Image']}',
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  },
+),
+
+              // const SizedBox(
+              //   height: 20,
+              // ),
               // Padding(
               //   padding: const EdgeInsets.all(8.0),
               //   child: OutlinedButton(

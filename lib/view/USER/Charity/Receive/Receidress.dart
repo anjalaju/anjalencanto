@@ -52,14 +52,39 @@ class _ReceivedressState extends State<Receivedress> {
               builder: (context, helper, child) {
                 final data = helper.donted;
                 return FutureBuilder(
-                  future: helper.getallDonated('Dress',auth.currentUser!.uid),
+                  future: helper.getallDonated('Dress', auth.currentUser!.uid),
                   builder: (context, snapshot) {
-                     
-                    return data.isEmpty
-                    ? Center(
-                        child: Text('NOt FOUNT !'),
-                      )
-                    : ListView.separated(
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.2,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                            child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'images/no charity.jpeg'))),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 150.0),
+                                  child: Center(
+                                      child: Text(
+                                    "No Charity",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ))),
+                      );
+                    }
+                    // return data.isEmpty
+                    // ? Center(
+                    //     child: Text('NOt FOUNT !'),
+                    //   )
+                    // :
+                    return ListView.separated(
                       itemCount: data.length,
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
@@ -122,9 +147,9 @@ class _ReceivedressState extends State<Receivedress> {
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => ChatPage(
-                                                          reciveerID: 'entruid',
-                                                          reciveeremail: '',
-                                                        ),
+                                            reciveerID: 'entruid',
+                                            reciveeremail: '',
+                                          ),
                                         ));
                                       },
                                       child: const Row(
@@ -192,6 +217,5 @@ class _ReceivedressState extends State<Receivedress> {
     }
   }
 }
-
 
 //djsd

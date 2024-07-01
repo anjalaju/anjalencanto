@@ -51,18 +51,38 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
               final data= helper.donted;
             return  FutureBuilder(future: helper.getallDonated('DonatedAccsesies',auth.currentUser!.uid), builder: (context, snapshot) {
               return data.isEmpty
-                    ? Center(
-                        child: Text('NOt FOUNT !'),
+                    ?SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.2,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                            child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'images/no charity.jpeg'))),
+                                child: const Padding(
+                                  padding: EdgeInsets.only(top: 150.0),
+                                  child: Center(
+                                      child: Text(
+                                    "No Charity",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                                ))),
                       )
                     : ListView.separated(
                 shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                 return  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Center(
@@ -78,7 +98,7 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Text(data[index].name),
@@ -86,7 +106,7 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
               Text(data[index].place),
               Text("Number of items : ${data[index].numberofitem}"),
               Text("Contact Number : ${data[index].contactnumber}"),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(

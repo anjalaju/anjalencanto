@@ -44,45 +44,6 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: StreamBuilder(
-      //     stream: getReciverdetails(),
-      //     builder: (context, snapshot) {
-      //       if (snapshot.connectionState == ConnectionState.waiting) {
-      //         return CircularProgressIndicator();
-      //       }
-      //       if (snapshot.hasError || !snapshot.hasData || !snapshot.data!.exists) {
-      //         return Text('');
-      //       }
-
-      //       var data = snapshot.data!.data() as Map<String, dynamic>;
-      //       var profileImage = data['profileImage'] ?? '';
-      //       var entrepreneurEmail = data['entrepreneurName'] ?? '';
-
-      //       return Row(
-      //         children: [
-      //           Container(
-      //             width: Helper.W(context) * .080,
-      //             height: Helper.h(context) * .060,
-      //             decoration: BoxDecoration(
-      //                 color: Colors.red,
-      //                 shape: BoxShape.circle,
-      //                 image: DecorationImage(
-      //                   image: NetworkImage(
-      //                     profileImage,
-      //                   ),
-      //                 )),
-      //           ),
-      //           SizedBox(
-      //             width: Helper.W(context) * .05,
-      //           ),
-
-      //           Text(entrepreneurEmail),
-      //         ],
-      //       );
-      //     },
-      //   ),
-      // ),
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
@@ -180,7 +141,6 @@ class _ChatPageState extends State<ChatPage> {
           },
         ),
       ),
-
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,

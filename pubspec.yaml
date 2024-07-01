@@ -59,6 +59,8 @@ dependencies:
   syncfusion_flutter_datagrid: ^25.2.7
   intl: ^0.19.0
   emoji_picker_flutter: ^2.2.0
+  rating_summary: ^1.0.2+1
+  animated_rating_stars: ^1.0.1
 
 dev_dependencies:
   flutter_test:

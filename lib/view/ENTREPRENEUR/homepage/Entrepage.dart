@@ -47,56 +47,100 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ignore: prefer_const_constructors
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Center(
                   child: GestureDetector(
                     onTap: () async {
                       await helperprovdr.imagePicker();
-                  await  helperprovdr.updatProfielonly(auth.currentUser!.uid,helperprovdr.url).then((value) => helperprovdr.url =null,);
+                      await helperprovdr
+                          .updatProfielonly(
+                              auth.currentUser!.uid, helperprovdr.url)
+                          .then(
+                            (value) => helperprovdr.url = null,
+                          );
                     },
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      margin: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(endata!.image.toString())),
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 2,
-                          )),
-                      child: Stack(
-                        children: [
-                          const Center(
-                            child: Icon(
-                              Icons.person,
-                              size: 50,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                    child: endata!.image == null || endata!.image!.isEmpty
+                        ? Container(
+                            height: 120,
+                            width: 120,
+                            margin: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(shape: BoxShape.circle,
+                                image: const DecorationImage(
+                                    image: AssetImage('images/propic.png'),
+                                    fit: BoxFit.cover),
+                                // borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                  width: 2,
+                                )),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black,
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Icon(
+                                        Icons
+                                            .camera_alt, // You can use any icon you like
+                                        size: 24, // Adjust the size of the icon
+                                        color: Colors
+                                            .white, // Adjust the color of the icon
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(
+                            height: 120,
+                            width: 120,
+                            margin: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage(endata!.image.toString()),
+                                    fit: BoxFit.cover),
+                                // borderRadius: BorderRadius.circular(50),
+                              
+                                border: Border.all(
+                                  width: 2,
+                                )),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black,
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Icon(
+                                        Icons
+                                            .camera_alt, // You can use any icon you like
+                                        size: 24, // Adjust the size of the icon
+                                        color: Colors
+                                            .white, // Adjust the color of the icon
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            top: 50,
-                            left: 60,
-                            right: 40,
-                            child: IconButton(
-                              onPressed: () async {
-                                // await helperprovdr.imagePicker();
-                              },
-                              icon: const Icon(Icons.add),
-                              iconSize: 30,
-                              color: const Color.fromARGB(255, 0, 0, 0),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
-                const Center(child: const Text("Add profile Picture")),
+                // const Center(child: const Text("Add profile Picture")),
                 const Text("EnterprenurName"),
                 const SizedBox(height: 7),
                 Card(
@@ -123,7 +167,6 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 10),
                 const Text("Mobile Number"),
                 const SizedBox(height: 7),
@@ -252,10 +295,11 @@ class _EntreentreprenuerState extends State<Entreentreprenuer> {
                         width: Helper.W(context) * .50,
                         height: Helper.h(context) * .060,
                         // color: Colors.red,
-                        decoration: BoxDecoration(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
+                          color: Colors.pink,
                           border: Border.all(),
                         ),
-                        child: const Text('Update add'),
+                        child: const Text('Update add',style: TextStyle(color: Colors.white),),
                       ),
                     )
                   ],
