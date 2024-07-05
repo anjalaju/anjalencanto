@@ -439,7 +439,8 @@ class _BankquethallState extends State<Bankquethall> {
               children: [
                 Consumer<FunctionProvider>(
                   builder: (context, helper, child) {
-                    return StreamBuilder(
+                    return 
+                    StreamBuilder(
                       stream:
                           helper.getEventprojectuser('Venues', 'Banquet halls'),
                       builder: (context, snapshot) {

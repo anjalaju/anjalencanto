@@ -15,8 +15,29 @@ class ViewRevies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reviews'),
+   appBar: AppBar(
+        title: const Text(
+          'Reviews',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+        ),
+        backgroundColor: Colors.transparent,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(
+            thickness: 2,
+            color: Colors.black,
+            height: 1,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+          ),
+          color: Colors.black,
+        ),
       ),
       body: Consumer<FunctionProvider>(
         builder: (context, helper, child) {
@@ -164,9 +185,9 @@ class ReviewItem extends StatelessWidget {
                     final count = review.feedbackcount;
 
                     return Text(
-                      'USERNAME: $userName',
+                      'Username: $userName',
                       style:
-                          const TextStyle(fontSize: 14.0, color: Colors.grey),
+                          const TextStyle(fontSize: 14.0, color: Colors.grey,),
                     );
                   },
                 ),

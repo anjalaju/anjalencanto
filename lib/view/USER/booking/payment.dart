@@ -168,7 +168,7 @@ class _LogaState extends State<Payment> {
                                   enterprenurid: widget.bookingModle.enterprenurid,
                                     name: widget.bookingModle.name,
                                     email: widget.bookingModle.email,
-                                    phonenumber: widget.bookingModle.email,
+                                    phonenumber: widget.bookingModle.phonenumber,
                                     date: widget.bookingModle.date.toString(),
                                     discription:
                                         widget.bookingModle.discription,

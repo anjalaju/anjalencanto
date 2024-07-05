@@ -181,9 +181,10 @@ class _notificationpageState extends State<notificationpage> {
   @override
   void initState() {
     super.initState();
-    _dataStream = _firestore.collection('Notiication') 
-    .where('Email',isEqualTo: auth.currentUser!.email)
-    .snapshots();
+    _dataStream = _firestore
+        .collection('Notiication')
+        .where('Email', isEqualTo: auth.currentUser!.email)
+        .snapshots();
   }
 
   @override
@@ -200,7 +201,6 @@ class _notificationpageState extends State<notificationpage> {
           'Notifications',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
-        
         backgroundColor: Colors.transparent,
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(1),
@@ -222,7 +222,13 @@ class _notificationpageState extends State<notificationpage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height / 1.3,
+              width: MediaQuery.of(context).size.width,
+              child: Center(child: Image.asset('images/no notificaation.jpeg')),
+            );
+          }
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
           return Padding(

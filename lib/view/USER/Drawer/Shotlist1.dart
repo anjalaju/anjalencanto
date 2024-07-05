@@ -22,7 +22,7 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Shortlist',
+          'Wishlist',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
         backgroundColor: Colors.transparent,

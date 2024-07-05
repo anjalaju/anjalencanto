@@ -25,7 +25,7 @@ class _ShortlistState extends State<Shortlist> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Shortlist',
+            'Wishlist',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
           ),
           backgroundColor: Colors.transparent,
@@ -55,7 +55,7 @@ class _ShortlistState extends State<Shortlist> {
           child: Column(
             children: [
               SizedBox(
-                height: Helper.h(context) * .050,
+                height: Helper.h(context) * .020,
               ),
               Consumer<FunctionProvider>(
                 builder: (context, helper, child) {
@@ -94,8 +94,8 @@ class _ShortlistState extends State<Shortlist> {
                               ),
                             )
                           : Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GridView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 8,),
+                            child: GridView.builder(controller: ScrollController(),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Helper.W(context) * .020,
                                 ),

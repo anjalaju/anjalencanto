@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scrolling_fab_animated/flutter_scrolling_fab_animated.dart';
+import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/ENTREPRENEUR/homepage/offerpageb.dart';
 
 class Adminoffers extends StatefulWidget {
@@ -10,8 +11,9 @@ class Adminoffers extends StatefulWidget {
   State<Adminoffers> createState() => _AdminoffersState();
 }
 
-class _AdminoffersState extends State<Adminoffers> {  ScrollController _scrollController = ScrollController();
- @override
+class _AdminoffersState extends State<Adminoffers> {
+  ScrollController _scrollController = ScrollController();
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
@@ -19,28 +21,30 @@ class _AdminoffersState extends State<Adminoffers> {  ScrollController _scrollCo
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( floatingActionButton: ScrollingFabAnimated(
-            color: Colors.indigo,
-            width: 140,
-            height: 50,
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
-            ),
-            text: const Text(
-              'Add Your Offer',
-              style: TextStyle(color: Colors.white, fontSize: 10.0),
-            ),
-            onPress: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Enofferpagee(),));
-            },
-            scrollController: _scrollController,
-            animateIcon: true,
-            inverted: false,
-            radius: 10.0,
-          ),
+    return Scaffold(
+      floatingActionButton: ScrollingFabAnimated(
+        color: Colors.indigo,
+        width: 140,
+        height: 50,
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 20,
+        ),
+        text: const Text(
+          'Add Your Offer',
+          style: TextStyle(color: Colors.white, fontSize: 10.0),
+        ),
+        onPress: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const Enofferpagee(),
+          ));
+        },
+        scrollController: _scrollController,
+        animateIcon: true,
+        inverted: false,
+        radius: 10.0,
+      ),
       appBar: AppBar(
         title: const Text(
           'Offer',
@@ -115,12 +119,12 @@ class _AdminoffersState extends State<Adminoffers> {  ScrollController _scrollCo
               //                   },
               //                   background: Container(decoration: BoxDecoration(   borderRadius: BorderRadius.circular(
               //                             12), color: Colors.red, ),
-                                 
+
               //                     child: Icon(Icons.delete),
               //                     alignment: Alignment.centerRight,
               //                     padding: EdgeInsets.only(left: 20.0),
               //                   ),
-                               
+
               //                   child: ClipRRect(
               //                     borderRadius: BorderRadius.circular(
               //                         12), // Optional: adds rounded corners
@@ -145,71 +149,81 @@ class _AdminoffersState extends State<Adminoffers> {  ScrollController _scrollCo
               //       );
               //     }),
               StreamBuilder(
-  stream: FirebaseFirestore.instance
-      .collection('Offer')
-      .orderBy('timestamp', descending: true)
-      .snapshots(),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-      return Center(child: Image.asset('images/no_offer.avif'));
-    }
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns in the grid
-          crossAxisSpacing: 2.0, // Spacing between columns
-          mainAxisSpacing: 2.0, // Spacing between rows
-          childAspectRatio: 0.75, // Aspect ratio of each grid item
-        ),
-        itemCount: snapshot.data!.docs.length,
-        itemBuilder: (context, index) {
-          final data = snapshot.data!.docs[index];
-          return Dismissible(
-            key: Key(data.id.toString()),
-            direction: DismissDirection.endToStart,
-            onDismissed: (direction) {
-              setState(() {
-                FirebaseFirestore.instance
+                stream: FirebaseFirestore.instance
                     .collection('Offer')
-                    .doc(data.id)
-                    .delete()
-                    .then((value) => print('Document deleted'))
-                    .catchError(
-                        (error) => print('Failed to delete document: $error'));
-              });
-            },
-            background: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.red,
+                    .orderBy('timestamp', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(
+                        child: Container(
+                            height: 400,
+                            width: 400,
+                            child: Image.asset(
+                              'images/no offer.avif',
+                              fit: BoxFit.cover,
+                            )));
+                  }
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: Helper.W(context) * .030,
+                          mainAxisSpacing: Helper.W(context) * .070,
+                          childAspectRatio: 1.0,
+                        ),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          final data = snapshot.data!.docs[index];
+                          return Dismissible(
+                            key: Key(data.id.toString()),
+                            direction: DismissDirection.endToStart,
+                            onDismissed: (direction) {
+                              setState(() {
+                                FirebaseFirestore.instance
+                                    .collection('Offer')
+                                    .doc(data.id)
+                                    .delete()
+                                    .then((value) => print('Document deleted'))
+                                    .catchError((error) => print(
+                                        'Failed to delete document: $error'));
+                              });
+                            },
+                            background: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.red,
+                              ),
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: const Icon(Icons.delete),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(width: 400,height: 400,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Image.network(
+                                  '${data['Image']}',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
-              child: Icon(Icons.delete),
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(left: 20.0),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Image.network(
-                  '${data['Image']}',
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  },
-),
 
               // const SizedBox(
               //   height: 20,

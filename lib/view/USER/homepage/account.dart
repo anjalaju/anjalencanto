@@ -67,16 +67,16 @@ class _AccountpageState extends State<Accountpage> {
         // ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 8),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(5.0),
                 child: StreamBuilder(
                   stream: _firestore.collection('firebase').doc(id).snapshots(),
                   builder: (context, snapshot) {
@@ -129,7 +129,7 @@ class _AccountpageState extends State<Accountpage> {
                             ),
                             Positioned(
                               right: 5,
-                              bottom: 15,
+                              bottom: 5,
                               child: InkWell(
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
@@ -258,133 +258,151 @@ class _AccountpageState extends State<Accountpage> {
                 "Mobile number",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StreamBuilder(
-                    stream: _firestore
-                        .collection("firebase")
-                        .where("Id", isEqualTo: _auth.currentUser!.uid)
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        final List<DocumentSnapshot> documents =
-                            snapshot.data!.docs;
-                        if (documents.isNotEmpty) {
-                          final mobile = documents[0].get("Mobile_No");
-                          return Text(mobile ?? "");
-                        }
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => const EditMobileNum())));
-                    },
-                    child: Container(
-                      width: 30,
-                      child: Image.asset(
-                        'images/OIP.jpeg',
-                        fit: BoxFit.cover,
+              const SizedBox(height: 5),
+              Container(height: 50,width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(border: Border.all()),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StreamBuilder(
+                        stream: _firestore
+                            .collection("firebase")
+                            .where("Id", isEqualTo: _auth.currentUser!.uid)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            final List<DocumentSnapshot> documents =
+                                snapshot.data!.docs;
+                            if (documents.isNotEmpty) {
+                              final mobile = documents[0].get("Mobile_No");
+                              return Text(mobile ?? "");
+                            }
+                          }
+                          return const CircularProgressIndicator();
+                        },
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => const EditMobileNum())));
+                        },
+                        child: Container(
+                          width: 30,
+                          child: Image.asset(
+                            'images/OIP.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              const Divider(
-                color: Colors.black,
-              ),
-              const SizedBox(height: 10),
+              // const Divider(
+              //   color: Colors.black,
+              // ),
+              const SizedBox(height: 15),
               const Text(
                 "Place",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StreamBuilder(
-                    stream: _firestore
-                        .collection("firebase")
-                        .where("Id", isEqualTo: _auth.currentUser!.uid)
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        final List<DocumentSnapshot> documents =
-                            snapshot.data!.docs;
-                        if (documents.isNotEmpty) {
-                          final place = documents[0].get("Place");
-                          return Text(place ?? "");
-                        }
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => const PlaceEditPage())));
-                    },
-                    child: Container(
-                      width: 30,
-                      child: Image.asset(
-                        'images/OIP.jpeg',
-                        fit: BoxFit.cover,
+              const SizedBox(height: 5),
+              Container(height: 50,width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(border: Border.all()),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StreamBuilder(
+                        stream: _firestore
+                            .collection("firebase")
+                            .where("Id", isEqualTo: _auth.currentUser!.uid)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            final List<DocumentSnapshot> documents =
+                                snapshot.data!.docs;
+                            if (documents.isNotEmpty) {
+                              final place = documents[0].get("Place");
+                              return Text(place ?? "");
+                            }
+                          }
+                          return const CircularProgressIndicator();
+                        },
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => const PlaceEditPage())));
+                        },
+                        child: Container(
+                          width: 30,
+                          child: Image.asset(
+                            'images/OIP.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              const Divider(
-                color: Colors.black,
-              ),
-              const SizedBox(height: 10),
+              // const Divider(
+              //   color: Colors.black,
+              // ),
+              const SizedBox(height: 15),
               const Text(
                 "Age",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StreamBuilder(
-                    stream: _firestore
-                        .collection("firebase")
-                        .where("Id", isEqualTo: _auth.currentUser!.uid)
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        final List<DocumentSnapshot> documents =
-                            snapshot.data!.docs;
-                        if (documents.isNotEmpty) {
-                          final age = documents[0].get("Age");
-                          return Text(age.toString() ?? "");
-                        }
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => const AgeEditPage())));
-                    },
-                    child: Container(
-                      width: 30,
-                      child: Image.asset(
-                        'images/OIP.jpeg',
-                        fit: BoxFit.cover,
+              const SizedBox(height: 5),
+              Container(height: 50,width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(border: Border.all()),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      StreamBuilder(
+                        stream: _firestore
+                            .collection("firebase")
+                            .where("Id", isEqualTo: _auth.currentUser!.uid)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            final List<DocumentSnapshot> documents =
+                                snapshot.data!.docs;
+                            if (documents.isNotEmpty) {
+                              final age = documents[0].get("Age");
+                              return Text(age.toString() ?? "");
+                            }
+                          }
+                          return const CircularProgressIndicator();
+                        },
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => const AgeEditPage())));
+                        },
+                        child: Container(
+                          width: 30,
+                          child: Image.asset(
+                            'images/OIP.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-              const Divider(
-                color: Colors.black,
-              ),
+              // const Divider(
+              //   color: Colors.black,
+              // ),
             ],
           ),
         ),

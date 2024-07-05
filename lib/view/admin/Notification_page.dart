@@ -1,94 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:main_project/controller/FunctionProvider.dart';
-// import 'package:main_project/utils/String.dart';
-// import 'package:provider/provider.dart';
 
-// class NotificationPgae extends StatefulWidget {
-//   const NotificationPgae({super.key});
-
-//   @override
-//   State<NotificationPgae> createState() => _NotificationPgaeState();
-// }
-
-// class _NotificationPgaeState extends State<NotificationPgae> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: Column(
-//       children: [
-//         Row(
-//           children: [
-//             Container(
-//               width: Helper.W(context) / 1,
-//               height: Helper.h(context) * .250,
-//               child: Column(
-//                 children: [
-//                   SizedBox(
-//                     height: Helper.h(context) * .050,
-//                   ),
-//                   Consumer<FunctionProvider>(
-//                     builder: (context, helper, child) {
-//                       return StreamBuilder(
-//                         stream: helper.getNotificationall().asStream(),
-//                         builder: (context, snapshot) {
-//                           final noti = helper.allnoti;
-//                           return noti.isEmpty? Center(child: Text('NO Notifications !'),):ListView.separated(
-//                             padding: EdgeInsets.symmetric(
-//                                 horizontal: Helper.W(context) * .050),
-//                             shrinkWrap: true,
-//                             controller: ScrollController(),
-//                             physics: BouncingScrollPhysics(),
-//                             itemCount: noti.length,
-//                             itemBuilder: (context, index) {
-//                               return Material(
-//                                 elevation: 4,
-//                                 child: Column(
-//                                   children: [
-//                                     Row(
-//                                       mainAxisAlignment:
-//                                           MainAxisAlignment.spaceBetween,
-//                                       children: [
-//                                         Column(
-//                                           children: [
-//                                             Text(
-//                                                 'NOTIFICATION TITLE :${noti[index].notificationtitile}'),
-//                                             Text(
-//                                                 'NOTIFICATION SUBTITLE ${noti[index].notificationSubtitile}'),
-//                                           ],
-//                                         ),
-//                                         IconButton(
-//                                             onPressed: () {
-//                                               db.collection('Notiication').doc(noti[index].id).delete();
-//                                               setState(() {
-
-//                                               });
-//                                             },
-//                                             icon: Icon(Icons.delete))
-//                                       ],
-//                                     )
-//                                   ],
-//                                 ),
-//                               );
-//                             },
-//                             separatorBuilder: (context, index) {
-//                               return SizedBox(
-//                                 height: Helper.h(context) * .020,
-//                               );
-//                             },
-//                           );
-//                         },
-//                       );
-//                     },
-//                   )
-//                 ],
-//               ),
-//             ),
-//           ],
-//         )
-//       ],
-//     ));
-//   }
-// }
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -146,7 +56,13 @@ class _NotificationPgaeState extends State<NotificationPgae> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
+ if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(child: Image.asset('images/no notificaation.jpeg')),
+            );
+          }
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
 
           return Padding(

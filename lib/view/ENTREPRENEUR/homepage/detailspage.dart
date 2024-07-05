@@ -376,6 +376,7 @@ class _LogaState extends State<Entredetailspage> {
                                   discription: authprvdr.eventdiscription.text,
                                   startingPriceFrom: authprvdr.eventprice.text,
                                   phonenumber: authprvdr.phonenumber.text,
+                                  timestamp: DateTime.now()
                                
                                 ),
                               )

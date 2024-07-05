@@ -119,11 +119,11 @@ class FunctionProvider with ChangeNotifier {
   }
 
   List<Donatemodel> donted = [];
-  Future getallDonated(selected ,authuid) async {
+  Future getallDonated(selected, authuid) async {
     final snapshot = await db
         .collection('Donatescreen')
         .where('Selected', isEqualTo: selected)
-        .where('uid',isEqualTo: authuid)
+        .where('uid', isEqualTo: authuid)
         .get();
 
     donted = snapshot.docs.map((e) {
@@ -324,10 +324,7 @@ class FunctionProvider with ChangeNotifier {
     log('${url.toString()}====================================================');
   }
 
-  Future updatProfielonly(
-    uid,
-    urlp
-  ) async {
+  Future updatProfielonly(uid, urlp) async {
     db.collection('enterprenur').doc(uid).update({
       'profileImage': urlp,
     });
@@ -432,8 +429,7 @@ class FunctionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-  Stream<QuerySnapshot> getusers(){
+  Stream<QuerySnapshot> getusers() {
     return db.collection('firebase').snapshots();
   }
 
@@ -469,9 +465,10 @@ class FunctionProvider with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getAllbookingenterprenur(uid) {
-    return db.collection('Boookingevent')
-    .where('enterprenuid',isEqualTo: uid)
-    .snapshots();
+    return db
+        .collection('Boookingevent')
+        .where('enterprenuid', isEqualTo: uid)
+        .snapshots();
   }
 
   // Future<void> deleteUserAccount(uid) async {
@@ -495,20 +492,18 @@ class FunctionProvider with ChangeNotifier {
   //   }
   // }
 
-
-  Future deleteAccound(uid,BuildContext context,String collection)async{
-   try{
-
-    db.collection(collection).doc(uid).delete().then((value) {
-       SuccesToast(context, 'delete accound');
-     },);
-     
-   }catch (e){
-     Infotoast(context, 'Error delete');
-     rethrow;
-   }
+  Future deleteAccound(uid, BuildContext context, String collection) async {
+    try {
+      db.collection(collection).doc(uid).delete().then(
+        (value) {
+          SuccesToast(context, 'delete accound');
+        },
+      );
+    } catch (e) {
+      Infotoast(context, 'Error delete');
+      rethrow;
+    }
   }
-
 }
 
 //  list = snapshot.docs.map((e) {
