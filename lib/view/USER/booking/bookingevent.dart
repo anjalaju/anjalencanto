@@ -209,21 +209,21 @@ class BookEventScren extends StatelessWidget {
                                                 },
                                               ),
                                               Text(
-                                                'PAYMNET STATUS : ${list[index].paymentstatus}',
+                                                'payment status: ${list[index].paymentstatus}',
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               Text(
-                                                'BOOKING DATE :  ${list[index].date}',
+                                                'Booking date:  ${list[index].date}',
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               Text(
-                                                'EVENT PRICE : ${list[index].eventprice}',
+                                                'Event price: ${list[index].eventprice}',
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
