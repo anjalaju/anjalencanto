@@ -260,7 +260,8 @@ class _AccountpageState extends State<Accountpage> {
               ),
               const SizedBox(height: 5),
               Container(height: 50,width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(border: Border.all()),
+              
+              decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Row(
@@ -310,7 +311,7 @@ class _AccountpageState extends State<Accountpage> {
               ),
               const SizedBox(height: 5),
               Container(height: 50,width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Row(
@@ -360,7 +361,7 @@ class _AccountpageState extends State<Accountpage> {
               ),
               const SizedBox(height: 5),
               Container(height: 50,width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(border: Border.all()),
+              decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: Row(

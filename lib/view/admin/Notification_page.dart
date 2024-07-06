@@ -15,7 +15,7 @@ class _NotificationPgaeState extends State<NotificationPgae> {
   @override
   void initState() {
     super.initState();
-    _dataStream = _firestore.collection('Notiication').snapshots();
+    _dataStream = _firestore.collection('Notiication') .orderBy('timestamp', descending: true).snapshots();
   }
 
   @override

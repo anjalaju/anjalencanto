@@ -632,7 +632,8 @@ class _homepageState extends State<homepage> {
                           width: 100,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Colors.red),
+                              // color: Colors.red
+                              ),
                           child: const Image(
                             image: AssetImage(
                               "images/Mainevent.jpg",
@@ -680,7 +681,8 @@ class _homepageState extends State<homepage> {
                           width: 100,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Colors.red),
+                              // color: Colors.red
+                              ),
                           child: const Image(
                             image: AssetImage(
                               "images/Charity.jpeg",

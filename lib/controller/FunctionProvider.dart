@@ -272,7 +272,7 @@ class FunctionProvider with ChangeNotifier {
   //   return db.collection('Alert').snapshots();
   // }
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllcomplaint() {
-    return FirebaseFirestore.instance.collection('Alert').snapshots();
+    return FirebaseFirestore.instance.collection('Alert').orderBy('timestamp', descending: true).snapshots();
   }
 
   Future addReview(AddReview addReview) async {
@@ -282,7 +282,7 @@ class FunctionProvider with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getReview() {
-    return db.collection('AddReview').snapshots();
+    return db.collection('AddReview') .orderBy('timestamp', descending: true).snapshots();
   }
 
   Future addNotification(NotificationModel notificationModel) async {

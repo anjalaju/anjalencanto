@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:main_project/chat/chatpage.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/USER/homepage/bottomnav.dart';
 import 'package:main_project/view/USER/homepage/homepage.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Shortlistphotographer extends StatefulWidget {
   EventModel eventModel;
@@ -107,7 +109,11 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                           Row(
                             children: [
                               const Icon(Icons.currency_rupee),
-                              Text(' ${widget.eventModel.startingPriceFrom}',style: const TextStyle(fontWeight:FontWeight.w900),),
+                              Text(
+                                ' ${widget.eventModel.startingPriceFrom}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w900),
+                              ),
                             ],
                           ),
 
@@ -138,9 +144,15 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                                           borderRadius:
                                               BorderRadius.circular(15)))),
                               onPressed: () {
-                                //                           Navigator.of(context).pushReplacement(
-                                //   MaterialPageRoute(builder: (context) => Chatpage()),
-                                // );
+                                final entruid = widget.eventModel.enterprenurid;
+
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                            reciveerID: entruid,
+                                            reciveeremail: '',
+                                          )),
+                                );
                               },
                               child: const Row(
                                 children: [
@@ -168,7 +180,9 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
                                 const BorderSide(color: Color(0xff63C336)),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              _makePhoneCall(widget.eventModel.phonenumber);
+                            },
                             child: const Row(
                               children: [
                                 Icon(Icons.call),
@@ -186,5 +200,14 @@ class _ShortlistphotographerState extends State<Shortlistphotographer> {
         ),
       ),
     );
+  }
+
+  void _makePhoneCall(String phoneNumber) async {
+    final url = 'tel:$phoneNumber';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

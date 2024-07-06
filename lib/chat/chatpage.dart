@@ -113,6 +113,8 @@ class _ChatPageState extends State<ChatPage> {
                   ],
                 ),
                 InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     if (userType == 'enterprenur') {
                       if (userNumber != null && userNumber.isNotEmpty) {
@@ -188,21 +190,25 @@ class _ChatPageState extends State<ChatPage> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Container(
-        alignment: alignment,
-        child: Column(
-          crossAxisAlignment:
-              isCurentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            ChatBubble(
-              message: data['text'],
-              isCurentUSer: isCurentUser,
-            ),
-            Text(
-              formattedTime,
-              style: const TextStyle(fontSize: 9, color: Colors.white),
-            )
-          ],
+      child: InkWell(onTap: () {        print('${doc.id}******');
+
+      },
+        child: Container(
+          alignment: alignment,
+          child: Column(
+            crossAxisAlignment:
+                isCurentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              ChatBubble(
+                message: data['text'],
+                isCurentUSer: isCurentUser,
+              ),
+              Text(
+                formattedTime,
+                style: const TextStyle(fontSize: 9, color: Colors.white),
+              )
+            ],
+          ),
         ),
       ),
     );

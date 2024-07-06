@@ -183,7 +183,7 @@ class _notificationpageState extends State<notificationpage> {
     super.initState();
     _dataStream = _firestore
         .collection('Notiication')
-        .where('Email', isEqualTo: auth.currentUser!.email)
+        .where('Email', isEqualTo: auth.currentUser!.email).orderBy('timestamp', descending: true)
         .snapshots();
   }
 

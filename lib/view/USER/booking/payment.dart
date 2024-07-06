@@ -89,7 +89,9 @@ class _LogaState extends State<Payment> {
                       itemCount: 1,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          leading: CircleAvatar(),
+                          leading: CircleAvatar(
+                            backgroundImage: AssetImage('images/gpay.png'),
+                          ),
                           title: Text(snapshot.data!.name),
                           onTap: () {
                             PaymentController().initiateTransaction(
@@ -162,25 +164,25 @@ class _LogaState extends State<Payment> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color(0xccFF4141))),
                         onPressed: () async {
-                           await   helper
-                                  .bookingEvent(
-                                BookingModle(
-                                  enterprenurid: widget.bookingModle.enterprenurid,
-                                    name: widget.bookingModle.name,
-                                    email: widget.bookingModle.email,
-                                    phonenumber: widget.bookingModle.phonenumber,
-                                    date: widget.bookingModle.date.toString(),
-                                    discription:
-                                        widget.bookingModle.discription,
-                                    eventid: widget.bookingModle.eventid,
-                                    userid: widget.bookingModle.userid,
-                                    paymentstatus: 'succes',
-                                    eventprice: widget.bookingModle.eventprice),
-                              )
-                                  .then((value) {
-                                SuccesToast(context, 'succes');
-                                helper.clear();
-                              });
+                          await helper
+                              .bookingEvent(
+                            BookingModle(
+                                enterprenurid:
+                                    widget.bookingModle.enterprenurid,
+                                name: widget.bookingModle.name,
+                                email: widget.bookingModle.email,
+                                phonenumber: widget.bookingModle.phonenumber,
+                                date: widget.bookingModle.date.toString(),
+                                discription: widget.bookingModle.discription,
+                                eventid: widget.bookingModle.eventid,
+                                userid: widget.bookingModle.userid,
+                                paymentstatus: 'succes',
+                                eventprice: widget.bookingModle.eventprice),
+                          )
+                              .then((value) {
+                            SuccesToast(context, 'succes');
+                            helper.clear();
+                          });
                           await PaymentController()
                               .appopen()
                               .then((value) async {
@@ -191,12 +193,16 @@ class _LogaState extends State<Payment> {
                                 .then((value) {
                               final statu =
                                   value.status == UpiPaymentStatus.SUCCESS;
-                              
                             });
                           });
-                       
 
-                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Paymentsuccessfull(),), (route) => false,);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Paymentsuccessfull(),
+                            ),
+                            (route) => false,
+                          );
                         },
                         child: const Text(
                           "Proceed to pay",
