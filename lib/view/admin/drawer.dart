@@ -284,6 +284,20 @@ class Drawerpage extends StatelessWidget {
                 ));
               },
             ),
+                  const Divider(
+              color: Colors.black,
+            ),
+             ListTile(
+              leading:
+                  const Icon(Icons.rate_review, color: Colors.black),
+              title: const Text('Ratings',
+                  style: TextStyle(color: Colors.white)),
+              onTap: () {
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => Adminoffers(),
+                // ));
+              },
+            ),
             const Divider(
               color: Colors.black,
             ),
