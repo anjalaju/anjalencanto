@@ -247,15 +247,53 @@ class FunctionProvider with ChangeNotifier {
 
   // booking
 
-  Future bookingEvent(BookingModle bookingModle) async {
-    final snapshot = db.collection('Boookingevent').doc();
+  // Future bookingEvent(BookingModle bookingModle) async {
+  //   final snapshot = db.collection('BookingEvent').doc();
 
-    snapshot.set(bookingModle.tojsone(snapshot.id));
+  //   snapshot.set(bookingModle.tojsone(snapshot.id));
+  // }
+
+  // Stream<QuerySnapshot> getBookingevent(uid) {
+  //   return db
+  //       .collection('BookingEvent')
+  //       .where('Userid', isEqualTo: uid)
+  //       .snapshots();
+  // }
+  Future<void> bookingEvent(
+      BuildContext context, BookingModle bookingModle) async {
+    try {
+      // Check if there is already a booking for the same date
+      final snapshot = await db
+          .collection('BookingEvent')
+          .where('Userid', isEqualTo: bookingModle.userid)
+          .where('Data', isEqualTo: bookingModle.date)
+                    .where('Eventid', isEqualTo: bookingModle.eventid)
+
+
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        // A booking exists for the same date, handle accordingly
+
+        print('Booking already exists for the specified date.');
+        // You can also throw an error or show a message to the user
+        return;
+      }
+
+      // If no booking exists, proceed with creating a new booking
+      final newBooking = db.collection('BookingEvent').doc();
+      await newBooking.set(bookingModle.tojsone(newBooking.id));
+      print('Booking created successfully.');
+        SuccesToast(context, 'Booking created successfully.');
+    } catch (e) {
+      // Handle the error, for example, print it or use a logging library
+      print('Error booking event: $e');
+    }
   }
 
-  Stream<QuerySnapshot> getBookingevent(uid) {
+  Stream<QuerySnapshot> getBookingevent(String uid) {
     return db
-        .collection('Boookingevent')
+        .collection('BookingEvent')
         .where('Userid', isEqualTo: uid)
         .snapshots();
   }
@@ -272,7 +310,10 @@ class FunctionProvider with ChangeNotifier {
   //   return db.collection('Alert').snapshots();
   // }
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllcomplaint() {
-    return FirebaseFirestore.instance.collection('Alert').orderBy('timestamp', descending: true).snapshots();
+    return FirebaseFirestore.instance
+        .collection('Alert')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
   }
 
   Future addReview(AddReview addReview) async {
@@ -282,7 +323,10 @@ class FunctionProvider with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getReview() {
-    return db.collection('AddReview') .orderBy('timestamp', descending: true).snapshots();
+    return db
+        .collection('AddReview')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
   }
 
   Future addNotification(NotificationModel notificationModel) async {
@@ -458,7 +502,7 @@ class FunctionProvider with ChangeNotifier {
 
   Future deleteBooking(id) async {
     try {
-      db.collection('Boookingevent').doc(id).delete();
+      db.collection('BookingEvent').doc(id).delete();
     } catch (e) {
       e.toString();
     }
@@ -466,7 +510,7 @@ class FunctionProvider with ChangeNotifier {
 
   Stream<QuerySnapshot> getAllbookingenterprenur(uid) {
     return db
-        .collection('Boookingevent')
+        .collection('BookingEvent')
         .where('enterprenuid', isEqualTo: uid)
         .snapshots();
   }

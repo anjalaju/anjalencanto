@@ -249,7 +249,7 @@ class BookEventScren extends StatelessWidget {
                                           ),
                                           child: Center(
                                             child: InkWell(
-                                              onTap: () async {
+                                              onTap: () async {print('....${ list[index].id}');
                                                 await _showMyDialog(
                                                     list[index].id);
                                               },

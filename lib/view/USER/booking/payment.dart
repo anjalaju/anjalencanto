@@ -165,7 +165,7 @@ class _LogaState extends State<Payment> {
                                 const Color(0xccFF4141))),
                         onPressed: () async {
                           await helper
-                              .bookingEvent(
+                              .bookingEvent(context,
                             BookingModle(
                                 enterprenurid:
                                     widget.bookingModle.enterprenurid,

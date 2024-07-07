@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:main_project/view/USER/booking/bookingview.dart';
 import 'package:main_project/view/USER/booking/payment.dart';
 import 'package:main_project/model/addProject.dart';
 import 'package:main_project/model/userbookingmodel.dart';
@@ -28,6 +29,25 @@ class _LogaState extends State<Bookimgpage> {
 
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BookingCalendarPage(id: '${ widget.eventModel!.id}',audname:'${ widget.eventModel!.eventName}' ,)));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Container(padding: const EdgeInsets.all(6),decoration: BoxDecoration(color: Colors.indigo,borderRadius: BorderRadius.circular(8)),
+                    child: const Row(
+                      children: [
+                        Icon(Icons.calendar_view_month,color: Colors.white,size: 20,),
+                        SizedBox(width: 3,),
+                        Text("View Bookings Callendar",style: TextStyle(fontSize: 9,color: Colors.white),)
+                      ],
+                    ),
+                  ),
+                ))
+          ],
           title: const Text(
             'Booking',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
@@ -51,7 +71,7 @@ class _LogaState extends State<Bookimgpage> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Color(0xffF9F8C9),
+        backgroundColor: const Color(0xffF9F8C9),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -60,7 +80,7 @@ class _LogaState extends State<Bookimgpage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Enter Details",
                     style: TextStyle(
                       fontSize: 32,
@@ -88,7 +108,7 @@ class _LogaState extends State<Bookimgpage> {
                       return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   const Text("Email"),
@@ -111,7 +131,7 @@ class _LogaState extends State<Bookimgpage> {
                       return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   const Text("Phone number"),
@@ -184,7 +204,7 @@ class _LogaState extends State<Bookimgpage> {
                   //   ),
                   // ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   // TextField(
@@ -204,11 +224,14 @@ class _LogaState extends State<Bookimgpage> {
                   //     ),
                   //   ),
                   // ),
+                    const Text("Date"),
+                  const SizedBox(height: 5),
                   TextFormField(
                     // autovalidateMode: AutovalidateMode.onUserInteraction,
-                    
+
                     readOnly: true,
-                    decoration: InputDecoration(
+                    decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),   fillColor: Colors.white,
+                      filled: true,
                         // filled: true,
                         hintText: selecdate != null
                             ? "${selecdate!.day}/${selecdate!.month}/${selecdate!.year}"
@@ -229,14 +252,15 @@ class _LogaState extends State<Bookimgpage> {
                                 });
                               }
                             },
-                            icon: Icon(Icons.date_range))),
+                            icon: const Icon(Icons.date_range))),
                   ),
-                  SizedBox(height: 10),
-                  Text("Small Discription"),
+                  const SizedBox(height: 10),
+                  const Text("Small Discription"),
+                  const SizedBox(height: 5),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: functionprovider.bookdiscription,
-                    maxLines: 5,
+                    maxLines: 3,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
@@ -244,14 +268,14 @@ class _LogaState extends State<Bookimgpage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                           validator: (value) {
-                      if(value!.isEmpty){
+                    validator: (value) {
+                      if (value!.isEmpty) {
                         return 'required';
-
-                      }return null;
+                      }
+                      return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Center(
@@ -266,37 +290,83 @@ class _LogaState extends State<Bookimgpage> {
                             foregroundColor:
                                 MaterialStateProperty.all(Colors.white),
                             backgroundColor:
-                                MaterialStateProperty.all(Color(0xccFF4141))),
-                        onPressed: () {
-                          final formatdate =
+                                MaterialStateProperty.all(const Color(0xccFF4141))),
+                        onPressed: () async {
+                          // final formatdate =
+                          //     DateFormat('dd-MM-yyyy').format(selecdate);
+                          // if (form.currentState!.validate()) {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => Payment(
+                          //         bookingModle: BookingModle(
+                          //           enterprenurid:
+                          //               widget.eventModel.enterprenurid,
+                          //           name: functionprovider.bookingname.text,
+                          //           email: functionprovider.bookemail.text,
+                          //           phonenumber:
+                          //               functionprovider.bookphonenumber.text,
+                          //           date: formatdate,
+                          //           discription:
+                          //               functionprovider.bookdiscription.text,
+                          //           eventid: widget.eventModel!.id.toString(),
+                          //           userid: auth.currentUser!.uid,
+                          //           paymentstatus: 'Pending',
+                          //           eventprice:
+                          //               widget.eventModel!.startingPriceFrom,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   );
+                          // } else {
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //       SnackBar(content: Text('select data time')));
+                          // }
+                          final formattedDate =
                               DateFormat('dd-MM-yyyy').format(selecdate);
                           if (form.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Payment(
-                                  bookingModle: BookingModle(
-                                    enterprenurid:
-                                        widget.eventModel.enterprenurid,
-                                    name: functionprovider.bookingname.text,
-                                    email: functionprovider.bookemail.text,
-                                    phonenumber:
-                                        functionprovider.bookphonenumber.text,
-                                    date: formatdate,
-                                    discription:
-                                        functionprovider.bookdiscription.text,
-                                    eventid: widget.eventModel!.id.toString(),
-                                    userid: auth.currentUser!.uid,
-                                    paymentstatus: 'Pending',
-                                    eventprice:
-                                        widget.eventModel!.startingPriceFrom,
+                            final userId = auth.currentUser!.uid;
+                            final existingBooking = await db
+                                .collection('BookingEvent')
+                                .where('Userid', isEqualTo: userId)
+                                .where('Data', isEqualTo: formattedDate)
+                                .where('Eventid',
+                                    isEqualTo: widget.eventModel!.id)
+                                .get();
+
+                            if (existingBooking.docs.isNotEmpty) {
+                              Infotoast(context,
+                                  'Booking already exists for the specified date');
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Payment(
+                                    bookingModle: BookingModle(
+                                      enterprenurid:
+                                          widget.eventModel.enterprenurid,
+                                      name: functionprovider.bookingname.text,
+                                      email: functionprovider.bookemail.text,
+                                      phonenumber:
+                                          functionprovider.bookphonenumber.text,
+                                      date: formattedDate,
+                                      discription:
+                                          functionprovider.bookdiscription.text,
+                                      eventid: widget.eventModel!.id.toString(),
+                                      userid: userId,
+                                      paymentstatus: 'Pending',
+                                      eventprice:
+                                          widget.eventModel!.startingPriceFrom,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('select data time')));
+                            //  ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(content: Text('select data time'))
+                            //   );
+                            Infotoast(context, 'Please fill out all fields.');
                           }
                         },
                         child: const Text(
@@ -305,7 +375,7 @@ class _LogaState extends State<Bookimgpage> {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         )),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   )
                 ],
