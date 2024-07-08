@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:animated_rating_stars/animated_rating_stars.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ import 'package:main_project/model/addProject.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
+import 'package:rating_summary/rating_summary.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Kalyanamandappam extends StatefulWidget {
@@ -38,117 +40,343 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
 
     final feedbackcon = TextEditingController();
 
-    Future bottomSheet(EventModel model) async {
-      showModalBottomSheet<void>(
-        context: context,
+    // Future bottomSheet(EventModel model) async {
+    //   showModalBottomSheet<void>(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return Container(
+    //         height: Helper.h(context) / 2,
+    //         color: Colors.grey,
+    //         child: Center(
+    //           child: Padding(
+    //             padding: EdgeInsets.symmetric(
+    //               horizontal: Helper.W(context) * .010,
+    //             ),
+    //             child: Form(
+    //               key: formkey,
+    //               child: Column(
+    //                 children: <Widget>[
+    //                   SizedBox(
+    //                     height: Helper.h(context) * .020,
+    //                   ),
+    //                   const Row(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     children: [
+    //                       Text('PRODUCT REVIEW AND FEED BACK'),
+    //                     ],
+    //                   ),
+    //                   Consumer<FunctionProvider>(
+    //                     builder: (context, helper, child) {
+    //                       return RatingBar.builder(
+    //                         itemSize: 25,
+    //                         initialRating: 0,
+    //                         minRating: 1,
+    //                         direction: Axis.horizontal,
+    //                         allowHalfRating: true,
+    //                         itemCount: 5,
+    //                         itemPadding:
+    //                             const EdgeInsets.symmetric(horizontal: 4.0),
+    //                         itemBuilder: (context, _) => const Icon(
+    //                           Icons.star,
+    //                           color: Colors.amber,
+    //                         ),
+    //                         onRatingUpdate: (rating) {
+    //                           setState(() {
+    //                             provider.rating = rating.toString();
+    //                           });
+    //                         },
+    //                       );
+    //                     },
+    //                   ),
+    //                   SizedBox(
+    //                     height: Helper.h(context) * .020,
+    //                   ),
+    //                   TextFormField(
+    //                     controller: feedbackcon,
+    //                     decoration: const InputDecoration(
+    //                         hintText: 'ADD FEEDBACK',
+    //                         border: OutlineInputBorder()),
+    //                     validator: (value) {
+    //                       if (value!.isEmpty) {
+    //                         return 'required';
+    //                       }
+    //                     },
+    //                   ),
+    //                   SizedBox(
+    //                     height: Helper.h(context) * .020,
+    //                   ),
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     children: [
+    //                       GestureDetector(
+    //                         onTap: () {
+    //                           if (formkey.currentState!.validate()) {
+    //                             if (provider.rating != null) {
+    //                               provider.addReviewFeedback(
+    //                                   FeedbackReview(
+    //                                       productid: model.id.toString(),
+    //                                       feedback: feedbackcon.text,
+    //                                       feedbackcount:
+    //                                           provider.rating.toString(),
+    //                                       useruid: auth.currentUser!.uid,
+    //                                       timestamp: Timestamp.now()),
+    //                                   model.id);
+    //                               Navigator.pop(context);
+    //                               ScaffoldMessenger.of(context).showSnackBar(
+    //                                   const SnackBar(content: Text('Success')));
+    //                               provider.claerrat();
+    //                             } else {
+    //                               ScaffoldMessenger.of(context).showSnackBar(
+    //                                   const SnackBar(
+    //                                       content: Text(
+    //                                           'please select the rating')));
+    //                             }
+
+    //                             log('the review working  ${provider.rating}');
+    //                           }
+    //                         },
+    //                         child: Container(
+    //                           alignment: Alignment.center,
+    //                           height: Helper.h(context) * .050,
+    //                           width: Helper.W(context) * .30,
+    //                           decoration: BoxDecoration(
+    //                             border: Border.all(),
+    //                           ),
+    //                           child: const Text('ADD REVIEW'),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   );
+    // }
+    Future editbootmsheet(EventModel model) async {
+      await showModalBottomSheet<void>(
+        context: context, backgroundColor: Colors.white,
+        isScrollControlled:
+            true, // Allows the bottom sheet to take full screen height when dragged
         builder: (BuildContext context) {
-          return Container(
-            height: Helper.h(context) / 2,
-            color: Colors.grey,
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Helper.W(context) * .010,
-                ),
-                child: Form(
-                  key: formkey,
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: Helper.h(context) * .020,
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('PRODUCT REVIEW AND FEED BACK'),
-                        ],
-                      ),
-                      Consumer<FunctionProvider>(
-                        builder: (context, helper, child) {
-                          return RatingBar.builder(
-                            itemSize: 25,
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              setState(() {
-                                provider.rating = rating.toString();
-                              });
-                            },
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: Helper.h(context) * .020,
-                      ),
-                      TextFormField(
+          return DraggableScrollableSheet(
+            initialChildSize: 0.6,
+            maxChildSize: 0.9,
+            minChildSize: 0.6,
+            expand: false,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return SingleChildScrollView(
+                controller: scrollController,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: TextFormField(
                         controller: feedbackcon,
                         decoration: const InputDecoration(
-                            hintText: 'ADD FEEDBACK',
-                            border: OutlineInputBorder()),
+                          isDense: true,
+                          hintText: 'ADD FEEDBACK',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.indigo),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.indigo, width: 2.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.red, width: 2.0),
+                          ),
+                          errorStyle: const TextStyle(color: Colors.red),
+                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'required';
+                            return 'Feedback is required';
                           }
+                          return null;
                         },
                       ),
-                      SizedBox(
-                        height: Helper.h(context) * .020,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              if (formkey.currentState!.validate()) {
-                                if (provider.rating != null) {
-                                  provider.addReviewFeedback(
-                                      FeedbackReview(
-                                          productid: model.id.toString(),
-                                          feedback: feedbackcon.text,
-                                          feedbackcount:
-                                              provider.rating.toString(),
-                                          useruid: auth.currentUser!.uid,
-                                          timestamp: Timestamp.now()),
-                                      model.id);
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Success')));
-                                  provider.claerrat();
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              'please select the rating')));
-                                }
+                    ),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('AddEvent')
+                          .doc(model.id.toString())
+                          .collection('FeedbackReview')
+                          .orderBy('timestamp', descending: true)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
 
-                                log('the review working  ${provider.rating}');
-                              }
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: Helper.h(context) * .050,
-                              width: Helper.W(context) * .30,
-                              decoration: BoxDecoration(
-                                border: Border.all(),
+                        List<QueryDocumentSnapshot> reviews =
+                            snapshot.data!.docs;
+
+                        int totalRatings = reviews.length;
+                        double averageRating = 0;
+                        int counterFiveStars = 0;
+                        int counterFourStars = 0;
+                        int counterThreeStars = 0;
+                        int counterTwoStars = 0;
+                        int counterOneStars = 0;
+
+                        if (totalRatings > 0) {
+                          for (var review in reviews) {
+                            double rating =
+                                double.tryParse(review['Feedbackcount']) ?? 0;
+                            averageRating += rating;
+
+                            if (rating == 5)
+                              counterFiveStars++;
+                            else if (rating == 4)
+                              counterFourStars++;
+                            else if (rating == 3)
+                              counterThreeStars++;
+                            else if (rating == 2)
+                              counterTwoStars++;
+                            else if (rating == 1) counterOneStars++;
+                          }
+
+                          averageRating /= totalRatings;
+                        }
+
+                        double _rating =
+                            0; // Initialize the user's rating input
+
+                        return Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: SingleChildScrollView(
+                              controller: scrollController,
+                              child: Form(
+                                key: formkey,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    const SizedBox(height: 20.0),
+                                    Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        children: [
+                                          AnimatedRatingStars(
+                                            initialRating: 0,
+                                            onChanged: (rating) {
+                                              setState(() {
+                                                _rating = rating;
+                                              });
+                                            },
+                                            displayRatingValue: true,
+                                            interactiveTooltips: true,
+                                            customFilledIcon: Icons.star,
+                                            customHalfFilledIcon:
+                                                Icons.star_half,
+                                            customEmptyIcon: Icons.star_border,
+                                            starSize: 40.0,
+                                            animationDuration: const Duration(
+                                                milliseconds: 500),
+                                            animationCurve: Curves.easeInOut,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20.0),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (formkey.currentState!.validate()) {
+                                          if (_rating > 0) {
+                                            provider.addReviewFeedback(
+                                              FeedbackReview(
+                                                productid: model.id.toString(),
+                                                feedback: feedbackcon.text,
+                                                feedbackcount:
+                                                    _rating.toString(),
+                                                useruid: auth.currentUser!.uid,
+                                                timestamp: Timestamp.now(),
+                                              ),
+                                              model.id,
+                                            );
+                                            Navigator.pop(context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                  content: Text('Success')),
+                                            );
+                                            provider.claerrat();
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    'Please select the rating'),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        height: 50.0,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.3,
+                                        decoration: BoxDecoration(
+                                          color: Colors.indigo,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(),
+                                        ),
+                                        child: const Text(
+                                          'ADD REVIEW',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: RatingSummary(
+                                        counter: totalRatings,
+                                        average: averageRating,
+                                        counterFiveStars: counterFiveStars,
+                                        counterFourStars: counterFourStars,
+                                        counterThreeStars: counterThreeStars,
+                                        counterTwoStars: counterTwoStars,
+                                        counterOneStars: counterOneStars,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    )
+                                  ],
+                                ),
                               ),
-                              child: const Text('ADD REVIEW'),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            ),
+              );
+            },
           );
         },
       );
@@ -212,8 +440,8 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                 Consumer<FunctionProvider>(
                   builder: (context, helper, child) {
                     return StreamBuilder(
-                      stream:
-                          helper.getEventprojectuser('Venues', 'Klyana mandapam'),
+                      stream: helper.getEventprojectuser(
+                          'Venues', 'Klyana mandapam'),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -222,24 +450,27 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                           );
                         }
 
-                       
-
                         List<EventModel> list = [];
                         list = snapshot.data!.docs.map((e) {
                           return EventModel.fromJsone(
                               e.data() as Map<String, dynamic>);
                         }).toList();
 
-                        final searchall = provider.banqustall.isEmpty 
-                        ? list
-                        : provider.searchall;
+                        final searchall = provider.banqustall.isEmpty
+                            ? list
+                            : provider.searchall;
 
-
-                        if(searchall.isEmpty){
-                          return const Text('NO SEARCH EVENT FOUND');
+                        // if (searchall.isEmpty) {
+                        //   return const Text('NO SEARCH EVENT FOUND');
+                        // }
+                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            width: MediaQuery.of(context).size.width,
+                            child:
+                                Center(child: Image.asset('images/event.jpeg')),
+                          );
                         }
-
-
                         if (snapshot.hasData) {
                           return list.isEmpty
                               ? const Center(
@@ -258,7 +489,7 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                           const SizedBox(
                                             height: 40,
                                           ),
-                                          Container(
+                                          SizedBox(
                                             height: 231,
                                             width: 350,
                                             child: Image(
@@ -284,7 +515,8 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Text('EVENT NAME:${searchall[index].eventName}'),
+                                                    Text(
+                                                        'EVENT NAME : ${searchall[index].eventName}'),
                                                     // IconButton(
                                                     //     onPressed: () {
                                                     //       Navigator.of(context).push(MaterialPageRoute(
@@ -315,7 +547,8 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                               .fetchlikedpostpost(auth
                                                                       .currentUser!
                                                                       .uid +
-                                                                  searchall[index]
+                                                                  searchall[
+                                                                          index]
                                                                       .id
                                                                       .toString()),
                                                           builder: (context,
@@ -337,7 +570,8 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                                   ),
                                                                   auth.currentUser!
                                                                           .uid +
-                                                                      searchall[index]
+                                                                      searchall[
+                                                                              index]
                                                                           .id
                                                                           .toString(),
                                                                 );
@@ -359,7 +593,8 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                     )
                                                   ],
                                                 ),
-                                                Text('EVENT PLACE ${searchall[index].eventPlace}'),
+                                                Text(
+                                                    'EVENT PLACE : ${searchall[index].eventPlace}'),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -444,47 +679,48 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                       .spaceBetween,
                                               children: [
                                                 OutlinedButton(
-                                                    style: ButtonStyle(
-                                                        foregroundColor:
-                                                            MaterialStateProperty.all(
-                                                                const Color(
-                                                                    0xffFF004D)),
-                                                        textStyle: MaterialStateProperty.all(
-                                                            const TextStyle(
-                                                                fontWeight: FontWeight
-                                                                    .w600,
-                                                                fontSize: 14)),
-                                                        minimumSize:
-                                                            MaterialStateProperty.all(
-                                                                const Size(
-                                                                    250, 50)),
-                                                        side: MaterialStateProperty.all(
-                                                            const BorderSide(
-                                                                color: Color(0xffFF004D))),
-                                                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
-                                                    onPressed: () {
-                                                      final entruid =
-                                                          list[index]
-                                                              .enterprenurid;
-                                                      Navigator.of(context)
-                                                          .push(
-                                                              MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ChatPage(
-                                                          reciveerID: entruid,
-                                                          reciveeremail: '',
-                                                        ),
-                                                      ));
-                                                    },
-                                                    child: const Row(
-                                                      children: [
-                                                        Icon(Icons.message),
-                                                        SizedBox(
-                                                          width: 20,
-                                                        ),
-                                                        Text("Message"),
-                                                      ],
-                                                    ),),
+                                                  style: ButtonStyle(
+                                                      foregroundColor:
+                                                          MaterialStateProperty.all(
+                                                              const Color(
+                                                                  0xffFF004D)),
+                                                      textStyle:
+                                                          MaterialStateProperty.all(
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize:
+                                                                      14)),
+                                                      minimumSize: MaterialStateProperty.all(
+                                                          const Size(250, 50)),
+                                                      side: MaterialStateProperty.all(
+                                                          const BorderSide(
+                                                              color:
+                                                                  Color(0xffFF004D))),
+                                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
+                                                  onPressed: () {
+                                                    final entruid = list[index]
+                                                        .enterprenurid;
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ChatPage(
+                                                        reciveerID: entruid,
+                                                        reciveeremail: '',
+                                                      ),
+                                                    ));
+                                                  },
+                                                  child: const Row(
+                                                    children: [
+                                                      Icon(Icons.message),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      Text("Message"),
+                                                    ],
+                                                  ),
+                                                ),
                                                 OutlinedButton(
                                                   style: ButtonStyle(
                                                     foregroundColor:
@@ -515,8 +751,8 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    _makePhoneCall(
-                                                        list[index].phonenumber);
+                                                    _makePhoneCall(list[index]
+                                                        .phonenumber);
                                                   },
                                                   child: const Row(
                                                     children: [
@@ -534,142 +770,63 @@ class _KalyanamandappamState extends State<Kalyanamandappam> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  bottomSheet(list[index]);
-                                                },
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  width:
-                                                      Helper.W(context) * .40,
-                                                  height:
-                                                      Helper.h(context) * .050,
-                                                  // color: Colors.red,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(),
-                                                  ),
-                                                  child: const Text(
-                                                    'ADD REVIEW ',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      backgroundColor:
+                                                          Colors.blueGrey,
+                                                      foregroundColor:
+                                                          Colors.white),
+                                                  onPressed: () {
+                                                    // bottomSheet(
+                                                    //     list[index], context);
+                                                    editbootmsheet(list[index]);
+                                                  },
+                                                  child:
+                                                      const Text('Add Review')),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                      backgroundColor:
+                                                          Colors.indigo,
+                                                      foregroundColor:
+                                                          Colors.white),
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ViewRevies(
+                                                        documentId:
+                                                            '${list[index].id}',
+                                                      ),
+                                                    ));
+                                                    ;
+                                                  },
+                                                  child:
+                                                      const Text('View Review'))
                                             ],
                                           ),
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewRevies(
-                                                    documentId:
-                                                        '${list[index].id}',
-                                                  ),
-                                                ));
-                                                ;
-                                              },
-                                              child: const Text('View Revies'))
-                                          // Consumer<FunctionProvider>(
-                                          //   builder: (context, heper, child) {
-                                          //     return StreamBuilder(
-                                          //       stream: helper
-                                          //           .getReviewuser(list[index].id),
-                                          //       builder: (context, snapshot) {
-                                          //         if (snapshot.connectionState ==
-                                          //             ConnectionState.waiting) {
-                                          //           return CircularProgressIndicator();
-                                          //         }
-
-                                          //         if (!snapshot.hasData ||
-                                          //             snapshot.data!.docs.isEmpty) {
-                                          //           return Center(
-                                          //               child: Text(
-                                          //                   'No reviews available'));
-                                          //         }
-
-                                          //         List<FeedbackReview> reviewlist =
-                                          //             [];
-
-                                          //         reviewlist =
-                                          //             snapshot.data!.docs.map((e) {
-                                          //           return FeedbackReview.fromjsone(
-                                          //               e.data() as Map<String,
-                                          //                   dynamic>);
-                                          //         }).toList();
-
-                                          //         final uid =
-                                          //             reviewlist[index].useruid;
-
-                                          //         Stream userdet = db
-                                          //             .collection('firebase')
-                                          //             .doc(uid)
-                                          //             .snapshots();
-
-                                          //         return reviewlist.isEmpty
-                                          //             ? Center(
-                                          //                 child: Text(''),
-                                          //               )
-                                          //             : ListView.separated(
-                                          //                 shrinkWrap: true,
-                                          //                 physics:
-                                          //                     BouncingScrollPhysics(),
-                                          //                 itemCount:
-                                          //                     reviewlist.length,
-                                          //                 itemBuilder:
-                                          //                     (context, index) {
-                                          //                   return Padding(
-                                          //                     padding: EdgeInsets
-                                          //                         .symmetric(
-                                          //                       horizontal: Helper.W(
-                                          //                               context) *
-                                          //                           .030,
-                                          //                     ),
-                                          //                     child: Column(
-                                          //                       children: [
-                                          //                         Text(reviewlist[
-                                          //                                 index]
-                                          //                             .feedback),
-                                          //                         StreamBuilder(
-                                          //                           stream: userdet,
-                                          //                           builder: (context,
-                                          //                               snapshot) {
-                                          //                             if (snapshot
-                                          //                                     .connectionState ==
-                                          //                                 ConnectionState
-                                          //                                     .waiting) {
-                                          //                               return CircularProgressIndicator();
-                                          //                             }
-                                          //                             return Text(
-                                          //                                 'USERNAME : ${snapshot.data['User_Name']}');
-                                          //                           },
-                                          //                         ),
-                                          //                       ],
-                                          //                     ),
-                                          //                   );
-                                          //                 },
-                                          //                 separatorBuilder:
-                                          //                     (context, index) {
-                                          //                   return SizedBox(
-                                          //                     height: Helper.W(
-                                          //                             context) *
-                                          //                         .030,
-                                          //                   );
-                                          //                 },
-                                          //               );
-                                          //       },
-                                          //     );
-                                          //   },
-                                          // )
                                         ],
                                       ),
                                     );
                                   },
                                   separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      height: 10,
+                                    return const Divider(
+                                      thickness: 1.5,
+                                      color: Colors.black,
                                     );
                                   },
                                 );

@@ -15,7 +15,7 @@ class ViewRevies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   appBar: AppBar(
+      appBar: AppBar(
         title: const Text(
           'Reviews',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
@@ -186,8 +186,10 @@ class ReviewItem extends StatelessWidget {
 
                     return Text(
                       'Username: $userName',
-                      style:
-                          const TextStyle(fontSize: 14.0, color: Colors.grey,),
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.grey,
+                      ),
                     );
                   },
                 ),
