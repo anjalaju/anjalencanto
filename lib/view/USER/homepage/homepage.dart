@@ -1,5 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -29,7 +31,25 @@ class homepage extends StatefulWidget {
 class _homepageState extends State<homepage> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-
+   int _current = 0;
+  final List<String> imgList = [
+    // 'images/1.png',
+    // 'images/2.png',
+    // 'images/3.png',
+    // 'images/4.png',
+    // 'images/5.png',
+    // 'images/6.png',
+    // 'images/7.png',
+    // 'images/8.png',
+    // 'images/9.png',
+    // 'images/10.png',
+    'images/Encanto1.png',
+    'images/Encanto2.png',
+    'images/Encanto3.png',
+    'images/Encanto4.png',
+    'images/Encanto5.png',
+    'images/Encanto6.png',
+  ];
   @override
   Widget build(BuildContext context) {
     final prod = Provider.of<FunctionProvider>(context, listen: false);
@@ -586,19 +606,64 @@ class _homepageState extends State<homepage> {
               const SizedBox(
                 height: 40,
               ),
-              Container(
-                height: 200,
-                width: double.infinity,
-                color: const Color.fromARGB(255, 248, 0, 83),
-                child: const Center(
-                  child: Image(
-                    image: AssetImage(
-                      "images/logo.png",
+              // Container(
+              //   height: 200,
+              //   width: double.infinity,
+              //   color: const Color.fromARGB(255, 248, 0, 83),
+              //   child: const Center(
+              //     child: Image(
+              //       image: AssetImage(
+              //         "images/logo.png",
+              //       ),
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              // ),
+            CarouselSlider(
+          items: imgList
+              .map((item) => ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      item,
+                      fit: BoxFit.cover,
                     ),
-                    fit: BoxFit.cover,
-                  ),
+                  ))
+              .toList(),
+          options: CarouselOptions(
+            autoPlay: true,
+             autoPlayInterval: Duration(seconds: 2),
+            enlargeCenterPage: true,
+            aspectRatio: 2.0,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: imgList.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => setState(() {
+                _current = entry.key;
+              }),
+              child: Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey
+                          : Colors.indigo)
+                      .withOpacity(_current == entry.key ? 0.9 : 0.4),
                 ),
               ),
+            );
+          }).toList(),
+        ),
+
               const SizedBox(
                 height: 70,
               ),
@@ -631,9 +696,9 @@ class _homepageState extends State<homepage> {
                           height: 111,
                           width: 100,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              // color: Colors.red
-                              ),
+                            borderRadius: BorderRadius.circular(20),
+                            // color: Colors.red
+                          ),
                           child: const Image(
                             image: AssetImage(
                               "images/Mainevent.jpg",
@@ -680,9 +745,9 @@ class _homepageState extends State<homepage> {
                           height: 111,
                           width: 100,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              // color: Colors.red
-                              ),
+                            borderRadius: BorderRadius.circular(20),
+                            // color: Colors.red
+                          ),
                           child: const Image(
                             image: AssetImage(
                               "images/Charity.jpeg",
