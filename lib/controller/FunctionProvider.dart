@@ -171,6 +171,7 @@ class FunctionProvider with ChangeNotifier {
         .collection('AddEvent')
         .doc(docid)
         .collection('FeedbackReview')
+        .orderBy('timestamp', descending: true)
         .snapshots();
   }
 
@@ -305,6 +306,13 @@ class FunctionProvider with ChangeNotifier {
       snapshot.id,
     ));
   }
+Stream<QuerySnapshot> getBookingEventAdmin() {
+  return db.collection('BookingEvent').snapshots();
+}
+
+
+  
+
 
   // Stream<QuerySnapshot> getAllcomplaint() {
   //   return db.collection('Alert').snapshots();

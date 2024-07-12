@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:main_project/utils/String.dart';
-import 'package:main_project/view/USER/formscreen/loginpage.dart';
+import 'package:main_project/view/admin/Adminbookingdetails.dart';
 import 'package:main_project/view/admin/Entrepreneur_details.dart';
 import 'package:main_project/view/admin/Notification_page.dart';
 import 'package:main_project/view/admin/User_details.dart';
+import 'package:main_project/view/admin/adminratingreviews.dart';
 import 'package:main_project/view/admin/charity.dart';
 import 'package:main_project/view/admin/complaint.dart';
 import 'package:main_project/view/admin/eventsviw_admin.dart';
@@ -274,33 +275,45 @@ class Drawerpage extends StatelessWidget {
               color: Colors.black,
             ),
             ListTile(
-              leading:
-                  const Icon(Icons.local_offer, color: Colors.black),
-              title: const Text('Offers',
-                  style: TextStyle(color: Colors.white)),
+              leading: const Icon(Icons.local_offer, color: Colors.black),
+              title:
+                  const Text('Offers', style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Adminoffers(),
                 ));
               },
             ),
-                  const Divider(
+            const Divider(
               color: Colors.black,
             ),
-            //  ListTile(
-            //   leading:
-            //       const Icon(Icons.rate_review, color: Colors.black),
-            //   title: const Text('Ratings',
-            //       style: TextStyle(color: Colors.white)),
-            //   onTap: () {
-            //     // Navigator.of(context).push(MaterialPageRoute(
-            //     //   builder: (context) => Adminoffers(),
-            //     // ));
-            //   },
-            // ),
-            // const Divider(
-            //   color: Colors.black,
-            // ),
+            ListTile(
+              leading: const Icon(Icons.event_note, color: Colors.black),
+              title: const Text('Booking Details',
+                  style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Adminbookingdetails(),
+                ));
+              },
+            ),
+            const Divider(
+              color: Colors.black,
+            ),
+             ListTile(
+              leading:
+                  const Icon(Icons.rate_review, color: Colors.black),
+              title: const Text('Reviews & Ratings',
+                  style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>AdminRatingAndReview(),
+                ));
+              },
+            ),
+            const Divider(
+              color: Colors.black,
+            ),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.black),
               title:
@@ -361,7 +374,7 @@ class Drawerpage extends StatelessWidget {
                                       ),
                                       (route) => false,
                                     );
-                                            SuccesToast(context, 'Logout Succes');
+                                    SuccesToast(context, 'Logout Succes');
                                   },
                                 );
                               },

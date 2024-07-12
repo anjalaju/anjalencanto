@@ -8,8 +8,8 @@ import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:provider/provider.dart';
 
-class BookEventScren extends StatelessWidget {
-  const BookEventScren({super.key});
+class Adminbookingdetails extends StatelessWidget {
+  const Adminbookingdetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +80,13 @@ class BookEventScren extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Column(
             children: [
               Consumer<FunctionProvider>(
                 builder: (context, instance, child) {
                   return StreamBuilder<QuerySnapshot>(
-                    stream: instance.getBookingevent(auth.currentUser!.uid),
+                    stream: instance.getBookingEventAdmin(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -95,7 +95,6 @@ class BookEventScren extends StatelessWidget {
                       }
           
                       List<BookingModle> list = [];
-          
                       list = snapshot.data!.docs.map((e) {
                         return BookingModle.fromjsone(
                             e.data() as Map<String, dynamic>);
@@ -126,7 +125,7 @@ class BookEventScren extends StatelessWidget {
                               final data =
                                   db.collection('AddEvent').doc(doc).snapshots();
           
-                              return Container(
+                              return Container(padding: EdgeInsets.symmetric(vertical: 5),
                                 color: const Color.fromARGB(255, 203, 219, 233),
                                 width: MediaQuery.of(context).size.width,
                                 // height: 150,
@@ -143,7 +142,7 @@ class BookEventScren extends StatelessWidget {
                                                     ConnectionState.waiting) {
                                                   return const Center(
                                                     child:
-                                                        Text(''),
+                                                        CircularProgressIndicator(),
                                                   );
                                                 }
                                                 return Container(
@@ -188,7 +187,7 @@ class BookEventScren extends StatelessWidget {
                                                         ConnectionState.waiting) {
                                                       return const Center(
                                                           child:
-                                                              Text(''));
+                                                              CircularProgressIndicator());
                                                     }
                                                     if (!snapshot.hasData ||
                                                         !snapshot.data!.exists) {
@@ -211,6 +210,13 @@ class BookEventScren extends StatelessWidget {
                                                   },
                                                 ),
                                                 Text(
+                                                  'Booking User Name: ${list[index].name}',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
                                                   'payment status: ${list[index].paymentstatus}',
                                                   style: const TextStyle(
                                                     fontSize: 12,
@@ -226,6 +232,13 @@ class BookEventScren extends StatelessWidget {
                                                 ),
                                                 Text(
                                                   'Event price: ${list[index].eventprice}',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Phone no: ${list[index].phonenumber}',
                                                   style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.bold,

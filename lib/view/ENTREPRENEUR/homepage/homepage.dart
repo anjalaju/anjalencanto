@@ -188,7 +188,7 @@ class _EntreHomeState extends State<EntreHome> {
                                       const BookingDetails(),
                                 ));
                                 },
-                                icon: const Icon(Icons.access_alarms)),
+                                icon: const Icon(Icons.event_note)),
                           ],
                         )
                       ],
