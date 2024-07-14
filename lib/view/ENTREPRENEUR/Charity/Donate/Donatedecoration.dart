@@ -47,7 +47,7 @@ class _LogaState extends State<EntreDonatedecoration> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Donate Dress',
+          'Donate Decorations',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
         backgroundColor: Colors.transparent,
@@ -285,6 +285,7 @@ class _LogaState extends State<EntreDonatedecoration> {
                                       numberofitem: numberofitem.text,
                                       selected: selectedvalue,
                                          uid: auth.currentUser!.uid,
+                                          timestamp: DateTime.now()
                                     ),
                                   )
                                   .then(

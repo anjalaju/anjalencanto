@@ -1,7 +1,5 @@
- 
-
 // class EntreEntreDonatejewellery extends StatefulWidget {
- import 'dart:developer';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -39,7 +37,7 @@ class _LogaState extends State<EntreDonatejewellery> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Donate Dress',
+          'Donate Jewellery',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
         backgroundColor: Colors.transparent,
@@ -268,16 +266,16 @@ class _LogaState extends State<EntreDonatejewellery> {
                               helper
                                   .addDonate(
                                     Donatemodel(
-                                      name: name.text,
-                                      age: age.text,
-                                      itemname: itemname.text,
-                                      image: helper.url.toString(),
-                                      contactnumber: contactnumber.text,
-                                      place: placeame.text,
-                                      numberofitem: numberofitem.text,
-                                      selected: selectedvalue,
+                                        name: name.text,
+                                        age: age.text,
+                                        itemname: itemname.text,
+                                        image: helper.url.toString(),
+                                        contactnumber: contactnumber.text,
+                                        place: placeame.text,
+                                        numberofitem: numberofitem.text,
+                                        selected: selectedvalue,
                                         uid: auth.currentUser!.uid,
-                                    ),
+                                        timestamp: DateTime.now()),
                                   )
                                   .then(
                                     (value) => {

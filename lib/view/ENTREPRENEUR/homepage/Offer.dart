@@ -82,7 +82,7 @@ class _EntreofferpageState extends State<Entreofferpage> {
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('Offer')  
-                      // .where('uid', isEqualTo: auth.currentUser!.uid)
+                      .where('uid', isEqualTo: auth.currentUser!.uid)
                       .orderBy('timestamp',
                           descending: true)  
                       .snapshots(),

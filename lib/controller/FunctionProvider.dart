@@ -118,19 +118,37 @@ class FunctionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Donatemodel> donted = [];
-  Future getallDonated(selected, authuid) async {
-    final snapshot = await db
-        .collection('Donatescreen')
-        .where('Selected', isEqualTo: selected)
-        .where('uid', isEqualTo: authuid)
-        .get();
+  // List<Donatemodel> donted = [];
+  // Future getallDonated(selected, authuid) async {
+  //   final snapshot = await db
+  //       .collection('Donatescreen')
+  //       .where('Selected', isEqualTo: selected)
+  //       .where('uid', isEqualTo: authuid)
+  //       .get();
 
-    donted = snapshot.docs.map((e) {
-      return Donatemodel.fromjsone(e.data());
-    }).toList();
-    notifyListeners();
-  }
+  //   donted = snapshot.docs.map((e) {
+  //     return Donatemodel.fromjsone(e.data());
+  //   }).toList();
+  //   notifyListeners();
+  // }
+List<Donatemodel> donted = [];
+
+Future getallDonated(selected) async {
+  final snapshot = await db
+      .collection('Donatescreen')
+      .where('Selected', isEqualTo: selected)
+      .get();
+
+  donted = snapshot.docs.map((e) {
+    return Donatemodel.fromjsone(e.data());
+  }).toList();
+
+  // Sort the list by timestamp in descending order
+  donted.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+  notifyListeners();
+}
+
 
   Stream<QuerySnapshot> getAllEvent() {
     return db.collection('AddEvent').snapshots();
@@ -268,9 +286,7 @@ class FunctionProvider with ChangeNotifier {
           .collection('BookingEvent')
           .where('Userid', isEqualTo: bookingModle.userid)
           .where('Data', isEqualTo: bookingModle.date)
-                    .where('Eventid', isEqualTo: bookingModle.eventid)
-
-
+          .where('Eventid', isEqualTo: bookingModle.eventid)
           .get();
 
       if (snapshot.docs.isNotEmpty) {
@@ -285,7 +301,7 @@ class FunctionProvider with ChangeNotifier {
       final newBooking = db.collection('BookingEvent').doc();
       await newBooking.set(bookingModle.tojsone(newBooking.id));
       print('Booking created successfully.');
-        SuccesToast(context, 'Booking created successfully.');
+      SuccesToast(context, 'Booking created successfully.');
     } catch (e) {
       // Handle the error, for example, print it or use a logging library
       print('Error booking event: $e');
@@ -306,13 +322,10 @@ class FunctionProvider with ChangeNotifier {
       snapshot.id,
     ));
   }
-Stream<QuerySnapshot> getBookingEventAdmin() {
-  return db.collection('BookingEvent').snapshots();
-}
 
-
-  
-
+  Stream<QuerySnapshot> getBookingEventAdmin() {
+    return db.collection('BookingEvent').snapshots();
+  }
 
   // Stream<QuerySnapshot> getAllcomplaint() {
   //   return db.collection('Alert').snapshots();

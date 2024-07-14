@@ -277,6 +277,7 @@ class _LogaState extends State<Donateaccessories> {
                                       numberofitem: numberofitem.text,
                                       selected: selectedvalue,
                                     uid: auth.currentUser!.uid,
+                                     timestamp: DateTime.now()
                                     ),
                                   )
                                   .then(

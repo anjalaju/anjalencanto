@@ -51,10 +51,11 @@ class _ReceivedressState extends State<Receivedress> {
             child: Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 final data = helper.donted;
+
                 return FutureBuilder(
-                  future: helper.getallDonated('Dress', auth.currentUser!.uid),
+                  future: helper.getallDonated('Dress'),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    if (data.isEmpty) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height / 1.2,
                         width: MediaQuery.of(context).size.width,
@@ -62,12 +63,12 @@ class _ReceivedressState extends State<Receivedress> {
                             child: Container(
                                 height: 200,
                                 width: 200,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage(
                                             'images/no charity.jpeg'))),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 150.0),
+                                child: const Padding(
+                                  padding: EdgeInsets.only(top: 150.0),
                                   child: Center(
                                       child: Text(
                                     "No Charity",
@@ -86,13 +87,13 @@ class _ReceivedressState extends State<Receivedress> {
                     // :
                     return ListView.separated(
                       itemCount: data.length,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Center(
@@ -108,7 +109,7 @@ class _ReceivedressState extends State<Receivedress> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             Text(data[index].name),
@@ -116,7 +117,7 @@ class _ReceivedressState extends State<Receivedress> {
                             Text(data[index].place),
                             Text(data[index].numberofitem),
                             Text(data[index].contactnumber),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Padding(
@@ -144,13 +145,19 @@ class _ReceivedressState extends State<Receivedress> {
                                               RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(15)))),
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => ChatPage(
-                                            reciveerID: 'entruid',
-                                            reciveeremail: '',
-                                          ),
-                                        ));
+                                        // Navigator.of(context)
+                                        //     .push(MaterialPageRoute(
+                                        //   builder: (context) => ChatPage(
+                                        //     reciveerID: 'entruid',
+                                        //     reciveeremail: '',
+                                        //   ),
+                                        // ));
+                                        String phoneNumber = data[index].contactnumber;
+                                        String message =
+                                            "Dear Sir/Madam";
+                                        String url =
+                                            "sms:$phoneNumber?body=$message";
+                                        launch(url);
                                       },
                                       child: const Row(
                                         children: [
@@ -182,7 +189,7 @@ class _ReceivedressState extends State<Receivedress> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      _makePhoneCall('7025053483');
+                                      _makePhoneCall(data[index].contactnumber);
                                     },
                                     child: const Row(
                                       children: [

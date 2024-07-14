@@ -10,6 +10,7 @@ class Donatemodel {
   String? id;
   String selected;
   String uid;
+   DateTime timestamp;
 
   Donatemodel({
     required this.name,
@@ -22,6 +23,7 @@ class Donatemodel {
     this.id,
     required this.selected,
     required this.uid,
+     required this.timestamp,
   });
 
   Map<String, dynamic> tojasone(idd) => {
@@ -35,6 +37,7 @@ class Donatemodel {
         'id': idd,
         'Selected':selected,
         'uid':uid,
+        'timestamp': timestamp.toIso8601String(),
       };
 
   factory Donatemodel.fromjsone(Map<String, dynamic> jsone) {
@@ -49,6 +52,7 @@ class Donatemodel {
       id: jsone['id'],
       selected: jsone['Selected'],
       uid: jsone['uid'],
+       timestamp: DateTime.parse(jsone['timestamp']),
     );
   }
 }

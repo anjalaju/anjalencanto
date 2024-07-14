@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/model/addProject.dart';
@@ -13,17 +12,13 @@ class Searchpage extends StatefulWidget {
 }
 
 class _SearchpageState extends State<Searchpage> {
- 
-
+  bool visible = false;
   @override
   void initState() {
-    super.initState(); 
-    
-      Provider.of<FunctionProvider>(context, listen: false).getAlleventallh();
-   
+    super.initState();
+
+    Provider.of<FunctionProvider>(context, listen: false).getAlleventallh();
   }
-   
-  
 
   @override
   Widget build(BuildContext context) {
@@ -86,19 +81,17 @@ class _SearchpageState extends State<Searchpage> {
                         prefixIcon: const Icon(Icons.search),
                         suffixIcon: const Icon(Icons.location_on)),
                     onChanged: (value) {
+                      print(visible);
                       helper.searcheven(value);
-                      //  setState(() {
-                        
-                      //  });
-                       
+                      setState(() {
+                        visible = true;
+                      });
                     },
-
-                    
                   );
                 },
               ),
               SizedBox(
-                height: Helper.h(context) * .10,
+                height: 10,
               ),
               Consumer<FunctionProvider>(
                 builder: (context, helper, child) {
@@ -109,92 +102,165 @@ class _SearchpageState extends State<Searchpage> {
                         return const Center(child: CircularProgressIndicator());
                       }
 
-                      List<EventModel> list=[];
+                      List<EventModel> list = [];
 
-
-                      list = snapshot.data!.docs.map((e){
-                        return EventModel.fromJsone(e.data()as Map<String,dynamic>);
-                      }
-                      ).toList();
-
-                     
+                      list = snapshot.data!.docs.map((e) {
+                        return EventModel.fromJsone(
+                            e.data() as Map<String, dynamic>);
+                      }).toList();
 
                       final Searchlist = helper.searchevent.isEmpty
                           ? helper.eventall
                           : helper.searchevent;
 
-                          // list.shuffle();
+                      // list.shuffle();
 
                       return helper.searchevent.isEmpty
-                          ? const Center(
-                              child: Text('Not found!'),
-                            )
-                          : ListView.separated(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: Searchlist.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  width: 120,
-                                  // height: Helper.h(context) * .20,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(
-                                        Helper.W(context) * .050),
-                                    color: Colors.grey.shade100,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: Helper.W(context) * .050,
-                                      vertical: Helper.W(context) * .050,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
+                          // ? const Center(
+                          //     child: Text('Not found!'),
+                          //   )
+                          ? Center(
+                              child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.6,
+                                  child: Image.asset('images/no_result.gif')))
+                          : visible != true
+                              ? ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: list.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      width: 120,
+                                      // height: Helper.h(context) * .20,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(
+                                            Helper.W(context) * .050),
+                                        color: Colors.grey.shade100,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: Helper.W(context) * .050,
+                                          vertical: Helper.W(context) * .050,
+                                        ),
+                                        child: Column(
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                            Row(
                                               children: [
-                                                Text(
-                                                    'EVENT NAME  :${Searchlist[index].eventName}'),
-                                                Text(
-                                                    'EVENT LOCATION :${Searchlist[index].eventPlace}'),
-                                                Text(
-                                                  'EVENT CATEGORY :${Searchlist[index].eventmainCategory}',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          Helper.W(context) *
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        'Event name: ${list[index].eventName}'),
+                                                    Text(
+                                                        'Event Location: ${list[index].eventPlace}'),
+                                                    Text(
+                                                      'Event Catogory: ${list[index].eventmainCategory}',
+                                                      style: TextStyle(
+                                                          fontSize: Helper.W(
+                                                                  context) *
                                                               .025),
+                                                    ),
+                                                    Text(
+                                                        'Event Dis: ${list[index].discription}'),
+                                                  ],
                                                 ),
-                                                Text(
-                                                    'EVENT DISCR :${Searchlist[index].discription}'),
+                                                const Spacer(),
+                                                Container(
+                                                  width:
+                                                      Helper.W(context) * .25,
+                                                  height:
+                                                      Helper.h(context) * .140,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                        list[index].Image,
+                                                      ))),
+                                                )
                                               ],
-                                            ),
-                                            const Spacer(),
-                                            Container(
-                                              width: Helper.W(context) * .25,
-                                              height: Helper.h(context) * .140,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                    Searchlist[index].Image,
-                                                  ))),
                                             )
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: Helper.h(context) * .030,
+                                    );
+                                  },
+                                )
+                              : ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: Searchlist.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      width: 120,
+                                      // height: Helper.h(context) * .20,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(
+                                            Helper.W(context) * .050),
+                                        color: Colors.grey.shade100,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: Helper.W(context) * .050,
+                                          vertical: Helper.W(context) * .050,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        'EVENT NAME  :${Searchlist[index].eventName}'),
+                                                    Text(
+                                                        'EVENT LOCATION :${Searchlist[index].eventPlace}'),
+                                                    Text(
+                                                      'EVENT CATEGORY :${Searchlist[index].eventmainCategory}',
+                                                      style: TextStyle(
+                                                          fontSize: Helper.W(
+                                                                  context) *
+                                                              .025),
+                                                    ),
+                                                    Text(
+                                                        'EVENT DISCR :${Searchlist[index].discription}'),
+                                                  ],
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                  width:
+                                                      Helper.W(context) * .25,
+                                                  height:
+                                                      Helper.h(context) * .140,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                        Searchlist[index].Image,
+                                                      ))),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: Helper.h(context) * .030,
+                                    );
+                                  },
                                 );
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  height: Helper.h(context) * .030,
-                                );
-                              },
-                            );
                     },
                   );
                 },

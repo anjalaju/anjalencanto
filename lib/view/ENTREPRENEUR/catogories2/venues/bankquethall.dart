@@ -93,12 +93,12 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                             });
                           },
                           child: Container(
-                            width: Helper.W(context) * .50,
-                            height: Helper.h(context) * .50,
+                            width: MediaQuery.of(context).size.width/1.2,
+                            height: 200,
                             decoration: BoxDecoration(
                               border: Border.all(),
                               image: DecorationImage(
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 image: NetworkImage(eventModel.Image),
                               ),
                             ),
@@ -416,17 +416,17 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          fillColor: const Color(0xffD9D9D9),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          hintText: ("  Search Venues..."),
-                          prefixIcon: const Icon(Icons.search),
-                        ),
-                      ),
+                      // TextField(
+                      //   decoration: InputDecoration(
+                      //     fillColor: const Color(0xffD9D9D9),
+                      //     filled: true,
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(20),
+                      //     ),
+                      //     hintText: ("  Search Venues..."),
+                      //     prefixIcon: const Icon(Icons.search),
+                      //   ),
+                      // ),
                       ListView.separated(
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,

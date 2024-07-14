@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_project/chat/chatpage.dart';
 import 'package:main_project/controller/FunctionProvider.dart';
 import 'package:main_project/utils/String.dart';
 import 'package:main_project/view/USER/chat.dart';
@@ -50,20 +51,24 @@ class _ReceuvejewellState extends State<Receuvejewell> {
             child: Consumer<FunctionProvider>(
               builder: (context, helper, child) {
                 final data = helper.donted;
-                return data.isEmpty
-                    ? SizedBox(
+              
+                return FutureBuilder(
+                  future: helper.getallDonated('Jewellery'),
+                  builder: (context, snapshot) {
+                    if (data.isEmpty) {
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height / 1.2,
                         width: MediaQuery.of(context).size.width,
                         child: Center(
                             child: Container(
                                 height: 200,
                                 width: 200,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                     image: DecorationImage(
                                         image: AssetImage(
                                             'images/no charity.jpeg'))),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(top: 150.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 150.0),
                                   child: Center(
                                       child: Text(
                                     "No Charity",
@@ -73,144 +78,137 @@ class _ReceuvejewellState extends State<Receuvejewell> {
                                         fontWeight: FontWeight.bold),
                                   )),
                                 ))),
-                      )
-                    : ListView.separated(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return data.isEmpty
-                              ? const Center(
-                                  child: const Text('NO DATA FOUND !'),
-                                )
-                              : FutureBuilder(
-                                  future: helper.getallDonated('Jewellery',auth.currentUser!.uid),
-                                  builder: (context, snapshot) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Center(
-                                          child: Container(
-                                            height: 320,
-                                            width: 240,
-                                            // color: Colors.amber,
-                                            child: Image(
-                                              image: NetworkImage(
-                                                data[index].image,
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text(data[index].name),
-                                        Text("Age : ${data[index].age}"),
-                                        Text(data[index].place),
-                                        Text("Number of items :${data[index].numberofitem}"),
-                                        Text("Contact Number : ${data[index].contactnumber}"),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              OutlinedButton(
-                                                  style: ButtonStyle(
-                                                      foregroundColor:
-                                                          MaterialStateProperty.all(
-                                                              const Color(
-                                                                  0xffFF004D)),
-                                                      textStyle:
-                                                          MaterialStateProperty.all(
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize:
-                                                                      14)),
-                                                      minimumSize: MaterialStateProperty.all(
-                                                          const Size(250, 50)),
-                                                      side: MaterialStateProperty.all(
-                                                          const BorderSide(
-                                                              color:
-                                                                  Color(0xffFF004D))),
-                                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .push(MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Chatpage(
-                                                        name: 'Jewellery',
-                                                      ),
-                                                    ));
-                                                  },
-                                                  child: const Row(
-                                                    children: [
-                                                      Icon(Icons.message),
-                                                      SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      Text("Message"),
-                                                    ],
-                                                  )),
-                                              OutlinedButton(
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all(
-                                                          const Color(
-                                                              0xff63C336)),
-                                                  textStyle:
-                                                      MaterialStateProperty.all(
-                                                    const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14),
-                                                  ),
-                                                  minimumSize:
-                                                      MaterialStateProperty.all(
-                                                          const Size(30, 50)),
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                    const CircleBorder(),
-                                                  ),
-                                                  side:
-                                                      MaterialStateProperty.all(
-                                                    const BorderSide(
-                                                        color:
-                                                            Color(0xff63C336)),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  _makePhoneCall('7025053483');
-                                                },
-                                                child: const Row(
-                                                  children: [
-                                                    Icon(Icons.call),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                );
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: Helper.h(context) * .050);
-                        },
                       );
+                    }
+                    // return data.isEmpty
+                    // ? Center(
+                    //     child: Text('NOt FOUNT !'),
+                    //   )
+                    // :
+                    return ListView.separated(
+                      itemCount: data.length,
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Center(
+                              child: Container(
+                                height: 320,
+                                width: 240,
+                                // color: Colors.amber,
+                                child: Image(
+                                  image: NetworkImage(
+                                    data[index].image,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Text(data[index].name),
+                            Text(data[index].age),
+                            Text(data[index].place),
+                            Text(data[index].numberofitem),
+                            Text(data[index].contactnumber),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  OutlinedButton(
+                                      style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  const Color(0xffFF004D)),
+                                          textStyle: MaterialStateProperty.all(
+                                              const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 14)),
+                                          minimumSize: MaterialStateProperty.all(
+                                              const Size(250, 50)),
+                                          side: MaterialStateProperty.all(
+                                              const BorderSide(
+                                                  color: Color(0xffFF004D))),
+                                          shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(15)))),
+                                      onPressed: () {
+                                        // Navigator.of(context)
+                                        //     .push(MaterialPageRoute(
+                                        //   builder: (context) => ChatPage(
+                                        //     reciveerID: 'entruid',
+                                        //     reciveeremail: '',
+                                        //   ),
+                                        // ));
+                                          String phoneNumber = data[index].contactnumber;
+                                        String message =
+                                            "Dear Sir/Madam";
+                                        String url =
+                                            "sms:$phoneNumber?body=$message";
+                                        launch(url);
+                                      },
+                                      child: const Row(
+                                        children: [
+                                          Icon(Icons.message),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text("Message"),
+                                        ],
+                                      )),
+                                  OutlinedButton(
+                                    style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              const Color(0xff63C336)),
+                                      textStyle: MaterialStateProperty.all(
+                                        const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14),
+                                      ),
+                                      minimumSize: MaterialStateProperty.all(
+                                          const Size(30, 50)),
+                                      shape: MaterialStateProperty.all(
+                                        const CircleBorder(),
+                                      ),
+                                      side: MaterialStateProperty.all(
+                                        const BorderSide(
+                                            color: Color(0xff63C336)),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      _makePhoneCall(data[index].contactnumber);
+                                    },
+                                    child: const Row(
+                                      children: [
+                                        Icon(Icons.call),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: Helper.h(context) * .030);
+                      },
+                    );
+                  },
+                );
               },
             )),
       ),
@@ -226,3 +224,5 @@ class _ReceuvejewellState extends State<Receuvejewell> {
     }
   }
 }
+
+//djsd

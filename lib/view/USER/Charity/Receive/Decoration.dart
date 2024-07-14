@@ -52,7 +52,7 @@ class _ReceivedecorState extends State<Receivedecor> {
                 final data = helper.donted;
 
                 return FutureBuilder(
-                  future: helper.getallDonated('Decorationitems',auth.currentUser!.uid),
+                  future: helper.getallDonated('Decorationitems',),
                   builder: (context, snapshot) {
                     return
                     data.isEmpty?SizedBox(
@@ -140,12 +140,18 @@ class _ReceivedecorState extends State<Receivedecor> {
                                               RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(15)))),
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => Chatpage(
-                                            name: 'Decoration items',
-                                          ),
-                                        ));
+                                        // Navigator.of(context)
+                                        //     .push(MaterialPageRoute(
+                                        //   builder: (context) => Chatpage(
+                                        //     name: 'Decoration items',
+                                        //   ),
+                                        // ));
+                                          String phoneNumber = data[index].contactnumber;
+                                        String message =
+                                            "Dear Sir/Madam";
+                                        String url =
+                                            "sms:$phoneNumber?body=$message";
+                                        launch(url);
                                       },
                                       child: const Row(
                                         children: [
@@ -177,7 +183,7 @@ class _ReceivedecorState extends State<Receivedecor> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      _makePhoneCall('7025053483');
+                                      _makePhoneCall(data[index].contactnumber);
                                     },
                                     child: const Row(
                                       children: [

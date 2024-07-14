@@ -61,4 +61,45 @@ class ChatService {
 
 
 
+
+Future<void> deleteMessage(String userId, String otherUserId, String messageId) async {
+  List<String> ids = [userId, otherUserId];
+
+  ids.sort();
+
+  String chatroomId = ids.join('_');
+
+  try {
+    await db
+        .collection('Chat_room')
+        .doc(chatroomId)
+        .collection('message')
+        .doc(messageId)
+        .delete();
+    print('Message deleted successfully');
+  } catch (e) {
+    print('Error deleting message: $e');
+  }
+}
+
+
+Future<void> deleteAllMessages(String userId, String otherUserId) async {
+  List<String> ids = [userId, otherUserId];
+  ids.sort();
+  String chatroomid = ids.join('_');
+
+  CollectionReference messagesRef = db
+      .collection('Chat_room')
+      .doc(chatroomid)
+      .collection('message');
+
+  // Fetch all the documents in the 'message' collection
+  QuerySnapshot querySnapshot = await messagesRef.get();
+
+  // Iterate through the documents and delete each one
+  for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+    await doc.reference.delete();
+  }
+}
+
 }

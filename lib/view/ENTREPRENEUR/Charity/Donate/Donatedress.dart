@@ -282,6 +282,7 @@ class _LogaState extends State<EntreDonatedress> {
                                       numberofitem: numberofitem.text,
                                        selected:selectedvalue,
                                          uid: auth.currentUser!.uid,
+                                          timestamp: DateTime.now()
                                     ),
                                   )
                                   .then(

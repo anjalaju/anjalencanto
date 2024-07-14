@@ -49,7 +49,7 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child:Consumer<FunctionProvider>(builder: (context, helper, child) {
               final data= helper.donted;
-            return  FutureBuilder(future: helper.getallDonated('DonatedAccsesies',auth.currentUser!.uid), builder: (context, snapshot) {
+            return  FutureBuilder(future: helper.getallDonated('DonatedAccsesies',), builder: (context, snapshot) {
               return data.isEmpty
                     ?SizedBox(
                         height: MediaQuery.of(context).size.height / 1.2,
@@ -129,11 +129,17 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15)))),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Chatpage(
-                              name: 'Other accessories',
-                            ),
-                          ));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //   builder: (context) => Chatpage(
+                          //     name: 'Other accessories',
+                          //   ),
+                          // ));
+                            String phoneNumber = data[index].contactnumber;
+                                        String message =
+                                            "Dear Sir/Madam";
+                                        String url =
+                                            "sms:$phoneNumber?body=$message";
+                                        launch(url);
                         },
                         child: const Row(
                           children: [
@@ -162,7 +168,7 @@ class _REceivedaccesssState extends State<REceivedaccesss> {
                         ),
                       ),
                       onPressed: () {
-                            _makePhoneCall('7025053483');
+                           _makePhoneCall(data[index].contactnumber);
                       },
                       child: const Row(
                         children: [

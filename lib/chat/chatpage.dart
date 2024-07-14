@@ -72,72 +72,100 @@ class _ChatPageState extends State<ChatPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    userType == 'enterprenur'
-                        ? (profileImageEnt.isEmpty
-                            ? const CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('images/propic.png'),
-                              )
-                            : Container(
-                                width: MediaQuery.of(context).size.width * .080,
-                                height:
-                                    MediaQuery.of(context).size.height * .060,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(profileImageEnt),
-                                  ),
-                                ),
-                              ))
-                        : (profileImageUser.isEmpty
-                            ? const CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('images/propic.png'),
-                              )
-                            : Container(
-                                width: MediaQuery.of(context).size.width * .080,
-                                height:
-                                    MediaQuery.of(context).size.height * .060,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(profileImageUser),
-                                  ),
-                                ),
-                              )),
-                    SizedBox(width: MediaQuery.of(context).size.width * .05),
-                    Text(userType == 'enterprenur'
-                        ? entrepreneurName
-                        : userName),
+                    Row(
+                      children: [
+                        userType == 'enterprenur'
+                            ? (profileImageEnt.isEmpty
+                                ? const CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('images/propic.png'),
+                                  )
+                                : Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        .080,
+                                    height: MediaQuery.of(context).size.height *
+                                        .060,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: NetworkImage(profileImageEnt),
+                                      ),
+                                    ),
+                                  ))
+                            : (profileImageUser.isEmpty
+                                ? const CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('images/propic.png'),
+                                  )
+                                : Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        .080,
+                                    height: MediaQuery.of(context).size.height *
+                                        .060,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: NetworkImage(profileImageUser),
+                                      ),
+                                    ),
+                                  )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * .05),
+                        Text(userType == 'enterprenur'
+                            ? entrepreneurName
+                            : userName),
+                      ],
+                    ),
                   ],
                 ),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    if (userType == 'enterprenur') {
-                      if (userNumber != null && userNumber.isNotEmpty) {
-                        _makePhoneCall(userNumber);
-                      } else {
-                        print('Calling enterprenur number: $enterprenurNumber');
-                        _makePhoneCall(enterprenurNumber);
-                      }
-                    } else {
-                      if (enterprenurNumber != null &&
-                          enterprenurNumber.isNotEmpty) {
-                        _makePhoneCall(enterprenurNumber);
-                      } else {
-                        print('Calling user number: $userNumber');
-                        _makePhoneCall(userNumber);
-                      }
-                    }
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 30.0),
-                    child: Icon(Icons.call),
-                  ),
-                )
+                Row(
+                  children: [
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        if (userType == 'enterprenur') {
+                          if (userNumber != null && userNumber.isNotEmpty) {
+                            _makePhoneCall(userNumber);
+                          } else {
+                            print(
+                                'Calling enterprenur number: $enterprenurNumber');
+                            _makePhoneCall(enterprenurNumber);
+                          }
+                        } else {
+                          if (enterprenurNumber != null &&
+                              enterprenurNumber.isNotEmpty) {
+                            _makePhoneCall(enterprenurNumber);
+                          } else {
+                            print('Calling user number: $userNumber');
+                            _makePhoneCall(userNumber);
+                          }
+                        }
+                      },
+                      child: const Icon(Icons.call),
+                    ),
+                    PopupMenuButton<int>(
+                      onSelected: (value) {
+                        // Handle menu item selection
+                        String senderID = auth.currentUser!.uid;
+
+                        chatService.deleteAllMessages(
+                            widget.reciveerID, senderID);
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: 1,
+                          child: const ListTile(
+                            leading: Icon(Icons.message),
+                            title: Text('Clear Chats'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             );
           },
@@ -190,14 +218,44 @@ class _ChatPageState extends State<ChatPage> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: InkWell(onTap: () {        print('${doc.id}******');
+      child: InkWell(
+        onLongPress: () {
+          print('${doc.id}******');
+          String senderID = auth.currentUser!.uid;
 
-      },
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Delete Message'),
+                content: Text('Are you sure you want to delete this message?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      chatService.deleteMessage(
+                          widget.reciveerID, senderID, doc.id);
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text('Delete'),
+                  ),
+                ],
+              );
+            },
+          );
+         
+        },
         child: Container(
           alignment: alignment,
           child: Column(
-            crossAxisAlignment:
-                isCurentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment: isCurentUser
+                ? CrossAxisAlignment.end
+                : CrossAxisAlignment.start,
             children: [
               ChatBubble(
                 message: data['text'],

@@ -112,14 +112,16 @@ class _DonateState extends State<Donate> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Donatedress(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Donatedress(),));
                         },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white, border: Border.all()),
-                          child: Column(
+                          height: 180,
+                          width: 165,
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               CircleAvatar(
                                 radius: 55,
                                 backgroundImage:
@@ -131,21 +133,21 @@ class _DonateState extends State<Donate> {
                               Text("Dress")
                             ],
                           ),
-                          height: 180,
-                          width: 165,
                           
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Donatejewellery(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Donatejewellery(),));
                         },
                         child: Container(
                           decoration: BoxDecoration(
                               color: Colors.white, border: Border.all()),
-                          child: Column(
+                          height: 180,
+                          width: 165,
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               CircleAvatar(
                                 radius: 55,
                                 backgroundImage:
@@ -157,8 +159,6 @@ class _DonateState extends State<Donate> {
                               Text("Jewellery")
                             ],
                           ),
-                          height: 180,
-                          width: 165,
                         ),
                       ),
                     ],
@@ -169,14 +169,16 @@ class _DonateState extends State<Donate> {
                   children: [
                     InkWell(
                       onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Donatedecoration(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Donatedecoration(),));
                         },
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white, border: Border.all()),
-                        child: Column(
+                        height: 180,
+                        width: 165,
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             CircleAvatar(
                               radius: 55,
                               backgroundImage:
@@ -188,20 +190,20 @@ class _DonateState extends State<Donate> {
                             Text("Decoration items")
                           ],
                         ),
-                        height: 180,
-                        width: 165,
                       ),
                     ),
                     InkWell(
                       onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Donateaccessories(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Donateaccessories(),));
                         },
                       child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white, border: Border.all()),
-                        child: Column(
+                        height: 180,
+                        width: 165,
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             CircleAvatar(
                               radius: 55,
                               backgroundImage:
@@ -213,8 +215,6 @@ class _DonateState extends State<Donate> {
                             Text("Other  Accessories")
                           ],
                         ),
-                        height: 180,
-                        width: 165,
                       ),
                     ),
                   ],

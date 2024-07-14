@@ -274,6 +274,7 @@ class _LogaState extends State<Donatejewellery> {
                                       numberofitem: numberofitem.text,
                                       selected: selectedvalue,
                                        uid: auth.currentUser!.uid,
+                                        timestamp: DateTime.now()
                                     ),
 
                                   )
