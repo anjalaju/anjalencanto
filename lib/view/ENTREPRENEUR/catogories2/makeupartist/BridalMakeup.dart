@@ -51,148 +51,7 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
     discription.text = eventModel.discription;
     price.text = eventModel.startingPriceFrom;
 
-    await
-        //  showModalBottomSheet<void>(
-        //   enableDrag: true,
-        //   // scrollControlDisabledMaxHeightRatio: 5,
-        //   context: context,
-        //   builder: (BuildContext context) {
-        //     return Container(
-
-        //       child: SingleChildScrollView(
-        //         child: Column(
-        //           children: <Widget>[
-        //             SizedBox(
-        //               height: Helper.h(context) * .10,
-        //             ),
-        //             Row(
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               children: [
-        //                 GestureDetector(
-        //                   onTap: () async {
-        //                     await _pickImage(ImageSource.gallery).then((value) async {
-        //                       SettableMetadata metadata =
-        //                           SettableMetadata(contentType: 'image/jpeg');
-        //                       final currenttime = TimeOfDay.now();
-        //                       UploadTask uploadTask = FirebaseStorage.instance
-        //                           .ref()
-        //                           .child('eventimage/$currenttime')
-        //                           .putFile(_imageFile!, metadata);
-        //                       TaskSnapshot snapshot = await uploadTask;
-        //                       producturl = await snapshot.ref.getDownloadURL();
-        //                     });
-        //                   },
-        //                   child: Container(
-        //                     width: Helper.W(context) * .50,
-        //                     height: Helper.h(context) * .20,
-        //                     decoration: BoxDecoration(
-        //                         border: Border.all(),
-        //                         image: DecorationImage(
-        //                           fit: BoxFit.cover,
-        //                           image: NetworkImage(eventModel.Image),
-        //                         )),
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: editname,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: price,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: editplace,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             SizedBox(
-        //               width: Helper.W(context) * .50,
-        //               child: TextFormField(
-        //                 textInputAction: TextInputAction.next,
-        //                 controller: discription,
-        //                 decoration:
-        //                     const InputDecoration(border: OutlineInputBorder()),
-        //               ),
-        //             ),
-        //             SizedBox(
-        //               height: Helper.h(context) * .020,
-        //             ),
-        //             Consumer<FunctionProvider>(
-        //               builder: (context, instance, child) {
-        //                 return GestureDetector(
-        //                   onTap: () async {
-        //                     Navigator.pop(context);
-        //                     if (producturl != null) {
-        //                       await instance
-        //                           .updateevent(
-        //                         eventModel.id,
-        //                         editname.text,
-        //                         price.text,
-        //                         editplace.text,
-        //                         discription.text,
-        //                         producturl,
-        //                       )
-        //                           .then((value) {
-        //                         Navigator.pop(context);
-        //                         SuccesToast(context, 'update succes');
-        //                         setState(() {});
-        //                       });
-        //                     } else {
-        //                       ScaffoldMessenger.of(context).showSnackBar(
-        //                           const SnackBar(content: Text('Please wait')));
-        //                     }
-        //                     SuccesToast(context, 'update succes');
-
-        //                   },
-        //                   child: Container(
-        //                     alignment: Alignment.center,
-        //                     width: Helper.W(context) * .40,
-        //                     height: Helper.h(context) * .050,
-        //                     decoration: BoxDecoration(
-        //                       border: Border.all(),
-        //                     ),
-        //                     child: const Text('Update '),
-        //                   ),
-        //                 );
-        //               },
-        //             ),SizedBox(height: 250,),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
-
-        showModalBottomSheet<void>(
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled:
           true, // Allows the bottom sheet to take full screen height when dragged
@@ -234,12 +93,12 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
                             });
                           },
                           child: Container(
-                            width: Helper.W(context) * .50,
-                            height: Helper.h(context) * .50,
+                            width: MediaQuery.of(context).size.width/1.2,
+                            height: 200,
                             decoration: BoxDecoration(
                               border: Border.all(),
                               image: DecorationImage(
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 image: NetworkImage(eventModel.Image),
                               ),
                             ),
@@ -253,7 +112,7 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
                     const Row(
                       children: [
                         Text(
-                          'Auditorium Name:',
+                          'Name:',
                           style: TextStyle(),
                         ),
                       ],
@@ -353,7 +212,7 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
                     const Row(
                       children: [
                         Text(
-                          'description:',
+                          'Description:',
                           style: TextStyle(),
                         ),
                       ],
@@ -392,7 +251,6 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
                               onTap: isLoading
                                   ? null
                                   : () async {
-                                      print('55');
                                       Navigator.pop(context);
 
                                       await instance
@@ -419,21 +277,25 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
 
                                       SuccesToast(context, 'Update success');
                                     },
-                              child:isLoading ? Text('WAITING THE IMAG UPLOAD') : Container(
-                                alignment: Alignment.center,
-                                width: Helper.W(context) * .5,
-                                height: Helper.h(context) * .050,
-                                decoration: BoxDecoration(
-                                  color:isLoading ?  Colors.red : Colors.green,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(),
-                                ),
-                                child: const Text(
-                                  'Update',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ),
+                              child: isLoading
+                                  ? Text('WAITING THE IMAG UPLOAD')
+                                  : Container(
+                                      alignment: Alignment.center,
+                                      width: Helper.W(context) * .5,
+                                      height: Helper.h(context) * .050,
+                                      decoration: BoxDecoration(
+                                        color: isLoading
+                                            ? Colors.red
+                                            : Colors.green,
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(),
+                                      ),
+                                      child: const Text(
+                                        'Update',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    ),
                             );
                           },
                         );
@@ -531,7 +393,7 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
           builder: (context, instance, child) {
             return StreamBuilder(
               stream: instance.getEventproject(
-                  'Makeup artist','Bridal Makeup', auth.currentUser!.uid),
+        'Makeup artist','Bridal Makeup', auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -543,232 +405,224 @@ class _EntrepbridmakeState extends State<Entrepbridmake> {
                 list = snapshot.data!.docs.map((e) {
                   return EventModel.fromJsone(e.data() as Map<String, dynamic>);
                 }).toList();
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(child: Image.asset('images/event.jpeg')),
+                  );
+                }
                 if (snapshot.hasData) {
-                  return list.isEmpty
-                      ? const Center(
-                          child: Text('No data'),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                          children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                fillColor: const Color(0xffD9D9D9),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                hintText: ("  Search Venues..."),
-                                prefixIcon: const Icon(Icons.search),
-                              ),
-                            ),
-                            ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: list.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    log('the data index doc ${list[index].id}');
-                                  },
-                                  child: Padding(
+                  return SingleChildScrollView(
+                      child: Column(
+                    children: [
+                      // TextField(
+                      //   decoration: InputDecoration(
+                      //     fillColor: const Color(0xffD9D9D9),
+                      //     filled: true,
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(20),
+                      //     ),
+                      //     hintText: ("  Search Venues..."),
+                      //     prefixIcon: const Icon(Icons.search),
+                      //   ),
+                      // ),
+                      ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              log('the data index doc ${list[index].id}');
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Container(
+                                    height: 231,
+                                    width: 350,
+                                    decoration:
+                                        BoxDecoration(border: Border.all()),
+                                    child: list[index].Image.isEmpty
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : Image(
+                                            image: NetworkImage(
+                                              list[index].Image,
+                                            ),
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return const Icon(Icons.error);
+                                            },
+                                          ),
+                                  ),
+                                  Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
+                                        horizontal: 20),
                                     child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Container(
-                                          height: 231,
-                                          width: 350,
-                                          decoration: BoxDecoration(
-                                              border: Border.all()),
-                                          child: list[index].Image.isEmpty
-                                              ? const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                )
-                                              : Image(
-                                                  image: NetworkImage(
-                                                    list[index].Image,
-                                                  ),
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (context, error,
-                                                      stackTrace) {
-                                                    return const Icon(
-                                                        Icons.error);
-                                                  },
-                                                ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            // mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(list[index].eventName),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(list[index].eventPlace),
-                                                  IconButton(
-                                                      onPressed: () async {
-                                                        await _showMyDialog(
-                                                          list[index],
-                                                        );
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.delete))
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(list[index].discription),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        editbootmsheet(
-                                                            list[index]);
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.edit))
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.currency_rupee,
-                                                    size: 20,
-                                                  ),
-                                                  Text(
-                                                    list[index]
-                                                        .startingPriceFrom,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
-                                                ],
-                                              ),
-                                              // Text("500-700 max")
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              OutlinedButton(
-                                                  style: ButtonStyle(
-                                                      foregroundColor:
-                                                          MaterialStateProperty.all(
-                                                              const Color(
-                                                                  0xffFF004D)),
-                                                      textStyle:
-                                                          MaterialStateProperty.all(
-                                                              const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize:
-                                                                      14)),
-                                                      minimumSize: MaterialStateProperty.all(
-                                                          const Size(250, 50)),
-                                                      side: MaterialStateProperty.all(
-                                                          const BorderSide(
-                                                              color:
-                                                                  Color(0xffFF004D))),
-                                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ChatRoom()),
-                                                    );
-                                                  },
-                                                  child: const Row(
-                                                    children: [
-                                                      Icon(Icons.message),
-                                                      SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      Text("Message"),
-                                                    ],
-                                                  )),
-                                              OutlinedButton(
-                                                style: ButtonStyle(
-                                                  foregroundColor:
-                                                      MaterialStateProperty.all(
-                                                          const Color(
-                                                              0xff63C336)),
-                                                  textStyle:
-                                                      MaterialStateProperty.all(
-                                                    const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 14),
-                                                  ),
-                                                  minimumSize:
-                                                      MaterialStateProperty.all(
-                                                          const Size(30, 50)),
-                                                  shape:
-                                                      MaterialStateProperty.all(
-                                                    const CircleBorder(),
-                                                  ),
-                                                  side:
-                                                      MaterialStateProperty.all(
-                                                    const BorderSide(
-                                                        color:
-                                                            Color(0xff63C336)),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  _makePhoneCall(
-                                                      list[index].phonenumber);
+                                        Text(list[index].eventName),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(list[index].eventPlace),
+                                            IconButton(
+                                                onPressed: () async {
+                                                  await _showMyDialog(
+                                                    list[index],
+                                                  );
                                                 },
-                                                child: const Row(
-                                                  children: [
-                                                    Icon(Icons.call),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                                                icon: const Icon(Icons.delete))
+                                          ],
                                         ),
-                                        SizedBox(
-                                          height: Helper.h(context)*.050,
-                                        )
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(list[index].discription),
+                                            IconButton(
+                                                onPressed: () {
+                                                  editbootmsheet(list[index]);
+                                                },
+                                                icon: const Icon(Icons.edit))
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.currency_rupee,
+                                              size: 20,
+                                            ),
+                                            Text(
+                                              list[index].startingPriceFrom,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                          ],
+                                        ),
+                                        // Text("500-700 max")
                                       ],
                                     ),
                                   ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Divider(),
-                                      SizedBox(
-                                  height: 40,
-                                ),
-                                  ],
-                                );
-                              },
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        OutlinedButton(
+                                            style: ButtonStyle(
+                                                foregroundColor: MaterialStateProperty.all(
+                                                    const Color(0xffFF004D)),
+                                                textStyle:
+                                                    MaterialStateProperty.all(
+                                                        const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 14)),
+                                                minimumSize:
+                                                    MaterialStateProperty.all(
+                                                        const Size(250, 50)),
+                                                side: MaterialStateProperty.all(
+                                                    const BorderSide(
+                                                        color:
+                                                            Color(0xffFF004D))),
+                                                shape: MaterialStateProperty.all(
+                                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChatRoom()),
+                                              );
+                                            },
+                                            child: const Row(
+                                              children: [
+                                                Icon(Icons.message),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Text("Message"),
+                                              ],
+                                            )),
+                                        // OutlinedButton(
+                                        //   style: ButtonStyle(
+                                        //     foregroundColor:
+                                        //         MaterialStateProperty.all(
+                                        //             const Color(
+                                        //                 0xff63C336)),
+                                        //     textStyle:
+                                        //         MaterialStateProperty.all(
+                                        //       const TextStyle(
+                                        //           fontWeight:
+                                        //               FontWeight.w600,
+                                        //           fontSize: 14),
+                                        //     ),
+                                        //     minimumSize:
+                                        //         MaterialStateProperty.all(
+                                        //             const Size(30, 50)),
+                                        //     shape:
+                                        //         MaterialStateProperty.all(
+                                        //       const CircleBorder(),
+                                        //     ),
+                                        //     side:
+                                        //         MaterialStateProperty.all(
+                                        //       const BorderSide(
+                                        //           color:
+                                        //               Color(0xff63C336)),
+                                        //     ),
+                                        //   ),
+                                        //   onPressed: () {
+                                        //     _makePhoneCall(
+                                        //         list[index].phonenumber);
+                                        //   },
+                                        //   child: const Row(
+                                        //     children: [
+                                        //       Icon(Icons.call),
+                                        //     ],
+                                        //   ),
+                                        // )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Helper.h(context) * .050,
+                                  )
+                                ],
+                              ),
                             ),
-                          ],
-                        ));
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Divider(),
+                              SizedBox(
+                                height: 40,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ));
                 }
                 return Container();
               },

@@ -33,6 +33,7 @@ class Smallfunction extends StatefulWidget {
 }
 
 class _SmallfunctionState extends State<Smallfunction> {
+  bool visible = false;
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -40,122 +41,6 @@ class _SmallfunctionState extends State<Smallfunction> {
 
     final feedbackcon = TextEditingController();
 
-    // Future bottomSheet(EventModel model) async {
-    //   showModalBottomSheet<void>(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return Container(
-    //         height: Helper.h(context) / 2,
-    //         color: Colors.grey,
-    //         child: Center(
-    //           child: Padding(
-    //             padding: EdgeInsets.symmetric(
-    //               horizontal: Helper.W(context) * .010,
-    //             ),
-    //             child: Form(
-    //               key: formkey,
-    //               child: Column(
-    //                 children: <Widget>[
-    //                   SizedBox(
-    //                     height: Helper.h(context) * .020,
-    //                   ),
-    //                   const Row(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Text('PRODUCT REVIEW AND FEED BACK'),
-    //                     ],
-    //                   ),
-    //                   Consumer<FunctionProvider>(
-    //                     builder: (context, helper, child) {
-    //                       return RatingBar.builder(
-    //                         itemSize: 25,
-    //                         initialRating: 0,
-    //                         minRating: 1,
-    //                         direction: Axis.horizontal,
-    //                         allowHalfRating: true,
-    //                         itemCount: 5,
-    //                         itemPadding:
-    //                             const EdgeInsets.symmetric(horizontal: 4.0),
-    //                         itemBuilder: (context, _) => const Icon(
-    //                           Icons.star,
-    //                           color: Colors.amber,
-    //                         ),
-    //                         onRatingUpdate: (rating) {
-    //                           setState(() {
-    //                             provider.rating = rating.toString();
-    //                           });
-    //                         },
-    //                       );
-    //                     },
-    //                   ),
-    //                   SizedBox(
-    //                     height: Helper.h(context) * .020,
-    //                   ),
-    //                   TextFormField(
-    //                     controller: feedbackcon,
-    //                     decoration: const InputDecoration(
-    //                         hintText: 'ADD FEEDBACK',
-    //                         border: OutlineInputBorder()),
-    //                     validator: (value) {
-    //                       if (value!.isEmpty) {
-    //                         return 'required';
-    //                       }
-    //                     },
-    //                   ),
-    //                   SizedBox(
-    //                     height: Helper.h(context) * .020,
-    //                   ),
-    //                   Row(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       GestureDetector(
-    //                         onTap: () {
-    //                           if (formkey.currentState!.validate()) {
-    //                             if (provider.rating != null) {
-    //                               provider.addReviewFeedback(
-    //                                   FeedbackReview(
-    //                                       productid: model.id.toString(),
-    //                                       feedback: feedbackcon.text,
-    //                                       feedbackcount:
-    //                                           provider.rating.toString(),
-    //                                       useruid: auth.currentUser!.uid,
-    //                                       timestamp: Timestamp.now()),
-    //                                   model.id);
-    //                               Navigator.pop(context);
-    //                               ScaffoldMessenger.of(context).showSnackBar(
-    //                                   const SnackBar(content: Text('Success')));
-    //                               provider.claerrat();
-    //                             } else {
-    //                               ScaffoldMessenger.of(context).showSnackBar(
-    //                                   const SnackBar(
-    //                                       content: Text(
-    //                                           'please select the rating')));
-    //                             }
-
-    //                             log('the review working  ${provider.rating}');
-    //                           }
-    //                         },
-    //                         child: Container(
-    //                           alignment: Alignment.center,
-    //                           height: Helper.h(context) * .050,
-    //                           width: Helper.W(context) * .30,
-    //                           decoration: BoxDecoration(
-    //                             border: Border.all(),
-    //                           ),
-    //                           child: const Text('ADD REVIEW'),
-    //                         ),
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //   );
-    // }
     Future editbootmsheet(EventModel model) async {
       await showModalBottomSheet<void>(
         context: context, backgroundColor: Colors.white,
@@ -385,7 +270,7 @@ class _SmallfunctionState extends State<Smallfunction> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Small Function / Party Halls',
+   'Small Function / Party Halls',
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
         ),
         backgroundColor: Colors.transparent,
@@ -431,6 +316,9 @@ class _SmallfunctionState extends State<Smallfunction> {
             },
             onChanged: (value) {
               provider.searcheventbycategory(value);
+              setState(() {
+                visible = true;
+              });
             },
           ),
           Expanded(
@@ -439,8 +327,7 @@ class _SmallfunctionState extends State<Smallfunction> {
               children: [
                 Consumer<FunctionProvider>(
                   builder: (context, helper, child) {
-                    return 
-                    StreamBuilder(
+                    return StreamBuilder(
                       stream:
                           helper.getEventprojectuser('Venues', 'Small Function/ Part halls'),
                       builder: (context, snapshot) {
@@ -452,10 +339,17 @@ class _SmallfunctionState extends State<Smallfunction> {
                         }
 
                         List<EventModel> list = [];
+                        // list = snapshot.data!.docs.map((e) {
+                        //   return EventModel.fromJsone(
+                        //       e.data() as Map<String, dynamic>);
+                        // }).toList();
                         list = snapshot.data!.docs.map((e) {
                           return EventModel.fromJsone(
                               e.data() as Map<String, dynamic>);
                         }).toList();
+
+                        list.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+                        print(list.length);
 
                         final searchall = provider.banqustall.isEmpty
                             ? list
@@ -465,10 +359,11 @@ class _SmallfunctionState extends State<Smallfunction> {
                         //   return const Text('NO SEARCH EVENT FOUND');
                         // }
                         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                          return SizedBox(height: MediaQuery.of(context).size.height/1.5,
-                          width:MediaQuery.of(context).size.width ,
-                            child: Center(
-                                child: Image.asset('images/event.jpeg')),
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.5,
+                            width: MediaQuery.of(context).size.width,
+                            child:
+                                Center(child: Image.asset('images/event.jpeg')),
                           );
                         }
                         if (snapshot.hasData) {
@@ -476,360 +371,736 @@ class _SmallfunctionState extends State<Smallfunction> {
                               ? const Center(
                                   child: Text('no event '),
                                 )
-                              : ListView.separated(
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: searchall.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 40,
-                                          ),
-                                          SizedBox(
-                                            height: 231,
-                                            width: 350,
-                                            child: Image(
-                                              image: NetworkImage(
-                                                searchall[index].Image,
+                              : visible != true
+                                  ? ListView.separated(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: list.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 40,
                                               ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            child: Column(
-                                              // mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                              SizedBox(
+                                                height: 231,
+                                                width: 350,
+                                                child: Image(
+                                                  image: NetworkImage(
+                                                    list[index].Image,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                child: Column(
+                                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        'EVENT NAME : ${searchall[index].eventName}'),
-                                                    // IconButton(
-                                                    //     onPressed: () {
-                                                    //       Navigator.of(context).push(MaterialPageRoute(
-                                                    //         builder: (context) => Shortsearchall(),
-                                                    //       ));
-                                                    //     },
-                                                    //     icon: const Icon(Icons.favorite_border)
-                                                    //     )
-                                                    // LikeButton(
-                                                    //   likeBuilder: (bool isLiked) {
-                                                    //     return Icon(
-                                                    //       isLiked
-                                                    //           ? Icons.favorite
-                                                    //           : Icons.favorite_border,
-                                                    //       color: isLiked
-                                                    //           ? Colors.red
-                                                    //           : Colors.grey,
-                                                    //       size: 30,
-                                                    //     );
-                                                    //   },
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            'EVENT NAME : ${list[index].eventName}'),
+                                                        // IconButton(
+                                                        //     onPressed: () {
+                                                        //       Navigator.of(context).push(MaterialPageRoute(
+                                                        //         builder: (context) => Shortlist(),
+                                                        //       ));
+                                                        //     },
+                                                        //     icon: const Icon(Icons.favorite_border)
+                                                        //     )
+                                                        // LikeButton(
+                                                        //   likeBuilder: (bool isLiked) {
+                                                        //     return Icon(
+                                                        //       isLiked
+                                                        //           ? Icons.favorite
+                                                        //           : Icons.favorite_border,
+                                                        //       color: isLiked
+                                                        //           ? Colors.red
+                                                        //           : Colors.grey,
+                                                        //       size: 30,
+                                                        //     );
+                                                        //   },
 
-                                                    // ),
-                                                    Consumer<FunctionProvider>(
-                                                      builder: (context,
-                                                          valuhelpere, child) {
-                                                        return FutureBuilder(
-                                                          future: helper
-                                                              .fetchlikedpostpost(auth
-                                                                      .currentUser!
-                                                                      .uid +
-                                                                  searchall[
-                                                                          index]
-                                                                      .id
-                                                                      .toString()),
+                                                        // ),
+                                                        Consumer<
+                                                            FunctionProvider>(
                                                           builder: (context,
-                                                              snapshot) {
-                                                            return IconButton(
-                                                              onPressed: () {
-                                                                helper.likepost(
-                                                                  Likepostmodel(
-                                                                    postid: searchall[
-                                                                            index]
-                                                                        .id
-                                                                        .toString(),
-                                                                    likeid:
-                                                                        searchall[index]
-                                                                            .id,
-                                                                    likeuid: auth
-                                                                        .currentUser!
-                                                                        .uid,
-                                                                  ),
-                                                                  auth.currentUser!
+                                                              valuhelpere,
+                                                              child) {
+                                                            return FutureBuilder(
+                                                              future: helper
+                                                                  .fetchlikedpostpost(auth
+                                                                          .currentUser!
                                                                           .uid +
-                                                                      searchall[
-                                                                              index]
+                                                                      list[index]
                                                                           .id
-                                                                          .toString(),
+                                                                          .toString()),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                return IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    helper
+                                                                        .likepost(
+                                                                      Likepostmodel(
+                                                                        postid: list[index]
+                                                                            .id
+                                                                            .toString(),
+                                                                        likeid:
+                                                                            list[index].id,
+                                                                        likeuid: auth
+                                                                            .currentUser!
+                                                                            .uid,
+                                                                      ),
+                                                                      auth.currentUser!
+                                                                              .uid +
+                                                                          list[index]
+                                                                              .id
+                                                                              .toString(),
+                                                                    );
+                                                                  },
+                                                                  icon: Icon(
+                                                                    helper.islike ==
+                                                                            true
+                                                                        ? Icons
+                                                                            .favorite
+                                                                        : Icons
+                                                                            .favorite_border,
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
                                                                 );
                                                               },
-                                                              icon: Icon(
-                                                                helper.islike ==
-                                                                        true
-                                                                    ? Icons
-                                                                        .favorite
-                                                                    : Icons
-                                                                        .favorite_border,
-                                                                color:
-                                                                    Colors.red,
-                                                              ),
                                                             );
                                                           },
-                                                        );
-                                                      },
-                                                    )
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                        'EVENT PLACE : ${list[index].eventPlace}'),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(list[index]
+                                                            .discription),
+                                                        OutlinedButton(
+                                                            style: ButtonStyle(
+                                                                foregroundColor:
+                                                                    MaterialStateProperty.all(
+                                                                        const Color(
+                                                                            0xff496FF7)),
+                                                                textStyle: MaterialStateProperty.all(
+                                                                    const TextStyle(
+                                                                        fontWeight: FontWeight
+                                                                            .w600,
+                                                                        fontSize:
+                                                                            14)),
+                                                                minimumSize:
+                                                                    MaterialStateProperty.all(
+                                                                        const Size(
+                                                                            200, 50)),
+                                                                side: MaterialStateProperty.all(
+                                                                    const BorderSide(
+                                                                        color: Color(0xff496FF7))),
+                                                                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                                                            onPressed: () {
+                                                              Navigator.of(context).push(
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          Bookimgpage(
+                                                                            eventModel:
+                                                                                list[index],
+                                                                          )));
+                                                            },
+                                                            child: const Row(
+                                                              children: [
+                                                                Icon(Icons
+                                                                    .message),
+                                                                SizedBox(
+                                                                  width: 20,
+                                                                ),
+                                                                Text(
+                                                                    "Book now"),
+                                                              ],
+                                                            ))
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.currency_rupee,
+                                                          size: 20,
+                                                        ),
+                                                        Text(
+                                                          list[index]
+                                                              .startingPriceFrom,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 18),
+                                                        ),
+                                                        //  Text(
+                                                        //   list[index].uid,
+
+                                                        // ),
+                                                      ],
+                                                    ),
                                                   ],
                                                 ),
-                                                Text(
-                                                    'EVENT PLACE : ${searchall[index].eventPlace}'),
-                                                Row(
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Text(searchall[index]
-                                                        .discription),
                                                     OutlinedButton(
-                                                        style: ButtonStyle(
-                                                            foregroundColor:
-                                                                MaterialStateProperty.all(
-                                                                    const Color(
-                                                                        0xff496FF7)),
-                                                            textStyle: MaterialStateProperty.all(
-                                                                const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                    fontSize:
-                                                                        14)),
-                                                            minimumSize:
-                                                                MaterialStateProperty.all(
-                                                                    const Size(
-                                                                        200,
-                                                                        50)),
-                                                            side: MaterialStateProperty.all(
-                                                                const BorderSide(color: Color(0xff496FF7))),
-                                                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
-                                                        onPressed: () {
-                                                          Navigator.of(context).push(
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          Bookimgpage(
-                                                                            eventModel:
-                                                                                searchall[index],
-                                                                          )));
-                                                        },
-                                                        child: const Row(
-                                                          children: [
-                                                            Icon(Icons.message),
-                                                            SizedBox(
-                                                              width: 20,
-                                                            ),
-                                                            Text("Book now"),
-                                                          ],
-                                                        ))
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.currency_rupee,
-                                                      size: 20,
-                                                    ),
-                                                    Text(
-                                                      searchall[index]
-                                                          .startingPriceFrom,
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 18),
-                                                    ),
-                                                    //  Text(
-                                                    //   list[index].uid,
-
-                                                    // ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                OutlinedButton(
-                                                  style: ButtonStyle(
-                                                      foregroundColor:
-                                                          MaterialStateProperty.all(
-                                                              const Color(
-                                                                  0xffFF004D)),
-                                                      textStyle:
-                                                          MaterialStateProperty.all(
+                                                      style: ButtonStyle(
+                                                          foregroundColor:
+                                                              MaterialStateProperty.all(
+                                                                  const Color(
+                                                                      0xffFF004D)),
+                                                          textStyle: MaterialStateProperty.all(
                                                               const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
                                                                   fontSize:
                                                                       14)),
-                                                      minimumSize: MaterialStateProperty.all(
-                                                          const Size(250, 50)),
-                                                      side: MaterialStateProperty.all(
+                                                          minimumSize:
+                                                              MaterialStateProperty.all(
+                                                                  const Size(
+                                                                      250, 50)),
+                                                          side: MaterialStateProperty.all(
+                                                              const BorderSide(color: Color(0xffFF004D))),
+                                                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
+                                                      onPressed: () {
+                                                        final entruid =
+                                                            list[index]
+                                                                .enterprenurid;
+                                                        Navigator.of(context)
+                                                            .push(
+                                                                MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ChatPage(
+                                                            reciveerID: entruid,
+                                                            reciveeremail: '',
+                                                          ),
+                                                        ));
+                                                      },
+                                                      child: const Row(
+                                                        children: [
+                                                          Icon(Icons.message),
+                                                          SizedBox(
+                                                            width: 20,
+                                                          ),
+                                                          Text("Message"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    OutlinedButton(
+                                                      style: ButtonStyle(
+                                                        foregroundColor:
+                                                            MaterialStateProperty
+                                                                .all(const Color(
+                                                                    0xff63C336)),
+                                                        textStyle:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                          const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 14),
+                                                        ),
+                                                        minimumSize:
+                                                            MaterialStateProperty
+                                                                .all(const Size(
+                                                                    30, 50)),
+                                                        shape:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                          const CircleBorder(),
+                                                        ),
+                                                        side:
+                                                            MaterialStateProperty
+                                                                .all(
                                                           const BorderSide(
-                                                              color:
-                                                                  Color(0xffFF004D))),
-                                                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
-                                                  onPressed: () {
-                                                    final entruid = list[index]
-                                                        .enterprenurid;
-                                                    Navigator.of(context)
-                                                        .push(MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ChatPage(
-                                                        reciveerID: entruid,
-                                                        reciveeremail: '',
+                                                              color: Color(
+                                                                  0xff63C336)),
+                                                        ),
                                                       ),
-                                                    ));
-                                                  },
-                                                  child: const Row(
-                                                    children: [
-                                                      Icon(Icons.message),
-                                                      SizedBox(
-                                                        width: 20,
+                                                      onPressed: () {
+                                                        _makePhoneCall(
+                                                            list[index]
+                                                                .phonenumber);
+                                                      },
+                                                      child: const Row(
+                                                        children: [
+                                                          Icon(Icons.call),
+                                                        ],
                                                       ),
-                                                      Text("Message"),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                OutlinedButton(
-                                                  style: ButtonStyle(
-                                                    foregroundColor:
-                                                        MaterialStateProperty
-                                                            .all(const Color(
-                                                                0xff63C336)),
-                                                    textStyle:
-                                                        MaterialStateProperty
-                                                            .all(
-                                                      const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 14),
-                                                    ),
-                                                    minimumSize:
-                                                        MaterialStateProperty
-                                                            .all(const Size(
-                                                                30, 50)),
-                                                    shape: MaterialStateProperty
-                                                        .all(
-                                                      const CircleBorder(),
-                                                    ),
-                                                    side: MaterialStateProperty
-                                                        .all(
-                                                      const BorderSide(
-                                                          color: Color(
-                                                              0xff63C336)),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {
-                                                    _makePhoneCall(list[index]
-                                                        .phonenumber);
-                                                  },
-                                                  child: const Row(
-                                                    children: [
-                                                      Icon(Icons.call),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: Helper.h(context) * .020,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15)),
-                                                      backgroundColor:
-                                                          Colors.blueGrey,
-                                                      foregroundColor:
-                                                          Colors.white),
-                                                  onPressed: () {
-                                                    // bottomSheet(
-                                                    //     list[index], context);
-                                                    editbootmsheet(list[index]);
-                                                  },
-                                                  child:
-                                                      const Text('Add Review')),
-                                              const SizedBox(
-                                                width: 10,
                                               ),
-                                              ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      shape:
-                                                          RoundedRectangleBorder(
+                                              SizedBox(
+                                                height:
+                                                    Helper.h(context) * .020,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                          shape: RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
                                                                           15)),
-                                                      backgroundColor:
-                                                          Colors.indigo,
-                                                      foregroundColor:
-                                                          Colors.white),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .push(MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ViewRevies(
-                                                        documentId:
-                                                            '${list[index].id}',
-                                                      ),
-                                                    ));
-                                                    ;
-                                                  },
-                                                  child:
-                                                      const Text('View Review'))
+                                                          backgroundColor:
+                                                              Colors.blueGrey,
+                                                          foregroundColor:
+                                                              Colors.white),
+                                                      onPressed: () {
+                                                        // bottomSheet(
+                                                        //     list[index], context);
+                                                        editbootmsheet(
+                                                            list[index]);
+                                                      },
+                                                      child: const Text(
+                                                          'Add Review')),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                          backgroundColor:
+                                                              Colors.indigo,
+                                                          foregroundColor:
+                                                              Colors.white),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                                MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ViewRevies(
+                                                            documentId:
+                                                                '${list[index].id}',
+                                                          ),
+                                                        ));
+                                                        ;
+                                                      },
+                                                      child: const Text(
+                                                          'View Review'))
+                                                ],
+                                              ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const Divider(
+                                          thickness: 1.5,
+                                          color: Colors.black,
+                                        );
+                                      },
+                                    )
+                                  : ListView.separated(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: searchall.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 40,
+                                              ),
+                                              SizedBox(
+                                                height: 231,
+                                                width: 350,
+                                                child: Image(
+                                                  image: NetworkImage(
+                                                    searchall[index].Image,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                child: Column(
+                                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            'EVENT NAME : ${searchall[index].eventName}'),
+                                                        // IconButton(
+                                                        //     onPressed: () {
+                                                        //       Navigator.of(context).push(MaterialPageRoute(
+                                                        //         builder: (context) => Shortsearchall(),
+                                                        //       ));
+                                                        //     },
+                                                        //     icon: const Icon(Icons.favorite_border)
+                                                        //     )
+                                                        // LikeButton(
+                                                        //   likeBuilder: (bool isLiked) {
+                                                        //     return Icon(
+                                                        //       isLiked
+                                                        //           ? Icons.favorite
+                                                        //           : Icons.favorite_border,
+                                                        //       color: isLiked
+                                                        //           ? Colors.red
+                                                        //           : Colors.grey,
+                                                        //       size: 30,
+                                                        //     );
+                                                        //   },
+
+                                                        // ),
+                                                        Consumer<
+                                                            FunctionProvider>(
+                                                          builder: (context,
+                                                              valuhelpere,
+                                                              child) {
+                                                            return FutureBuilder(
+                                                              future: helper.fetchlikedpostpost(auth
+                                                                      .currentUser!
+                                                                      .uid +
+                                                                  searchall[
+                                                                          index]
+                                                                      .id
+                                                                      .toString()),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                return IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    helper
+                                                                        .likepost(
+                                                                      Likepostmodel(
+                                                                        postid: searchall[index]
+                                                                            .id
+                                                                            .toString(),
+                                                                        likeid:
+                                                                            searchall[index].id,
+                                                                        likeuid: auth
+                                                                            .currentUser!
+                                                                            .uid,
+                                                                      ),
+                                                                      auth.currentUser!
+                                                                              .uid +
+                                                                          searchall[index]
+                                                                              .id
+                                                                              .toString(),
+                                                                    );
+                                                                  },
+                                                                  icon: Icon(
+                                                                    helper.islike ==
+                                                                            true
+                                                                        ? Icons
+                                                                            .favorite
+                                                                        : Icons
+                                                                            .favorite_border,
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          },
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                        'EVENT PLACE : ${searchall[index].eventPlace}'),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(searchall[index]
+                                                            .discription),
+                                                        OutlinedButton(
+                                                            style: ButtonStyle(
+                                                                foregroundColor:
+                                                                    MaterialStateProperty.all(
+                                                                        const Color(
+                                                                            0xff496FF7)),
+                                                                textStyle: MaterialStateProperty.all(
+                                                                    const TextStyle(
+                                                                        fontWeight: FontWeight
+                                                                            .w600,
+                                                                        fontSize:
+                                                                            14)),
+                                                                minimumSize:
+                                                                    MaterialStateProperty.all(
+                                                                        const Size(
+                                                                            200, 50)),
+                                                                side: MaterialStateProperty.all(
+                                                                    const BorderSide(
+                                                                        color: Color(0xff496FF7))),
+                                                                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                                                            onPressed: () {
+                                                              Navigator.of(context).push(
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          Bookimgpage(
+                                                                            eventModel:
+                                                                                searchall[index],
+                                                                          )));
+                                                            },
+                                                            child: const Row(
+                                                              children: [
+                                                                Icon(Icons
+                                                                    .message),
+                                                                SizedBox(
+                                                                  width: 20,
+                                                                ),
+                                                                Text(
+                                                                    "Book now"),
+                                                              ],
+                                                            ))
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.currency_rupee,
+                                                          size: 20,
+                                                        ),
+                                                        Text(
+                                                          searchall[index]
+                                                              .startingPriceFrom,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 18),
+                                                        ),
+                                                        //  Text(
+                                                        //   list[index].uid,
+
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    OutlinedButton(
+                                                      style: ButtonStyle(
+                                                          foregroundColor:
+                                                              MaterialStateProperty.all(
+                                                                  const Color(
+                                                                      0xffFF004D)),
+                                                          textStyle: MaterialStateProperty.all(
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize:
+                                                                      14)),
+                                                          minimumSize:
+                                                              MaterialStateProperty.all(
+                                                                  const Size(
+                                                                      250, 50)),
+                                                          side: MaterialStateProperty.all(
+                                                              const BorderSide(color: Color(0xffFF004D))),
+                                                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)))),
+                                                      onPressed: () {
+                                                        final entruid =
+                                                            list[index]
+                                                                .enterprenurid;
+                                                        Navigator.of(context)
+                                                            .push(
+                                                                MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ChatPage(
+                                                            reciveerID: entruid,
+                                                            reciveeremail: '',
+                                                          ),
+                                                        ));
+                                                      },
+                                                      child: const Row(
+                                                        children: [
+                                                          Icon(Icons.message),
+                                                          SizedBox(
+                                                            width: 20,
+                                                          ),
+                                                          Text("Message"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    OutlinedButton(
+                                                      style: ButtonStyle(
+                                                        foregroundColor:
+                                                            MaterialStateProperty
+                                                                .all(const Color(
+                                                                    0xff63C336)),
+                                                        textStyle:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                          const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 14),
+                                                        ),
+                                                        minimumSize:
+                                                            MaterialStateProperty
+                                                                .all(const Size(
+                                                                    30, 50)),
+                                                        shape:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                          const CircleBorder(),
+                                                        ),
+                                                        side:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                          const BorderSide(
+                                                              color: Color(
+                                                                  0xff63C336)),
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        _makePhoneCall(
+                                                            list[index]
+                                                                .phonenumber);
+                                                      },
+                                                      child: const Row(
+                                                        children: [
+                                                          Icon(Icons.call),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height:
+                                                    Helper.h(context) * .020,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                          backgroundColor:
+                                                              Colors.blueGrey,
+                                                          foregroundColor:
+                                                              Colors.white),
+                                                      onPressed: () {
+                                                        // bottomSheet(
+                                                        //     list[index], context);
+                                                        editbootmsheet(
+                                                            list[index]);
+                                                      },
+                                                      child: const Text(
+                                                          'Add Review')),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          15)),
+                                                          backgroundColor:
+                                                              Colors.indigo,
+                                                          foregroundColor:
+                                                              Colors.white),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                                MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ViewRevies(
+                                                            documentId:
+                                                                '${list[index].id}',
+                                                          ),
+                                                        ));
+                                                        ;
+                                                      },
+                                                      child: const Text(
+                                                          'View Review'))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const Divider(
+                                          thickness: 1.5,
+                                          color: Colors.black,
+                                        );
+                                      },
                                     );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return const Divider(
-                                      thickness: 1.5,
-                                      color: Colors.black,
-                                    );
-                                  },
-                                );
+                          ;
                         }
                         return Container();
                       },

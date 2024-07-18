@@ -93,12 +93,12 @@ class _EntrepethinicState extends State<Entrepethinic> {
                             });
                           },
                           child: Container(
-                            width: Helper.W(context) * .50,
-                            height: Helper.h(context) * .50,
+                            width: MediaQuery.of(context).size.width/1.2,
+                            height: 200,
                             decoration: BoxDecoration(
                               border: Border.all(),
                               image: DecorationImage(
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 image: NetworkImage(eventModel.Image),
                               ),
                             ),
@@ -112,7 +112,7 @@ class _EntrepethinicState extends State<Entrepethinic> {
                     const Row(
                       children: [
                         Text(
-                          'Auditorium Name:',
+                          'Name:',
                           style: TextStyle(),
                         ),
                       ],
@@ -212,7 +212,7 @@ class _EntrepethinicState extends State<Entrepethinic> {
                     const Row(
                       children: [
                         Text(
-                          'description:',
+                          'Description:',
                           style: TextStyle(),
                         ),
                       ],
@@ -367,7 +367,7 @@ class _EntrepethinicState extends State<Entrepethinic> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-              'Ethinic wear',
+         'Ethinic wear',
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
           ),
           backgroundColor: Colors.transparent,
@@ -393,7 +393,7 @@ class _EntrepethinicState extends State<Entrepethinic> {
           builder: (context, instance, child) {
             return StreamBuilder(
               stream: instance.getEventproject(
-                  'Constumes', 'Ethinic wear', auth.currentUser!.uid),
+               'Constumes', 'Ethinic wear', auth.currentUser!.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -416,17 +416,17 @@ class _EntrepethinicState extends State<Entrepethinic> {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          fillColor: const Color(0xffD9D9D9),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          hintText: ("  Search Venues..."),
-                          prefixIcon: const Icon(Icons.search),
-                        ),
-                      ),
+                      // TextField(
+                      //   decoration: InputDecoration(
+                      //     fillColor: const Color(0xffD9D9D9),
+                      //     filled: true,
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(20),
+                      //     ),
+                      //     hintText: ("  Search Venues..."),
+                      //     prefixIcon: const Icon(Icons.search),
+                      //   ),
+                      // ),
                       ListView.separated(
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,

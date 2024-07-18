@@ -112,7 +112,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                     const Row(
                       children: [
                         Text(
-                          'Auditorium Name:',
+                          'Name:',
                           style: TextStyle(),
                         ),
                       ],
@@ -212,7 +212,7 @@ class _EntrepbankquetState extends State<Entrepbankquet> {
                     const Row(
                       children: [
                         Text(
-                          'description:',
+                          'Description:',
                           style: TextStyle(),
                         ),
                       ],

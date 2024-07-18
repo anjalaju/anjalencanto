@@ -258,7 +258,7 @@ class _EntreprentaljewellState extends State<Entreprentaljewell> {
                     const Row(
                       children: [
                         Text(
-                          'Auditorium Name:',
+                          'Name:',
                           style: TextStyle(),
                         ),
                       ],
@@ -358,7 +358,7 @@ class _EntreprentaljewellState extends State<Entreprentaljewell> {
                     const Row(
                       children: [
                         Text(
-                          'description:',
+                          'Description:',
                           style: TextStyle(),
                         ),
                       ],
